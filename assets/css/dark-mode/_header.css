@@ -107,6 +107,10 @@
     background-color: transparent !important;
     color: var(--text-primary) !important;
     border-bottom: 1px solid var(--border-color) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    outline: none !important;
     transition: all 0.3s ease;
 }
 
@@ -118,6 +122,9 @@
         transparent 100%
     ) !important;
     box-shadow: 0 0 12px rgba(74, 108, 247, 0.15);
+    outline: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
 }
 
 /* --- Search Dropdown: All text inside sr-item --- */
@@ -445,7 +452,17 @@
 [data-theme="dark"] .sr-item:hover,
 [data-theme="dark"] .search-results a:hover,
 [data-theme="dark"] .search-dropdown a:hover {
-    box-shadow: none !important;
-    border: none !important;
     outline: none !important;
+    outline-offset: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: 0 0 12px rgba(74, 108, 247, 0.15) !important;
+}
+
+/* --- Bỏ viền trắng khi hover vào sr-item --- */
+[data-theme="dark"] .sr-item:hover *,
+[data-theme="dark"] .search-results a:hover *,
+[data-theme="dark"] .search-dropdown a:hover * {
+    outline: none !important;
+    border: none !important;
 }
