@@ -386,6 +386,65 @@ function go(url) {
     }, PAGE_EXIT_DELAY);
 }
 
+/**
+ * Khôi - update nút tiến/lùi
+ */
+function updateNavigationButtons() {
+    const backButton = document.getElementById("nav-back");
+    const forwardButton = document.getElementById("nav-forward");
+    
+    if (backButton) {
+        // Check if we can go back (history.length > 1 means there's history to go back to)
+        // However, a more reliable way is to track navigation state
+        // For now, we'll enable/disable based on a simple check
+        backButton.disabled = false;
+    }
+    
+    if (forwardButton) {
+        // Forward button state is harder to determine without tracking
+        // We'll enable it by default and let the browser handle it
+        forwardButton.disabled = false;
+    }
+}
+
+/**
+ * Sets up navigation buttons (back/forward) functionality
+ */
+function setupNavigationButtons() {
+    const backButton = document.getElementById("nav-back");
+    const forwardButton = document.getElementById("nav-forward");
+    
+    // Setup back button
+    if (backButton) {
+        backButton.setAttribute("title", "Quay lại");
+        backButton.setAttribute("aria-label", "Quay lại");
+        
+        backButton.addEventListener("click", () => {
+            safeExecute(() => {
+                history.back();
+            }, "nav-back:click");
+        });
+    }
+    
+    // Setup forward button
+    if (forwardButton) {
+        forwardButton.setAttribute("title", "Tiến tới");
+        forwardButton.setAttribute("aria-label", "Tiến tới");
+        
+        forwardButton.addEventListener("click", () => {
+            safeExecute(() => {
+                history.forward();
+            }, "nav-forward:click");
+        });
+    }
+    
+    // Update button states on history changes
+    window.addEventListener("popstate", updateNavigationButtons);
+    
+    // Initial state update
+    updateNavigationButtons();
+}
+
 // ===== QUEUE CSS =====
 /**
  * Ensures queue visibility CSS is injected
@@ -450,6 +509,9 @@ export function setupLayoutHelpers({ signOut, playerContext, playlistContext }) 
 
     // Premium button
     setupPremiumButton();
+
+    // Navigation buttons (back/forward)
+    setupNavigationButtons();
 
     // Visual effects
     setupSliderEffects();

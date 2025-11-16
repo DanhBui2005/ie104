@@ -26,6 +26,20 @@
     color: var(--text-secondary) !important;
 }
 
+/* --- Ẩn đường viền màu trắng mờ dưới slider "Dành cho bạn" --- */
+[data-theme="dark"] .slider-track,
+[data-theme="dark"] .slider,
+[data-theme="dark"] .home-made-for-you .slider,
+[data-theme="dark"] .home-made-for-you .slider-track {
+    border-bottom: none !important;
+    border: none !important;
+    outline: none !important;
+}
+
+[data-theme="dark"] .home-made-for-you {
+    border-bottom: none !important;
+}
+
 /* --- Hero Carousel Section --- */
 [data-theme="dark"] .hero-carousel {
     border-radius: 12px;
@@ -189,16 +203,36 @@
     transform: translateY(-4px);
 }
 
+/* --- Playlist Content Area --- */
+[data-theme="dark"] .playlist-content {
+    background: linear-gradient(
+        135deg,
+        var(--bg-secondary) 0%,
+        var(--bg-tertiary) 100%
+    ) !important;
+}
+
+[data-theme="dark"] .playlist-card:hover .playlist-content {
+    background: linear-gradient(
+        135deg,
+        var(--bg-tertiary) 0%,
+        var(--bg-accent) 100%
+    ) !important;
+}
+
+/* --- Playlist Title - Màu trắng sáng --- */
 [data-theme="dark"] .playlist-title,
 [data-theme="dark"] .album-title,
 [data-theme="dark"] .artist-name {
-    color: var(--text-primary) !important;
+    color: #ffffff !important;
+    font-weight: 600;
 }
 
+/* --- Playlist Meta - Sáng hơn một chút --- */
 [data-theme="dark"] .playlist-meta,
 [data-theme="dark"] .album-artist,
 [data-theme="dark"] .artist-genre {
-    color: var(--text-secondary) !important;
+    color: #bbbbbb !important;
 }
 
 /* --- Artist Avatar --- */
@@ -247,6 +281,22 @@
         transparent 100%
     );
     box-shadow: 0 0 12px rgba(74, 108, 247, 0.15);
+}
+
+/* --- Chart Title (Tên bài hát) - Màu trắng trong dark mode --- */
+[data-theme="dark"] .chart-title {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* --- Chart Artist (Tên nghệ sĩ) - Sáng thêm một chút --- */
+[data-theme="dark"] .chart-artist {
+    color: #bbbbbb !important;
+}
+
+/* --- Album Column (Cột Album) - Sáng thêm một chút --- */
+[data-theme="dark"] .chart-table tbody td:nth-child(4) {
+    color: #bbbbbb !important;
 }
 
 /* --- Footer (Chân trang) --- */

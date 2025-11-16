@@ -143,9 +143,9 @@ class SearchPanel {
     }
 
     calculatePosition() {
-        const anchor =
-            this.searchWrap?.querySelector('input[type="search"]') ||
-            this.searchWrap;
+        // Khôi fix - panel tìm kiếm căn theo khung search bar, không căn theo ô input nhỏ
+        const anchor = this.searchWrap || 
+            document.querySelector(CONFIG.SEARCH_WRAP_SELECTOR);
         
         if (!anchor) {
             return this.getDefaultPosition();
@@ -154,6 +154,7 @@ class SearchPanel {
         const rect = anchor.getBoundingClientRect();
         const viewportWidth = getViewportWidth();
 
+        // Use the full width of the search container
         const desiredWidth = Math.max(rect.width, CONFIG.DESIRED_MIN_WIDTH);
         const maxWidth = viewportWidth - CONFIG.VIEWPORT_MARGIN * 2;
         const width = Math.min(
@@ -161,13 +162,12 @@ class SearchPanel {
             maxWidth
         );
 
-        // Center panel relative to search input
-        const centeredLeft = rect.left + (rect.width - width) / 2;
+        // Panel sẽ được căn giữa so với ô input
         const left = Math.round(
             Math.max(
                 CONFIG.VIEWPORT_MARGIN,
                 Math.min(
-                    centeredLeft,
+                    rect.left,
                     viewportWidth - width - CONFIG.VIEWPORT_MARGIN
                 )
             )
