@@ -19,7 +19,6 @@
 [data-theme="dark"] .played-main .page-header,
 [data-theme="dark"] .recent-header {
     background-color: transparent;
-    padding: 2rem 0;
 }
 
 [data-theme="dark"] .played-main .page-header h1,
@@ -305,20 +304,25 @@
 }
 
 /* --- NgheGanDay: Scrollbar --- */
+/* Hide scrollbar in dark mode */
+[data-theme="dark"] body.page-nghe-gan-day::-webkit-scrollbar,
 [data-theme="dark"] .played-main::-webkit-scrollbar,
 [data-theme="dark"] .pt-body::-webkit-scrollbar {
-    background-color: var(--bg-secondary);
+    display: none;
 }
 
-[data-theme="dark"] .played-main::-webkit-scrollbar-thumb,
-[data-theme="dark"] .pt-body::-webkit-scrollbar-thumb {
-    background-color: var(--bg-tertiary);
-    border-radius: 4px;
+/* Firefox scrollbar hiding in dark mode */
+[data-theme="dark"] body.page-nghe-gan-day,
+[data-theme="dark"] .played-main,
+[data-theme="dark"] .pt-body {
+    scrollbar-width: none;
 }
 
-[data-theme="dark"] .played-main::-webkit-scrollbar-thumb:hover,
-[data-theme="dark"] .pt-body::-webkit-scrollbar-thumb:hover {
-    background-color: var(--hover-bg);
+/* IE/Edge scrollbar hiding in dark mode */
+[data-theme="dark"] body.page-nghe-gan-day,
+[data-theme="dark"] .played-main,
+[data-theme="dark"] .pt-body {
+    -ms-overflow-style: none;
 }
 
 /* --- NgheGanDay: Column Headers Hover --- */

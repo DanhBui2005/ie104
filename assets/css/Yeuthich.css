@@ -202,12 +202,13 @@
 .page-yeuthich .pt-head {
     color: #7f8b99;
     font-weight: 700;
+    font-size: 16px;
 }
 
 .page-yeuthich .pt-head .pt-col {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: #7f8b99;
 }
