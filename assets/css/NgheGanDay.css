@@ -17,7 +17,7 @@ body.page-nghe-gan-day {
     height: calc(100vh - var(--header-height, 80px));
 }
 .page-nghe-gan-day .played-main {
-    padding: 20px 16px;
+    padding: 32px 48px;
     background: #fff;
     border-radius: 12px 12px 0 0;
     box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
@@ -77,6 +77,11 @@ body.page-nghe-gan-day {
     box-sizing: border-box;
 }
 
+.page-nghe-gan-day .pt-col.idx {
+    padding-left: 8px;
+    text-align: center;
+}
+
 .page-nghe-gan-day .pt-body .pt-col.time {
     font-family: "Inter", sans-serif;
     font-size: 0.95em;
@@ -84,16 +89,33 @@ body.page-nghe-gan-day {
     font-variant-numeric: tabular-nums;
     -webkit-font-feature-settings: "tnum";
     font-feature-settings: "tnum";
+    text-align: center;
+    padding-right: 8px;
+    padding-left: 8px;
+    white-space: nowrap;
 }
 
 .page-nghe-gan-day .pt-col.time {
-    text-align: right;
+    text-align: center;
     padding-right: 8px;
-    min-width: 40px;
+    padding-left: 8px;
+    min-width: 80px;
+    white-space: nowrap;
 }
 .page-nghe-gan-day .pt-head {
     color: #7f8b99;
     font-weight: 700;
+    font-size: 14px;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.page-nghe-gan-day .pt-head .pt-col.time {
+    color: #7f8b99;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 .page-nghe-gan-day .pt-body {
     display: block;
@@ -132,7 +154,7 @@ body.page-nghe-gan-day {
     }
 
     .page-nghe-gan-day .played-main {
-        padding: 16px 8px;
+        padding: 24px 16px;
         height: 100%;
     }
 
@@ -158,10 +180,11 @@ body.page-nghe-gan-day {
     }
 
     .page-nghe-gan-day .pt-col.time {
-        text-align: right;
+        text-align: center;
         padding-right: 8px;
+        padding-left: 8px;
         white-space: nowrap;
-        min-width: 36px;
+        min-width: 60px;
     }
 
     .page-nghe-gan-day .pt-cover {
@@ -193,7 +216,7 @@ body.page-nghe-gan-day {
     }
 
     .page-nghe-gan-day .pt-col.idx {
-        padding-left: 2px;
+        padding-left: 8px;
         text-align: center;
         min-width: 30px;
     }

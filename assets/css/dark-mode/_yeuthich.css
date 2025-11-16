@@ -6,7 +6,8 @@
 [data-theme="dark"] .liked-main,
 [data-theme="dark"] .favorites-main,
 [data-theme="dark"] .yeuthich-main,
-[data-theme="dark"] .page-yeuthich .main-content {
+[data-theme="dark"] .page-yeuthich .main-content,
+[data-theme="dark"] .page-yeuthich {
     background: radial-gradient(
         ellipse at top,
         #161d42 0%,
@@ -14,6 +15,8 @@
     ) !important;
     color: var(--text-primary) !important;
     min-height: 100vh;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* --- Yeuthich: Content Container --- */
@@ -91,6 +94,14 @@
     color: var(--text-secondary) !important;
 }
 
+/* --- Yeuthich: Tăng kích thước chữ cho playlist sub --- */
+[data-theme="dark"] .page-yeuthich .playlist-sub {
+    font-size: 15px;
+    opacity: 0.7;
+    margin: 8px 0 16px;
+    color: var(--text-secondary) !important;
+}
+
 /* --- Yeuthich: All nested containers --- */
 [data-theme="dark"] .page-yeuthich .playlist > *,
 [data-theme="dark"] .page-yeuthich .playlist div {
@@ -138,8 +149,9 @@
 [data-theme="dark"] .song-title,
 [data-theme="dark"] .favorite-title,
 [data-theme="dark"] .track-title,
-[data-theme="dark"] .song-name {
-    color: var(--text-primary) !important;
+[data-theme="dark"] .song-name,
+[data-theme="dark"] .pt-title {
+    color: #ffffff !important;
 }
 
 [data-theme="dark"] .song-artist,
@@ -429,6 +441,15 @@
     background-color: transparent !important;
 }
 
+/* --- Yeuthich: Đồng bộ tiêu đề bảng trong dark mode --- */
+[data-theme="dark"] .page-yeuthich .pt-head .pt-col {
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary) !important;
+}
+
 /* --- Yeuthich: Fix uppercase text in chart-table headers --- */
 [data-theme="dark"] .chart-table thead th {
     text-transform: none !important;
@@ -436,8 +457,10 @@
 
 /* --- Yeuthich: Index Number Column --- */
 [data-theme="dark"] .song-index,
-[data-theme="dark"] .track-number {
+[data-theme="dark"] .track-number,
+[data-theme="dark"] .pt-col.idx {
     color: var(--text-tertiary) !important;
+    padding-left: 8px;
 }
 
 /* --- Yeuthich: Dividers --- */
@@ -471,9 +494,21 @@
     display: none !important;
 }
 
-[data-theme="dark"] .page-yeuthich .content:has(.queue:not(.hidden)) .liked-main,
-[data-theme="dark"] .page-yeuthich .content:has(.queue:not(.hidden)) .favorites-main,
-[data-theme="dark"] .page-yeuthich .content:has(.queue:not(.hidden)) .yeuthich-main,
-[data-theme="dark"] .page-yeuthich .content:has(.queue:not(.hidden)) .main-content {
+[data-theme="dark"]
+    .page-yeuthich
+    .content:has(.queue:not(.hidden))
+    .liked-main,
+[data-theme="dark"]
+    .page-yeuthich
+    .content:has(.queue:not(.hidden))
+    .favorites-main,
+[data-theme="dark"]
+    .page-yeuthich
+    .content:has(.queue:not(.hidden))
+    .yeuthich-main,
+[data-theme="dark"]
+    .page-yeuthich
+    .content:has(.queue:not(.hidden))
+    .main-content {
     display: none !important;
 }
