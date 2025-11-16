@@ -124,8 +124,9 @@ function applyHeaderAvatar() {
  * Sets queue visibility state
  * @param {boolean} show - Whether to show queue
  * @param {boolean} fromPopState - Whether triggered from popstate event
+ * @param {boolean} shouldFocus - Whether to focus the recent button when closing (default: true)
  */
-function setQueueVisible(show, fromPopState = false) {
+function setQueueVisible(show, fromPopState = false, shouldFocus = true) {
     const queuePanel = document.getElementById("queue");
     const playlistSection = document.querySelector(".playlist");
     const recentButton = document.querySelector(".menu-btn.recent");
@@ -149,7 +150,10 @@ function setQueueVisible(show, fromPopState = false) {
         }
         setTimeout(() => queueTitle?.focus(), 0);
     } else {
-        recentButton?.focus();
+        // Only focus if shouldFocus is true (prevents focus on initial page load)
+        if (shouldFocus) {
+            recentButton?.focus();
+        }
     }
     
     // Toggle body state class for CSS targeting
@@ -414,8 +418,8 @@ function ensureQueueCSS() {
  * @returns {Object} Layout context with public methods
  */
 export function setupLayoutHelpers({ signOut, playerContext, playlistContext }) {
-    // Initialize queue - hide by default
-    setQueueVisible(false);
+    // Initialize queue - hide by default (don't focus on initial load)
+    setQueueVisible(false, false, false);
     ensureQueueCSS();
 
     // Queue toggle from title click
