@@ -335,3 +335,116 @@
         start();
     }
 })();
+
+// Xử lý nút theo dõi cho nghệ sĩ trong trang tìm kiếm
+(function setupFollowButtonForArtist() {
+    function normalize(s) {
+        return (s || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function getFollowedArtists() {
+        try {
+            const data = localStorage.getItem("followedArtists");
+            return data ? new Set(JSON.parse(data)) : new Set();
+        } catch {
+            return new Set();
+        }
+    }
+
+    function saveFollowedArtists(set) {
+        try {
+            localStorage.setItem("followedArtists", JSON.stringify([...set]));
+        } catch (e) {
+            console.error("Failed to save followed artists:", e);
+        }
+    }
+
+    function updateFollowUI(button, artistName) {
+        const set = getFollowedArtists();
+        const key = normalize(artistName);
+        const isFollowing = !!(key && set.has(key));
+
+        button.classList.toggle("is-following", isFollowing);
+        button.textContent = isFollowing ? "Đã theo dõi" : "Theo dõi";
+        button.setAttribute("aria-pressed", String(isFollowing));
+    }
+
+    function toggleFollow(button, artistName) {
+        try {
+            const key = normalize(artistName);
+            if (!key) return;
+
+            const set = getFollowedArtists();
+            if (set.has(key)) {
+                set.delete(key);
+            } else {
+                set.add(key);
+            }
+
+            saveFollowedArtists(set);
+            updateFollowUI(button, artistName);
+
+            // Đồng bộ trạng thái với nút kia trên trang
+            syncBothButtons(artistName);
+        } catch (e) {
+            console.error("Error toggling follow:", e);
+        }
+    }
+
+    function syncBothButtons(artistName) {
+        const set = getFollowedArtists();
+        const key = normalize(artistName);
+        const isFollowing = !!(key && set.has(key));
+
+        // Cập nhật cả hai nút
+        const followButton = document.querySelector("#follow-button");
+        const bFollow = document.querySelector("#b-follow");
+
+        if (followButton) {
+            followButton.classList.toggle("is-following", isFollowing);
+            followButton.textContent = isFollowing ? "Đã theo dõi" : "Theo dõi";
+            followButton.setAttribute("aria-pressed", String(isFollowing));
+        }
+
+        if (bFollow) {
+            bFollow.classList.toggle("is-following", isFollowing);
+            bFollow.textContent = isFollowing ? "Đã theo dõi" : "Theo dõi";
+            bFollow.setAttribute("aria-pressed", String(isFollowing));
+        }
+    }
+
+    function init() {
+        const followButton = document.querySelector("#follow-button");
+        const bFollow = document.querySelector("#b-follow");
+        const artistNameEl = document.querySelector(".artist-name");
+        const artistName = artistNameEl ? artistNameEl.textContent.trim() : "";
+
+        if (!artistName) return;
+
+        // Cập nhật UI ban đầu cho cả hai nút
+        syncBothButtons(artistName);
+
+        // Thêm sự kiện click cho cả hai nút
+        if (followButton) {
+            followButton.addEventListener("click", () => {
+                toggleFollow(followButton, artistName);
+            });
+        }
+
+        if (bFollow) {
+            bFollow.addEventListener("click", () => {
+                toggleFollow(bFollow, artistName);
+            });
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init, { once: true });
+    } else {
+        init();
+    }
+})();

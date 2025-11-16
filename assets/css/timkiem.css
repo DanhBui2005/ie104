@@ -54,18 +54,48 @@ body {
 .timkiem-main::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
 */
 
-/* SIDEBAR sticky theo viewport (trừ player) */
+/* SIDEBAR - Use same styling as other pages */
 .sidebar {
-    position: sticky;
-    top: 14px;
-    align-self: start;
-    max-height: calc(100vh - var(--player-h) - 14px);
-    overflow: auto;
+    /* Remove sticky positioning to match other pages */
+    background: #fff;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
+    padding: 14px;
+    padding-bottom: 20px;
+    color: #000;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Đảm bảo có đủ không gian để thấy phần tử cuối cùng */
+    max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
+}
+
+/* Hide scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Hide scrollbar for timkiem-main */
+.timkiem-main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+.timkiem-main {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* Tiêu đề khu vực */
 .section-title {
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 700;
     font-size: 24px;
     line-height: 1.3;
@@ -169,14 +199,16 @@ body {
     margin-bottom: 8px;
 }
 .artist-name {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 700;
     font-size: 18px;
     line-height: 24px;
     color: #125c87;
 }
 .artist-type {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 14px;
     line-height: 20px;
     color: #135e88;
@@ -185,17 +217,72 @@ body {
 .follow-button {
     display: inline-flex;
     padding: 8px 16px;
-    gap: 8px;
     justify-content: center;
     align-items: center;
-    border-radius: 26px;
-    border: 1px solid #105e8c;
-    color: #135e88;
+    gap: 8px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    color: #000;
+    text-align: center;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 110%;
     background: transparent;
     cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease,
+        border-color 0.2s ease, box-shadow 0.2s ease, transform 0.08s ease;
 }
 .follow-button:hover {
-    background: rgba(16, 94, 140, 0.08);
+    background: #e0f2fe;
+    color: #135e88;
+    border-color: #135e88;
+    box-shadow: 0 6px 16px rgba(20, 129, 185, 0.25);
+    transform: translateY(-1px);
+}
+.follow-button.is-following {
+    background: #7fc8f9;
+    color: #000;
+    border-color: #000;
+}
+.follow-button.is-following:hover {
+    background: #e0f2fe;
+    color: #135e88;
+    border-color: #135e88;
+    box-shadow: 0 6px 16px rgba(20, 129, 185, 0.25);
+    transform: translateY(-1px);
+}
+.follow-button:focus-visible {
+    outline: 3px solid rgba(20, 129, 185, 0.45);
+    outline-offset: 2px;
+}
+.follow-button:active {
+    transform: translateY(1px);
+}
+
+/* Dark mode styles for follow-button */
+[data-theme="dark"] .follow-button {
+    color: var(--text-primary) !important;
+    border: 1px solid var(--glow-color) !important;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .follow-button:hover {
+    background-color: var(--glow-color) !important;
+    box-shadow: 0 0 16px rgba(74, 108, 247, 0.4);
+}
+
+[data-theme="dark"] .follow-button.is-following {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border-color: var(--glow-color) !important;
+}
+
+[data-theme="dark"] .follow-button.is-following:hover {
+    background-color: var(--glow-color) !important;
+    box-shadow: 0 0 16px rgba(74, 108, 247, 0.4);
 }
 
 /* Lists */
@@ -237,7 +324,8 @@ body {
 }
 .song-name,
 .song-title {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 700;
     font-size: 15px;
     line-height: 22px;
@@ -247,7 +335,8 @@ body {
     text-overflow: ellipsis;
 }
 .song-artist {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 12px;
     line-height: 16px;
     color: rgba(0, 0, 0, 0.7);
@@ -305,7 +394,8 @@ body {
 /* Song title styling for top songs and albums */
 .top-songs-section .song-title,
 .albums-section .song-name {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-weight: 700;
     font-size: 15px;
     line-height: 22px;
@@ -322,6 +412,8 @@ body {
 }
 
 .song-title {
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #333;
@@ -332,6 +424,8 @@ body {
 }
 
 .top-song-item .song-artist {
+    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 12px;
     color: #7f8b99;
     white-space: nowrap;
@@ -372,11 +466,89 @@ a:focus-visible {
     .content:has(.queue:not(.hidden)) {
         grid-template-columns: 1fr !important;
     }
-    /* Sidebar không sticky ở mobile để cuộn mượt */
+    /* Sidebar thu gọn theo style.css */
     .sidebar {
-        position: static;
-        max-height: calc(100vh - var(--player-h) - 14px);
-        overflow: auto;
+        padding: 10px;
+        padding-bottom: 20px;
+        max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
+    }
+
+    /* Center icon buttons and hide text labels */
+    .menu-btn {
+        justify-content: center;
+        gap: 0;
+        padding: 10px 8px;
+    }
+    .menu-btn span {
+        display: none;
+    }
+    .menu-btn i {
+        font-size: 18px;
+        width: 24px;
+    }
+
+    /* Show thin separators, hide labels only; center add (+) button */
+    .section {
+        display: block;
+        margin: 8px 0;
+    }
+    /* Replace only first section label (THƯ VIỆN) with an icon */
+    .menu > .section > .section-label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 32px;
+        font-size: 0; /* hide original text */
+    }
+    .menu > .section > .section-label::before {
+        content: "\f02d"; /* fa-book */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900; /* solid */
+        font-size: 20px;
+        color: #000;
+        line-height: 1;
+    }
+    /* Hide label inside playlist header block */
+    .section-header .section-label {
+        display: none !important;
+    }
+    .section-sep {
+        display: block;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.08);
+        margin: 8px 0;
+    }
+    .section-header {
+        display: flex;
+        justify-content: center;
+        padding: 6px 0;
+    }
+    .section-header .icon-btn.add {
+        display: inline-grid;
+        place-items: center;
+    }
+
+    /* Playlist: show covers only, center each item */
+    .pl-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .pl-item {
+        justify-content: center;
+        padding: 6px;
+    }
+    .pl-item .pl-meta {
+        display: none;
+    }
+    .pl-cover {
+        width: 36px;
+        height: 36px;
+        aspect-ratio: 1 / 1;
+        border-radius: 8px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
     .timkiem-main {
         max-height: calc(100vh - var(--player-h) - 16px);
