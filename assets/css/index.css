@@ -22,9 +22,10 @@ body.dark-mode {
 
 /* ---------- 2. GLOBAL LAYOUT ---------- */
 body {
-    background-color: var(--bg-color);
+    background-color: #f8fafc;
     color: var(--text-color);
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     transition: background-color var(--transition-fast),
         color var(--transition-fast);
 }
@@ -49,7 +50,8 @@ button {
 }
 
 .home-section-title {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 8px;
@@ -58,7 +60,8 @@ button {
 }
 
 .home-section-sub {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     color: #666;
     font-weight: 400;
@@ -337,14 +340,8 @@ body.dark-mode .category-card:hover {
 
 /* Light mode hover effect - chỉ ảnh nổi lên và đổi màu toàn bộ khu vực dưới ảnh */
 .playlist-card:hover {
-    background: linear-gradient(
-        135deg,
-        #f0f7ff 0%,
-        #e3f2fd 100%
-    );
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
 }
-
-
 
 .playlist-thumb {
     position: relative;
@@ -357,11 +354,7 @@ body.dark-mode .category-card:hover {
 
 /* Light mode: đổi màu background của thumb khi hover để không có khoảng trắng */
 .playlist-card:hover .playlist-thumb {
-    background: linear-gradient(
-        135deg,
-        #f0f7ff 0%,
-        #e3f2fd 100%
-    );
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
 }
 
 .playlist-thumb img {
@@ -398,13 +391,8 @@ body.dark-mode .category-card:hover {
 
 /* Light mode hover effect cho playlist-content - sáng hơn khi hover */
 .playlist-card:hover .playlist-content {
-    background: linear-gradient(
-        135deg,
-        #f0f7ff 0%,
-        #e3f2fd 100%
-    );
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
 }
-
 
 .playlist-title {
     font-size: 16px;
