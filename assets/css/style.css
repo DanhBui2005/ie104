@@ -138,8 +138,8 @@ body {
     place-items: start center;
     background: #f8fafc;
     padding: 0;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     color: var(--icon);
     height: 100vh;
     overflow: hidden;
@@ -386,8 +386,8 @@ body {
     border: 0;
     outline: 0;
     background: transparent;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 400;
 }
@@ -428,8 +428,8 @@ body {
     padding: 14px;
     padding-bottom: 20px;
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -458,8 +458,8 @@ body {
 }
 .menu-btn span {
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 1.5rem;
     font-weight: 400;
     line-height: 20px;
@@ -499,8 +499,8 @@ body {
 }
 .section-label {
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -581,16 +581,16 @@ body {
 }
 .pl-name {
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
 }
 .pl-sub {
     color: rgba(0, 0, 0, 0.6);
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 16px;
@@ -732,8 +732,8 @@ body {
 }
 .b-title {
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 8rem;
     font-weight: 700;
     line-height: 1;
@@ -756,8 +756,8 @@ body {
 }
 .b-artist-name {
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-weight: 700;
     font-size: 1.6rem;
     letter-spacing: -0.56px;
@@ -782,8 +782,8 @@ body {
     gap: 0.4rem;
 }
 .b-artist-label {
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 1.2rem;
     line-height: 1;
     letter-spacing: 0.6px;
@@ -959,8 +959,8 @@ body {
     background-repeat: no-repeat;
 }
 .artist-meta .label {
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-weight: 700;
     font-size: 12px;
     color: #6b7280;
@@ -972,8 +972,8 @@ body {
     height: 15px;
     flex-shrink: 0;
     color: #000;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: -0.16px;
@@ -989,8 +989,8 @@ body {
     border: 1px solid #000;
     color: #000;
     text-align: center;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 2.4rem;
     font-weight: 800;
     line-height: 110%;
@@ -1078,14 +1078,14 @@ body {
 }
 
 .q-title {
-    font: 700 1.8rem/1 "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font: 700 1.8rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
     letter-spacing: 1px;
     color: var(--icon);
 }
 .q-sub {
-    font: 400 1.2rem/1 "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font: 400 1.2rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
     opacity: 0.7;
     color: var(--icon);
 }
@@ -1153,8 +1153,8 @@ body {
 }
 .q-title-text {
     color: #135e88;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     /* letter-spacing: 1.44px; */
@@ -1167,8 +1167,8 @@ body {
 }
 .q-artist {
     color: #135e88;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
     /* letter-spacing: 1.08px; */
@@ -1177,8 +1177,8 @@ body {
 }
 .q-time {
     color: #135e88;
-    font: 700 1.6rem/150% "Poppins", "Inter", system-ui, -apple-system,
-        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font: 700 1.6rem/150% Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
     min-width: 54px;
     text-align: right;
     justify-self: end;
@@ -1255,8 +1255,8 @@ body {
     justify-self: start;
     text-align: left;
     color: #135e88;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
@@ -1268,8 +1268,8 @@ body {
     justify-self: start;
     text-align: left;
     color: #135e88;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -1422,8 +1422,8 @@ body {
     color: #135e88;
     text-align: center;
     font-variant-numeric: tabular-nums;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
     line-height: 150%;
