@@ -243,10 +243,10 @@ body.queue-open .home-main,
     border-radius: 12px;
     padding: 20px;
     text-align: left;
-    border: none;
+    border: 1px solid rgba(74, 108, 247, 0.2);
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -264,8 +264,8 @@ body.queue-open .home-main,
 }
 
 .category-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(74, 108, 247, 0.25);
 }
 
 .category-card:hover::before {
@@ -278,17 +278,8 @@ body.queue-open .home-main,
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(0, 0, 0, 0.3) 100%
-    );
-    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s ease;
-}
-
-.category-card:hover .category-bg-overlay {
-    opacity: 0.8;
 }
 
 .category-label {
@@ -334,29 +325,26 @@ body.dark-mode .category-card:hover {
 
 .playlist-card {
     background: var(--card-bg);
-    border: none;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* Light mode hover effect - chỉ ảnh nổi lên và đổi màu toàn bộ khu vực dưới ảnh */
 .playlist-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(
+        135deg,
+        #f0f7ff 0%,
+        #e3f2fd 100%
+    );
 }
 
-body.dark-mode .playlist-card {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
 
-body.dark-mode .playlist-card:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-}
 
 .playlist-thumb {
     position: relative;
@@ -364,6 +352,16 @@ body.dark-mode .playlist-card:hover {
     overflow: hidden;
     margin-bottom: 0;
     background: var(--card-bg);
+    transition: background 0.3s ease;
+}
+
+/* Light mode: đổi màu background của thumb khi hover để không có khoảng trắng */
+.playlist-card:hover .playlist-thumb {
+    background: linear-gradient(
+        135deg,
+        #f0f7ff 0%,
+        #e3f2fd 100%
+    );
 }
 
 .playlist-thumb img {
@@ -380,28 +378,11 @@ body.dark-mode .playlist-card:hover {
 }
 
 .playlist-play {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(20, 129, 185, 0.4);
-    z-index: 3;
+    display: none !important;
 }
 
 .playlist-card:hover .playlist-play {
-    opacity: 1;
-    transform: translateY(0);
+    display: none !important;
 }
 
 .playlist-play:hover {
@@ -412,7 +393,18 @@ body.dark-mode .playlist-card:hover {
 .playlist-content {
     padding: 16px;
     background: var(--card-bg);
+    transition: background 0.3s ease;
 }
+
+/* Light mode hover effect cho playlist-content - sáng hơn khi hover */
+.playlist-card:hover .playlist-content {
+    background: linear-gradient(
+        135deg,
+        #f0f7ff 0%,
+        #e3f2fd 100%
+    );
+}
+
 
 .playlist-title {
     font-size: 16px;
@@ -544,18 +536,15 @@ body.dark-mode .track-index {
 .album-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius);
+    border-radius: 12px;
     padding: 16px;
     text-align: left;
-    transition: transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+    transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.album-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
+/* Light mode: bỏ viền, chỉ giữ ảnh scale */
 
 .album-thumb {
     position: relative;
@@ -577,26 +566,11 @@ body.dark-mode .track-index {
 }
 
 .album-play {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all var(--transition-fast);
+    display: none !important;
 }
 
 .album-card:hover .album-play {
-    opacity: 1;
-    transform: translateY(0);
+    display: none !important;
 }
 
 .album-title {
@@ -630,13 +604,19 @@ body.dark-mode .track-index {
 /* ---------- SLIDER (HORIZONTAL SCROLL) ---------- */
 .slider {
     position: relative;
+    overflow: visible;
+    padding-top: 0;
 }
 
 .slider-track {
     display: flex;
     gap: 24px;
     overflow-x: auto;
+    overflow-y: visible; /* Cho phép card nổi lên khi hover */
     padding-bottom: 4px;
+    padding-top: 5px; /* Thêm padding-top để không bị cắt khi hover */
+    padding-left: 4px; /* Khoảng cách cho ô đầu tiên để viền không bị khuyết */
+    padding-right: 4px; /* Khoảng cách cho ô cuối cùng để viền không bị khuyết */
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 }
@@ -694,20 +674,28 @@ body,
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: none;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
     display: grid;
     place-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
 
 .slider:hover .slider-btn {
     opacity: 1;
     pointer-events: auto;
+}
+
+.slider-btn:hover {
+    background-color: #4a6cf7;
+    border-color: #4a6cf7;
+    box-shadow: 0 4px 16px rgba(74, 108, 247, 0.3);
+    color: #fff;
 }
 
 .slider-btn.prev {
@@ -720,18 +708,15 @@ body,
 .artist-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius);
+    border-radius: 12px;
     padding: 20px;
     text-align: center;
-    transition: transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+    transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.artist-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
+/* Light mode: bỏ viền, chỉ giữ ảnh scale */
 
 .artist-avatar-wrap {
     width: 120px;
@@ -746,11 +731,15 @@ body,
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    transition: transform var(--transition-fast);
+    border: 2px solid rgba(74, 108, 247, 0.2);
+    box-shadow: 0 0 12px rgba(74, 108, 247, 0.2);
+    transition: all 0.3s ease;
 }
 
 .artist-card:hover .artist-avatar {
-    transform: scale(1.08);
+    border-color: #4a6cf7;
+    box-shadow: 0 0 20px rgba(74, 108, 247, 0.4);
+    transform: scale(1.05);
 }
 
 .artist-name {
@@ -808,7 +797,9 @@ body,
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #666;
+    background-color: var(--card-bg);
     border: none;
+    border-bottom: 2px solid #4a6cf7;
     vertical-align: middle;
 }
 
@@ -823,12 +814,18 @@ body.dark-mode .chart-table thead th {
 
 .chart-table tbody tr {
     border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .chart-table tbody tr:hover {
-    background-color: rgba(20, 129, 185, 0.08);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(74, 108, 247, 0.08) 50%,
+        transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(74, 108, 247, 0.1);
 }
 
 body.dark-mode .chart-table tbody tr:hover {

@@ -40,6 +40,18 @@
     border-bottom: none !important;
 }
 
+/* --- Fix border-top bị che khi card nổi lên --- */
+[data-theme="dark"] .slider-track {
+    padding-top: 5px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+}
+
+[data-theme="dark"] .slider {
+    overflow: visible !important;
+    padding-top: 0;
+}
+
 /* --- Hero Carousel Section --- */
 [data-theme="dark"] .hero-carousel {
     border-radius: 12px;
@@ -199,8 +211,10 @@
         var(--bg-accent) 100%
     );
     border-color: var(--glow-color);
-    box-shadow: 0 8px 24px rgba(74, 108, 247, 0.25);
-    transform: translateY(-4px);
+    box-shadow: 0 0 0 1px var(--glow-color), 
+                0 2px 8px rgba(74, 108, 247, 0.15);
+    transform: none; /* Bỏ transform để không bị cắt */
+    border-radius: 12px; /* Đảm bảo giữ bo tròn */
 }
 
 /* --- Playlist Content Area --- */
