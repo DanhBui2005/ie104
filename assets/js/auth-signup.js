@@ -1,75 +1,115 @@
 // Signup page logic (standalone)
 (function () {
-  const q = id => document.getElementById(id);
-  const form = q("form-signup");
-  const err  = q("su-error");
-  const success = q("su-success");
-  const submitBtn = q("btn-signup");
+    const q = (id) => document.getElementById(id);
+    const form = q("form-signup");
+    const err = q("su-error");
+    const success = q("su-success");
+    const submitBtn = q("btn-signup");
 
-  const fields = [
-    q("su-first"), q("su-last"),
-    q("su-gender"), q("su-dob"),
-    q("su-email"), q("su-phone"),
-    q("su-pass"), q("su-repass")
-  ];
-  const terms = q("su-terms");
+    const fields = [
+        q("su-first"),
+        q("su-last"),
+        q("su-gender"),
+        q("su-dob"),
+        q("su-email"),
+        q("su-phone"),
+        q("su-pass"),
+        q("su-repass"),
+    ];
+    const terms = q("su-terms");
 
-  const mark = (el, bad) => el.classList.toggle("invalid", !!bad);
+    const mark = (el, bad) => el.classList.toggle("invalid", !!bad);
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let bad = false;
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let bad = false;
 
-    success.hidden = true;
-    fields.forEach(el => {
-      const v = (el.value || "").toString().trim();
-      if (!v) { mark(el, true); bad = true; } else mark(el, false);
+        success.hidden = true;
+        fields.forEach((el) => {
+            const v = (el.value || "").toString().trim();
+            if (!v) {
+                mark(el, true);
+                bad = true;
+            } else mark(el, false);
+        });
+        if (!terms.checked) bad = true;
+
+        // mật khẩu khớp?
+        if (!bad && q("su-pass").value !== q("su-repass").value) {
+            mark(q("su-pass"), true);
+            mark(q("su-repass"), true);
+            err.textContent = "Mật khẩu nhập lại không khớp";
+            err.hidden = false;
+            return;
+        }
+
+        err.textContent = "Vui lòng điền đầy đủ thông tin";
+        err.hidden = !bad;
+        if (bad) return;
+
+        // Lưu thông tin người dùng
+        const userData = {
+            firstName: q("su-first").value.trim(),
+            lastName: q("su-last").value.trim(),
+            gender: q("su-gender").value,
+            dob: q("su-dob").value,
+            email: q("su-email").value.trim(),
+            phone: q("su-phone").value.trim(),
+            password: q("su-pass").value,
+        };
+
+        // Tạo người dùng mới thông qua UserManager
+        if (window.UserManager) {
+            const result = window.UserManager.createUser(userData);
+
+            if (result.success) {
+                err.hidden = true;
+                success.textContent =
+                    "Đăng ký thành công! Đang chuyển đến trang đăng nhập...";
+                success.hidden = false;
+
+                submitBtn.setAttribute("disabled", "true");
+                submitBtn.setAttribute("aria-busy", "true");
+
+                const params = new URLSearchParams(location.search);
+                const next = params.get("next");
+                const redirectUrl = next
+                    ? `./login.html?next=${encodeURIComponent(next)}`
+                    : "./login.html";
+                setTimeout(() => {
+                    location.replace(redirectUrl);
+                }, 1500);
+            } else {
+                err.textContent = result.message;
+                err.hidden = false;
+            }
+        } else {
+            // Fallback nếu UserManager chưa tải
+            err.textContent = "Lỗi hệ thống. Vui lòng tải lại trang.";
+            err.hidden = false;
+        }
     });
-    if (!terms.checked) bad = true;
 
-    // mật khẩu khớp?
-    if (!bad && q("su-pass").value !== q("su-repass").value) {
-      mark(q("su-pass"), true); mark(q("su-repass"), true);
-      err.textContent = "Mật khẩu nhập lại không khớp";
-      err.hidden = false; return;
-    }
+    fields.forEach((el) =>
+        el.addEventListener("blur", () => {
+            if ((el.value || "").toString().trim())
+                el.classList.remove("invalid");
+        })
+    );
 
-    err.textContent = "Vui lòng điền đầy đủ thông tin";
-    err.hidden = !bad;
-    if (bad) return;
-
-    err.hidden = true;
-    success.textContent = "Đăng ký thành công! Đang chuyển đến trang đăng nhập...";
-    success.hidden = false;
-
-    submitBtn.setAttribute("disabled", "true");
-    submitBtn.setAttribute("aria-busy", "true");
-
-    const params = new URLSearchParams(location.search);
-    const next = params.get("next");
-    const redirectUrl = next ? `./login.html?next=${encodeURIComponent(next)}` : "./login.html";
-    setTimeout(() => {
-      location.replace(redirectUrl);
-    }, 1500);
-  });
-
-  fields.forEach(el => el.addEventListener("blur", () => {
-    if ((el.value || "").toString().trim()) el.classList.remove("invalid");
-  }));
-
-  // ===== Hiệu ứng cho nút OAuth (Google / Facebook) =====
-  const oauthButtons = document.querySelectorAll('.oauth-btn');
-  oauthButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      if (btn.classList.contains('loading')) return;
-      btn.classList.add('loading');
-      btn.setAttribute('aria-busy', 'true');
-      btn.setAttribute('disabled', 'true');
-      setTimeout(() => {
-        btn.classList.remove('loading');
-        btn.removeAttribute('aria-busy');
-        btn.removeAttribute('disabled');
-      }, 1200);
+    // ===== Hiệu ứng cho nút OAuth (Google / Facebook) =====
+    const oauthButtons = document.querySelectorAll(".oauth-btn");
+    oauthButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            if (btn.classList.contains("loading")) return;
+            btn.classList.add("loading");
+            btn.setAttribute("aria-busy", "true");
+            btn.setAttribute("disabled", "true");
+            setTimeout(() => {
+                btn.classList.remove("loading");
+                btn.removeAttribute("aria-busy");
+                btn.removeAttribute("disabled");
+            }, 1200);
+        });
     });
-  });
 })();
