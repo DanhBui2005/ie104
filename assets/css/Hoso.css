@@ -2,6 +2,12 @@
     --player-h: 96px;
 }
 
+/* Apply Inter font family to all elements in Hoso page */
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
+}
+
 /* Main content */
 .main-content {
     flex: 1;
