@@ -81,6 +81,7 @@
         transparent 100%
     ) !important;
     box-shadow: 0 0 12px rgba(74, 108, 247, 0.15);
+    cursor: pointer;
 }
 
 /* --- NgheGanDay: Index/Number Column --- */

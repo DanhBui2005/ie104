@@ -14,8 +14,8 @@
     ) !important;
     color: var(--text-primary) !important;
     min-height: 100vh;
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
 }
 
 /* --- Yeuthich: Page Container --- */
@@ -481,8 +481,8 @@
 
 /* --- Yeuthich: Đồng bộ tiêu đề bảng trong dark mode --- */
 [data-theme="dark"] .page-yeuthich .pt-head .pt-col {
-    font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 700;
     color: var(--text-secondary) !important;
