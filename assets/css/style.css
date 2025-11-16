@@ -281,17 +281,26 @@ body {
     border: 0;
     color: #135e88;
     cursor: pointer;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
 }
 .profile-item i {
     color: #135e88;
     font-size: 16px;
     line-height: 1;
+    transition: all 0.3s ease;
 }
 .profile-item span {
     line-height: 1;
 }
 .profile-item:hover {
     background: rgba(20, 129, 185, 0.08);
+}
+
+.profile-item:hover i {
+    color: #4a6cf7;
+    filter: drop-shadow(0 0 8px rgba(74, 108, 247, 0.6));
+    transform: translateX(3px);
 }
 .nav-btn:hover,
 .profile-btn:hover,
@@ -528,6 +537,7 @@ body {
     background: transparent;
     cursor: pointer;
     color: #000;
+    transition: all 0.3s ease;
 }
 .icon-btn.add i {
     font-size: 18px;
@@ -536,7 +546,8 @@ body {
 }
 .icon-btn.add:hover {
     color: #135e88;
-    transform: translateY(-1px);
+    transform: rotate(90deg) scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(74, 188, 242, 0.6));
 }
 .icon-btn.add:active {
     transform: translateY(1px);
@@ -1333,14 +1344,23 @@ body {
     color: #135e88;
     cursor: pointer;
     transition: background 0.15s ease;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Helvetica, Arial, sans-serif;
 }
 .more-item i {
     color: #135e88;
+    transition: all 0.3s ease;
 }
 
 #download:hover,
 #add-to-playlist:hover {
     background: rgba(20, 129, 185, 0.08);
+}
+
+.more-item:hover i {
+    color: #4a6cf7;
+    filter: drop-shadow(0 0 8px rgba(74, 108, 247, 0.6));
+    transform: translateX(3px);
 }
 
 /* Center: controls + timeline */
