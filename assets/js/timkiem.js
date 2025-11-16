@@ -247,6 +247,74 @@
         });
     }
 
+    function renderAlbums(artistName) {
+        const container = document.querySelector(".songs-grid");
+        if (!container) return;
+
+        // Get albums for the artist
+        let albums = [];
+        if (
+            window.MusicBoxAlbums &&
+            typeof window.MusicBoxAlbums.getAlbumsForArtist === "function"
+        ) {
+            albums = window.MusicBoxAlbums.getAlbumsForArtist(artistName);
+        }
+
+        // If no albums found, use fallback images
+        if (!albums.length) {
+            console.warn(`No albums found for artist: ${artistName}`);
+            return;
+        }
+
+        // Render album items
+        container.innerHTML = albums
+            .map(
+                (album, index) => `
+            <div class="song-item">
+                <div class="song-cover" style="background-image: url('${album.image}')"></div>
+                <div class="song-info">
+                    <div class="song-name">${album.name}</div>
+                    <div class="song-artist">${album.artist}</div>
+                </div>
+            </div>
+        `
+            )
+            .join("");
+
+        // Add click event listeners to album items
+        document.querySelectorAll(".song-item").forEach((item, index) => {
+            item.style.cursor = "pointer";
+            item.addEventListener("click", () => {
+                // Find songs from the same artist and play the first one
+                if (
+                    window.MusicBox &&
+                    typeof window.MusicBox.playlist === "function"
+                ) {
+                    const playlist = window.MusicBox.playlist();
+                    const artistSongs = playlist.filter(
+                        (song) =>
+                            normalize(song.artist) === normalize(artistName)
+                    );
+
+                    if (artistSongs.length > 0) {
+                        const firstSongIndex = playlist.findIndex(
+                            (song) =>
+                                song.title === artistSongs[0].title &&
+                                song.artist === artistSongs[0].artist
+                        );
+
+                        if (
+                            firstSongIndex >= 0 &&
+                            typeof window.MusicBox.playAt === "function"
+                        ) {
+                            window.MusicBox.playAt(firstSongIndex);
+                        }
+                    }
+                }
+            });
+        });
+    }
+
     async function start() {
         const rawQ = getQuery();
         const qNorm = normalize(rawQ);
@@ -266,6 +334,7 @@
 
         renderArtistHeader(pickedArtist, artistImg);
         renderSongs(artistSongs);
+        renderAlbums(pickedArtist);
     }
 
     if (document.readyState === "loading") {
