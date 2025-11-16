@@ -84,6 +84,8 @@
     border: 1px solid var(--glow-color) !important;
     box-shadow: 0 8px 32px rgba(74, 108, 247, 0.3) !important;
     backdrop-filter: blur(10px);
+    max-width: 670px !important;
+    min-width: 280px !important;
 }
 
 [data-theme="dark"] .search-dropdown,

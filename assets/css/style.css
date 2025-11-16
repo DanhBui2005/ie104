@@ -391,6 +391,21 @@ body {
     font-weight: 400;
 }
 
+.search input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.search:focus-within {
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Search Results Dropdown - Match search bar width */
+#mb-search-panel {
+    max-width: 670px !important;
+    min-width: 280px !important;
+}
+
 /* ===== Layout: Sidebar + Queue ===== */
 .content {
     display: grid;
