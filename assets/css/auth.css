@@ -234,6 +234,54 @@ form {
     border-color: var(--danger) !important;
 }
 
+/* Password input container with eye icon */
+.password-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-container .auth-input {
+    padding-right: 46px; /* Space for the eye icon */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--brand);
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.eye-closed {
+    display: none;
+}
+
+.password-toggle.visible .eye-open {
+    display: none;
+}
+
+.password-toggle.visible .eye-closed {
+    display: block;
+}
+
 /* ====== Remember / Forgot (18 / 600) ====== */
 .auth-row {
     display: flex;

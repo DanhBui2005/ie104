@@ -112,4 +112,34 @@
             }, 1200);
         });
     });
+
+    // Password visibility toggles
+    function setupPasswordToggle(toggleId, inputId) {
+        const toggle = document.getElementById(toggleId);
+        const input = document.getElementById(inputId);
+
+        if (toggle && input) {
+            toggle.addEventListener("click", function () {
+                const type =
+                    input.getAttribute("type") === "password"
+                        ? "text"
+                        : "password";
+                input.setAttribute("type", type);
+
+                // Toggle the visibility class
+                this.classList.toggle("visible");
+
+                // Update aria-label
+                if (type === "text") {
+                    this.setAttribute("aria-label", "Ẩn mật khẩu");
+                } else {
+                    this.setAttribute("aria-label", "Hiển thị mật khẩu");
+                }
+            });
+        }
+    }
+
+    // Setup toggles for both password fields
+    setupPasswordToggle("su-pass-toggle", "su-pass");
+    setupPasswordToggle("su-repass-toggle", "su-repass");
 })();
