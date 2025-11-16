@@ -54,7 +54,7 @@ button {
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
-    color: var(--text-color);
+    color: #135e88;
 }
 
 .home-section-sub {
@@ -794,13 +794,17 @@ body,
     padding: 12px 16px;
     font-size: 11px;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #666;
     background-color: var(--card-bg);
     border: none;
     border-bottom: 2px solid #4a6cf7;
     vertical-align: middle;
+}
+
+.chart-table thead th:nth-child(5),
+.chart-table thead th:nth-child(6) {
+    text-align: right;
 }
 
 .chart-table thead th:nth-child(2) {

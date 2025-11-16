@@ -2075,21 +2075,31 @@ input[type="range"]::-moz-range-thumb {
 
 /* Dark Mode Toggle Button */
 .dark-mode-toggle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background-color: transparent;
-    color: inherit;
-    cursor: pointer;
     display: flex;
-    align-items: center;
+    width: 45px;
+    height: 45px;
+    transform: rotate(-0.053deg);
+    padding: 14px;
     justify-content: center;
-    transition: background-color 0.2s ease, transform 0.3s ease;
+    align-items: center;
+    gap: 10px;
+    aspect-ratio: 1/1;
+    border-radius: 45px;
+    background: #e0f2fe;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+    border: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease,
+        transform 0.12s ease;
 }
 
 .dark-mode-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode-toggle:active {
+    transform: translateY(1px);
 }
 
 .dark-mode-toggle.rotating {
@@ -2109,7 +2119,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .dark-mode-toggle i {
-    font-size: 18px;
+    color: #0f3f5f;
+    font-size: 1.6rem;
 }
 
 /* Header buttons - Remove default white background */

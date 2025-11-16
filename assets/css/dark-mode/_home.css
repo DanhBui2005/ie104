@@ -11,6 +11,9 @@
     ) !important;
     color: var(--text-primary);
     min-height: 100vh;
+    padding-bottom: 100px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
 [data-theme="dark"] .home-section {
@@ -317,6 +320,17 @@
 [data-theme="dark"] .home-footer {
     background: linear-gradient(180deg, var(--bg-primary) 0%, #05071a 100%);
     border-top: 1px solid var(--border-color);
+    margin-bottom: 0 !important;
+    padding-bottom: 60px !important;
+    margin-top: 80px !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Đảm bảo section chứa footer có đủ không gian */
+[data-theme="dark"] .home-charts {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 [data-theme="dark"] .home-footer h3,
