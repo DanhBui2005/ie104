@@ -62,6 +62,41 @@
     box-shadow: 0 0 8px rgba(74, 108, 247, 0.5);
 }
 
+/* --- Player: Volume Slider Specific Styles --- */
+[data-theme="dark"] #volume {
+    background: rgba(74, 108, 247, 0.2);
+}
+
+[data-theme="dark"] #volume::-webkit-slider-runnable-track {
+    background: linear-gradient(
+        to right,
+        var(--glow-color) 0%,
+        var(--glow-color) var(--volume-value),
+        rgba(74, 108, 247, 0.2) var(--volume-value),
+        rgba(74, 108, 247, 0.2) 100%
+    );
+}
+
+[data-theme="dark"] #volume::-moz-range-progress {
+    background-color: var(--glow-color);
+}
+
+[data-theme="dark"] #volume::-moz-range-track {
+    background-color: rgba(74, 108, 247, 0.2);
+}
+
+[data-theme="dark"] #volume::-webkit-slider-thumb {
+    background-color: var(--glow-color);
+    border: none;
+    box-shadow: 0 0 8px rgba(74, 108, 247, 0.5);
+}
+
+[data-theme="dark"] #volume::-moz-range-thumb {
+    background-color: var(--glow-color);
+    border: none;
+    box-shadow: 0 0 8px rgba(74, 108, 247, 0.5);
+}
+
 /* --- Player: Volume Icon --- */
 [data-theme="dark"] #vol-icon {
     color: var(--text-primary);

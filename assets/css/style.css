@@ -1622,6 +1622,7 @@ input[type="range"]::-moz-range-thumb {
     background: rgba(127, 212, 249, 0.2); /* Base background color */
     border-radius: 2px;
     cursor: pointer;
+    outline: none;
 }
 
 /* This creates the filled portion effect */
@@ -1647,6 +1648,7 @@ input[type="range"]::-moz-range-thumb {
     border: none;
     margin-top: -4px;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Firefox styles */
@@ -1669,6 +1671,7 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 50%;
     border: none;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .sr-only {

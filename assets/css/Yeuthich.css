@@ -8,7 +8,6 @@
     background: #fff;
     border-radius: 12px 12px 0 0;
     padding: 32px 48px;
-    box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -113,7 +112,7 @@
 .page-yeuthich .artist {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     gap: 8px;
 }
 .page-yeuthich .artist img {
@@ -135,6 +134,14 @@
     overflow-y: auto;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background: #fff;
+}
+
+.page-yeuthich .main-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 
 .page-yeuthich .song-title {
@@ -352,7 +359,7 @@
 /* Old song-title img styling removed - now using pt-cover */
 
 .page-yeuthich .playlist {
-    padding-bottom: 100px;
+    padding-bottom: 150px;
 }
 
 /* When Queue is open, remove extra bottom padding from the playlist to avoid gaps */

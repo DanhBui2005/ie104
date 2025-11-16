@@ -134,19 +134,21 @@ function formatTime(seconds) {
  * @returns {boolean}
  */
 function isReloadNavigation() {
-    return safeExecute(() => {
-        const navEntries =
-            performance.getEntriesByType &&
-            performance.getEntriesByType("navigation");
-        if (navEntries?.[0]?.type === "string") {
-            return navEntries[0].type === "reload";
-        }
-        // Fallback (deprecated API)
-        if (performance?.navigation?.type === "number") {
-            return performance.navigation.type === NAVIGATION_TYPE_RELOAD;
-        }
-        return false;
-    }, "isReloadNavigation") ?? false;
+    return (
+        safeExecute(() => {
+            const navEntries =
+                performance.getEntriesByType &&
+                performance.getEntriesByType("navigation");
+            if (navEntries?.[0]?.type === "string") {
+                return navEntries[0].type === "reload";
+            }
+            // Fallback (deprecated API)
+            if (performance?.navigation?.type === "number") {
+                return performance.navigation.type === NAVIGATION_TYPE_RELOAD;
+            }
+            return false;
+        }, "isReloadNavigation") ?? false
+    );
 }
 
 /**
@@ -181,13 +183,13 @@ function setControlsDisabled(disabled) {
         elements.shuffleBtn,
         elements.repeatBtn,
     ];
-    
+
     controls.forEach((button) => {
         if (!button) return;
         button.disabled = !!disabled;
         button.classList.toggle("disabled", !!disabled);
     });
-    
+
     if (elements.progress) {
         elements.progress.disabled = !!disabled;
     }
@@ -198,10 +200,12 @@ function setControlsDisabled(disabled) {
  * @returns {boolean}
  */
 function isPremiumOn() {
-    return safeExecute(
-        () => localStorage.getItem("premium_enabled") === "true",
-        "isPremiumOn"
-    ) ?? false;
+    return (
+        safeExecute(
+            () => localStorage.getItem("premium_enabled") === "true",
+            "isPremiumOn"
+        ) ?? false
+    );
 }
 
 // ===== PLAYER STATE PERSISTENCE =====
@@ -211,7 +215,7 @@ function isPremiumOn() {
  */
 function savePlayerState(force = false) {
     if (isAdPlaying) return; // Avoid saving ad as track
-    
+
     const now = Date.now();
     if (!force && now - lastStateSavedAt < STATE_SAVE_THROTTLE_MS) {
         return; // Throttle saves
@@ -221,7 +225,7 @@ function savePlayerState(force = false) {
     safeExecute(() => {
         const playlist = window.__mbPlaylist || [];
         const currentTrack = playlist[index];
-        
+
         const state = {
             index,
             currentTime: Math.max(
@@ -233,19 +237,22 @@ function savePlayerState(force = false) {
                         : 1e9
                 )
             ),
-            isPlaying: logoutInProgress
-                ? false
-                : !!isPlaying && !isAdPlaying,
-            volume: Number.isFinite(audio.volume) ? audio.volume : DEFAULT_VOLUME,
+            isPlaying: logoutInProgress ? false : !!isPlaying && !isAdPlaying,
+            volume: Number.isFinite(audio.volume)
+                ? audio.volume
+                : DEFAULT_VOLUME,
             shuffle: !!shuffle,
             repeatMode,
             queueOpen: document.body.classList.contains("queue-open"),
             ts: now,
-            playlistCtx: window.__mbCurrentPlaylistCtx || { type: "global", id: null },
+            playlistCtx: window.__mbCurrentPlaylistCtx || {
+                type: "global",
+                id: null,
+            },
             trackIds: playlist.map((t) => t?.id).filter(Boolean),
             currentId: currentTrack?.id || null,
         };
-        
+
         localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
     }, "savePlayerState");
 }
@@ -255,15 +262,17 @@ function savePlayerState(force = false) {
  * @returns {Object|null} Saved state or null
  */
 function getSavedPlayerState() {
-    return safeExecute(() => {
-        const raw = localStorage.getItem(PLAYER_STATE_KEY);
-        if (!raw) return null;
-        
-        const state = JSON.parse(raw);
-        if (!state || typeof state !== "object") return null;
-        
-        return state;
-    }, "getSavedPlayerState") ?? null;
+    return (
+        safeExecute(() => {
+            const raw = localStorage.getItem(PLAYER_STATE_KEY);
+            if (!raw) return null;
+
+            const state = JSON.parse(raw);
+            if (!state || typeof state !== "object") return null;
+
+            return state;
+        }, "getSavedPlayerState") ?? null
+    );
 }
 
 /**
@@ -274,98 +283,108 @@ function restorePlayerState() {
     const savedState = getSavedPlayerState();
     if (!savedState) return false;
 
-    return safeExecute(() => {
-        const playlist = window.__mbPlaylist || [];
-        
-        // Validate index
-        if (
-            typeof savedState.index !== "number" ||
-            savedState.index < 0 ||
-            savedState.index >= playlist.length
-        ) {
-            return false;
-        }
+    return (
+        safeExecute(() => {
+            const playlist = window.__mbPlaylist || [];
 
-        // Restore volume
-        if (typeof savedState.volume === "number") {
-            audio.volume = Math.min(1, Math.max(0, savedState.volume));
-            if (elements.volume) {
-                elements.volume.value = String(audio.volume);
-                elements.volume.setAttribute("aria-valuenow", String(audio.volume));
-            }
-            updateVolumeSlider();
-        }
-
-        // Restore shuffle
-        if (typeof savedState.shuffle === "boolean") {
-            shuffle = savedState.shuffle;
-            if (elements.shuffleBtn) {
-                elements.shuffleBtn.classList.toggle("active", shuffle);
-            }
-            updateShuffleA11y();
-        }
-
-        // Restore repeat mode
-        if (
-            savedState.repeatMode === REPEAT_MODES.OFF ||
-            savedState.repeatMode === REPEAT_MODES.ALL ||
-            savedState.repeatMode === REPEAT_MODES.ONE
-        ) {
-            repeatMode = savedState.repeatMode;
-            if (elements.repeatBtn) {
-                elements.repeatBtn.dataset.mode = repeatMode;
-                elements.repeatBtn.classList.toggle("active", repeatMode !== REPEAT_MODES.OFF);
-            }
-            updateRepeatA11y();
-        }
-
-        // Determine target index (prefer mapping by currentId)
-        let targetIndex = savedState.index;
-        if (savedState.currentId) {
-            const foundIndex = playlist.findIndex(
-                (track) => track?.id === savedState.currentId
-            );
-            if (foundIndex >= 0) {
-                targetIndex = foundIndex;
-            }
-        }
-
-        loadTrack(targetIndex);
-
-        // Restore playback time
-        const applyTime = () => {
+            // Validate index
             if (
-                typeof savedState.currentTime === "number" &&
-                isFinite(audio.duration)
+                typeof savedState.index !== "number" ||
+                savedState.index < 0 ||
+                savedState.index >= playlist.length
             ) {
-                audio.currentTime = Math.min(
-                    audio.duration - TIME_BUFFER_SECONDS,
-                    Math.max(0, savedState.currentTime)
+                return false;
+            }
+
+            // Restore volume
+            if (typeof savedState.volume === "number") {
+                audio.volume = Math.min(1, Math.max(0, savedState.volume));
+                if (elements.volume) {
+                    elements.volume.value = String(audio.volume);
+                    elements.volume.setAttribute(
+                        "aria-valuenow",
+                        String(audio.volume)
+                    );
+                }
+                updateVolumeSlider();
+            }
+
+            // Restore shuffle
+            if (typeof savedState.shuffle === "boolean") {
+                shuffle = savedState.shuffle;
+                if (elements.shuffleBtn) {
+                    elements.shuffleBtn.classList.toggle("active", shuffle);
+                }
+                updateShuffleA11y();
+            }
+
+            // Restore repeat mode
+            if (
+                savedState.repeatMode === REPEAT_MODES.OFF ||
+                savedState.repeatMode === REPEAT_MODES.ALL ||
+                savedState.repeatMode === REPEAT_MODES.ONE
+            ) {
+                repeatMode = savedState.repeatMode;
+                if (elements.repeatBtn) {
+                    elements.repeatBtn.dataset.mode = repeatMode;
+                    elements.repeatBtn.classList.toggle(
+                        "active",
+                        repeatMode !== REPEAT_MODES.OFF
+                    );
+                }
+                updateRepeatA11y();
+            }
+
+            // Determine target index (prefer mapping by currentId)
+            let targetIndex = savedState.index;
+            if (savedState.currentId) {
+                const foundIndex = playlist.findIndex(
+                    (track) => track?.id === savedState.currentId
                 );
+                if (foundIndex >= 0) {
+                    targetIndex = foundIndex;
+                }
             }
-        };
 
-        if (isFinite(audio.duration)) {
-            applyTime();
-        } else {
-            audio.addEventListener("loadedmetadata", applyTime, { once: true });
-        }
+            loadTrack(targetIndex);
 
-        // Restore play/pause state
-        if (isReloadNavigation()) {
-            pause();
-            setPlayUI(false);
-        } else {
-            // Force paused on first visit OR right after login
-            if (!FIRST_VISIT && !JUST_LOGGED_IN && savedState.isPlaying) {
-                play();
+            // Restore playback time
+            const applyTime = () => {
+                if (
+                    typeof savedState.currentTime === "number" &&
+                    isFinite(audio.duration)
+                ) {
+                    audio.currentTime = Math.min(
+                        audio.duration - TIME_BUFFER_SECONDS,
+                        Math.max(0, savedState.currentTime)
+                    );
+                }
+            };
+
+            if (isFinite(audio.duration)) {
+                applyTime();
             } else {
-                setPlayUI(false);
+                audio.addEventListener("loadedmetadata", applyTime, {
+                    once: true,
+                });
             }
-        }
 
-        return true;
-    }, "restorePlayerState") ?? false;
+            // Restore play/pause state
+            if (isReloadNavigation()) {
+                pause();
+                setPlayUI(false);
+            } else {
+                // Force paused on first visit OR right after login
+                if (!FIRST_VISIT && !JUST_LOGGED_IN && savedState.isPlaying) {
+                    play();
+                } else {
+                    setPlayUI(false);
+                }
+            }
+
+            return true;
+        }, "restorePlayerState") ?? false
+    );
 }
 
 // ===== AD FUNCTIONS =====
@@ -381,9 +400,11 @@ function applyAdUI() {
 
         // Update banner UI
         if (elements.bTitle) elements.bTitle.textContent = adAssets.title;
-        if (elements.bArtistName) elements.bArtistName.textContent = adAssets.artist;
+        if (elements.bArtistName)
+            elements.bArtistName.textContent = adAssets.artist;
         if (elements.bCover) elements.bCover.src = adAssets.cover;
-        if (elements.bArtistAvatar) elements.bArtistAvatar.src = adAssets.artistImg;
+        if (elements.bArtistAvatar)
+            elements.bArtistAvatar.src = adAssets.artistImg;
 
         // Reset progress
         if (elements.progress) {
@@ -429,7 +450,7 @@ function startAdThen(callback) {
     adAfterCallback = typeof callback === "function" ? callback : null;
     setControlsDisabled(true);
     applyAdUI();
-    
+
     audio.src = adAssets.src;
     audio.load();
     play();
@@ -617,7 +638,7 @@ function nextTrack(auto = false) {
     }
 
     const playlist = window.__mbPlaylist || [];
-    
+
     // End of playlist: stop if not repeating
     if (
         auto &&
@@ -631,7 +652,7 @@ function nextTrack(auto = false) {
     }
 
     loadTrack(nextIndex());
-    
+
     if (isPlaying || auto) {
         play();
     } else {
@@ -658,10 +679,10 @@ function prevTrack() {
  */
 function updateRepeatA11y() {
     if (!elements.repeatBtn) return;
-    
+
     const pressed = repeatMode !== REPEAT_MODES.OFF;
     elements.repeatBtn.setAttribute("aria-pressed", String(pressed));
-    
+
     const titles = {
         [REPEAT_MODES.OFF]: "Repeat: Off",
         [REPEAT_MODES.ALL]: "Repeat: All",
@@ -742,7 +763,10 @@ function setupAdInteractionGuards() {
             "keydown",
             (e) => {
                 if (!isAdPlaying) return;
-                if ((e.key === "Enter" || e.key === " ") && isAdLockedElement(e.target)) {
+                if (
+                    (e.key === "Enter" || e.key === " ") &&
+                    isAdLockedElement(e.target)
+                ) {
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();
@@ -803,7 +827,10 @@ function setupMobileVolumeToggle() {
         (e) => {
             if (window.innerWidth > MOBILE_BREAKPOINT) return;
             const right = document.querySelector(".right");
-            if (right && (right.contains(e.target) || e.target === elements.volIcon)) {
+            if (
+                right &&
+                (right.contains(e.target) || e.target === elements.volIcon)
+            ) {
                 return;
             }
             hideMobileVolume();
@@ -857,17 +884,20 @@ function setupEventListeners() {
         elements.shuffleBtn.addEventListener("click", () => {
             shuffle = !shuffle;
             elements.shuffleBtn.classList.toggle("active", shuffle);
-            
+
             // Disable repeat-one when shuffle is enabled
             if (repeatMode === REPEAT_MODES.ONE && shuffle) {
                 repeatMode = REPEAT_MODES.ALL;
             }
-            
+
             if (elements.repeatBtn) {
                 elements.repeatBtn.dataset.mode = repeatMode;
-                elements.repeatBtn.classList.toggle("active", repeatMode !== REPEAT_MODES.OFF);
+                elements.repeatBtn.classList.toggle(
+                    "active",
+                    repeatMode !== REPEAT_MODES.OFF
+                );
             }
-            
+
             updateShuffleA11y();
             updateRepeatA11y();
             savePlayerState(true);
@@ -884,9 +914,12 @@ function setupEventListeners() {
                     : repeatMode === REPEAT_MODES.ALL
                     ? REPEAT_MODES.ONE
                     : REPEAT_MODES.OFF;
-            
+
             elements.repeatBtn.dataset.mode = repeatMode;
-            elements.repeatBtn.classList.toggle("active", repeatMode !== REPEAT_MODES.OFF);
+            elements.repeatBtn.classList.toggle(
+                "active",
+                repeatMode !== REPEAT_MODES.OFF
+            );
             updateRepeatA11y();
             savePlayerState(true);
         });
@@ -902,17 +935,20 @@ function setupEventListeners() {
     audio.addEventListener("timeupdate", () => {
         const percentage = (audio.currentTime / audio.duration) * 100;
         const value = isFinite(percentage) ? Math.round(percentage) : 0;
-        
+
         if (elements.progress) {
             elements.progress.value = value;
             elements.progress.setAttribute("aria-valuenow", String(value));
-            elements.progress.style.setProperty("--progress-value", `${value}%`);
+            elements.progress.style.setProperty(
+                "--progress-value",
+                `${value}%`
+            );
         }
-        
+
         if (elements.currentTimeEl) {
             elements.currentTimeEl.textContent = formatTime(audio.currentTime);
         }
-        
+
         savePlayerState(false);
     });
 
@@ -951,6 +987,14 @@ function setupEventListeners() {
             const v = Number(e.target.value);
             audio.volume = v;
             elements.volume.setAttribute("aria-valuenow", String(v));
+
+            // Update volume slider visual indicator
+            const percentage = (v / elements.volume.max) * 100;
+            elements.volume.style.setProperty(
+                "--volume-value",
+                `${percentage}%`
+            );
+
             if (elements.volIcon) {
                 let volumeIcon = "fa-solid ";
                 if (audio.volume === 0) {
@@ -1007,7 +1051,7 @@ export function initPlayer(options = {}) {
         bArtistName: document.getElementById("b-artist-name"),
         bCover: document.getElementById("b-cover"),
         bArtistAvatar: document.getElementById("b-artist-avatar"),
-        ...options.elements
+        ...options.elements,
     };
 
     // Setup event listeners
@@ -1083,6 +1127,6 @@ export function initPlayer(options = {}) {
         getCurrentIndex: () => index,
         isCurrentlyPlaying: () => isPlaying,
         getAudio: () => audio,
-        updateVolumeSlider
+        updateVolumeSlider,
     };
 }
