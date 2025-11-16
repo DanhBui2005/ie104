@@ -85,4 +85,28 @@
             }, 1200);
         });
     });
+
+    // Password visibility toggle
+    const passwordToggle = document.getElementById("password-toggle");
+    const passwordInput = document.getElementById("login-pass");
+
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener("click", function () {
+            const type =
+                passwordInput.getAttribute("type") === "password"
+                    ? "text"
+                    : "password";
+            passwordInput.setAttribute("type", type);
+
+            // Toggle the visibility class
+            this.classList.toggle("visible");
+
+            // Update aria-label
+            if (type === "text") {
+                this.setAttribute("aria-label", "Ẩn mật khẩu");
+            } else {
+                this.setAttribute("aria-label", "Hiển thị mật khẩu");
+            }
+        });
+    }
 })();
