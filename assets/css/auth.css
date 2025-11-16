@@ -16,10 +16,10 @@
     --radius-card: 20px;
     --radius-input: 12px;
     --shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    --family-title: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto,
-        Arial, sans-serif;
-    --family-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial,
-        sans-serif;
+    --family-title: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+    --family-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Extra small screens */
