@@ -6,8 +6,7 @@
 [data-theme="dark"] .liked-main,
 [data-theme="dark"] .favorites-main,
 [data-theme="dark"] .yeuthich-main,
-[data-theme="dark"] .page-yeuthich .main-content,
-[data-theme="dark"] .page-yeuthich {
+[data-theme="dark"] .page-yeuthich .main-content {
     background: radial-gradient(
         ellipse at top,
         #161d42 0%,
@@ -19,12 +18,36 @@
         Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* --- Yeuthich: Page Container --- */
+[data-theme="dark"] .page-yeuthich {
+    background: transparent !important;
+}
+
+/* --- Yeuthich: Body Background --- */
+[data-theme="dark"] body.page-yeuthich {
+    background: var(--bg-primary) !important;
+}
+
+/* --- Yeuthich: Sidebar Area --- */
+[data-theme="dark"] .page-yeuthich .sidebar {
+    background: radial-gradient(
+        ellipse at top,
+        #161d42 0%,
+        #0a0e27 100%
+    ) !important;
+}
+
 /* --- Yeuthich: Content Container --- */
 [data-theme="dark"] .yeuthich-content,
 [data-theme="dark"] .liked-content,
 [data-theme="dark"] .favorites-content {
     background-color: transparent !important;
     color: var(--text-primary);
+}
+
+/* Yeuthich: remove light table background in dark mode so no side borders appear */
+[data-theme="dark"] .page-yeuthich {
+    background-color: transparent !important;
 }
 
 /* --- Yeuthich: Page Header/Banner --- */
@@ -62,6 +85,16 @@
 [data-theme="dark"] .liked-playlist {
     background-color: transparent !important;
     color: var(--text-primary);
+}
+
+/* --- Yeuthich: Content Container --- */
+[data-theme="dark"] .page-yeuthich .content {
+    background: transparent !important;
+}
+
+/* --- Yeuthich: Wrap Container --- */
+[data-theme="dark"] .page-yeuthich .wrap {
+    background: var(--bg-primary) !important;
 }
 
 /* --- Yeuthich: Playlist Header --- */
@@ -112,6 +145,11 @@
 [data-theme="dark"] .liked-songs,
 [data-theme="dark"] .favorites-songs,
 [data-theme="dark"] .songs-container {
+    background-color: transparent !important;
+}
+
+/* --- Yeuthich: Played Table --- */
+[data-theme="dark"] .page-yeuthich .played-table {
     background-color: transparent !important;
 }
 
