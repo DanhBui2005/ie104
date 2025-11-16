@@ -126,6 +126,7 @@ body {
     --gutter: 60px;
     --player-safe: 48px;
     --player-h: 88px;
+    --header-height: 90px;
 }
 * {
     box-sizing: border-box;
@@ -415,7 +416,8 @@ body {
     padding-bottom: 0;
     align-items: stretch;
     min-height: 0;
-    overflow: auto;
+    overflow: hidden;
+    height: calc(100vh - var(--header-height));
 }
 
 /* ===== Sidebar Menu ===== */
@@ -424,13 +426,7 @@ body {
     border-radius: 12px 12px 0 0;
     box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
     padding: 14px;
-    padding-bottom: calc(
-        10px +
-            var(
-                --player-bottom-space,
-                calc(var(--player-h) + var(--player-safe))
-            )
-    );
+    padding-bottom: 20px;
     color: #000;
     font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI",
         Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -441,6 +437,8 @@ body {
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    /* Đảm bảo có đủ không gian để thấy phần tử cuối cùng */
+    max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
 }
 .menu-btn {
     display: flex;
@@ -612,6 +610,8 @@ body {
     /* Sidebar paddings tighter */
     .sidebar {
         padding: 10px;
+        padding-bottom: 20px;
+        max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
     }
 
     /* Center icon buttons and hide text labels */

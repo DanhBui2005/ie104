@@ -11,9 +11,10 @@ body.page-nghe-gan-day {
     overflow-x: hidden;
 }
 .page-nghe-gan-day .content {
-    overflow: visible;
+    overflow: hidden;
     min-height: 0;
     padding: 0;
+    height: calc(100vh - var(--header-height, 80px));
 }
 .page-nghe-gan-day .played-main {
     padding: 20px 16px;
@@ -24,7 +25,7 @@ body.page-nghe-gan-day {
     max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
-    height: auto;
+    height: 100%;
     min-height: 0;
     overflow-y: auto;
     scrollbar-width: none;
@@ -126,8 +127,13 @@ body.page-nghe-gan-day {
 }
 
 @media (max-width: 900px) {
+    .page-nghe-gan-day .content {
+        height: calc(100vh - var(--header-height));
+    }
+
     .page-nghe-gan-day .played-main {
         padding: 16px 8px;
+        height: 100%;
     }
 
     .page-nghe-gan-day .pt-head,
@@ -219,11 +225,17 @@ body.queue-open.page-nghe-gan-day .played-main {
 
 /* Giảm đệm đáy sidebar riêng cho trang này */
 .page-nghe-gan-day .sidebar {
-    padding-bottom: calc(
-        8px +
-            var(
-                --player-bottom-space,
-                calc(var(--player-h) + var(--player-safe))
-            )
-    ) !important;
+    padding-bottom: 20px !important;
+    height: 100%;
+    overflow-y: auto;
+    /* Đảm bảo có đủ không gian để thấy phần tử cuối cùng */
+    max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
+}
+
+/* Ensure mobile responsive sidebar maintains proper height */
+@media (max-width: 900px) {
+    .page-nghe-gan-day .sidebar {
+        height: 100%;
+        max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
+    }
 }
