@@ -78,25 +78,7 @@ function findMatch(songs, normalizedQuery) {
         return null;
     }
 
-    // Try exact song title match first
-    const exactSongMatch = songs.find(
-        (song) => normalizeSearchText(song.title) === normalizedQuery
-    );
-
-    if (exactSongMatch) {
-        return { type: "song", target: exactSongMatch.artist };
-    }
-
-    // Try partial song title match
-    const partialSongMatch = songs.find((song) =>
-        normalizeSearchText(song.title).includes(normalizedQuery)
-    );
-
-    if (partialSongMatch) {
-        return { type: "song", target: partialSongMatch.artist };
-    }
-
-    // Try exact artist match
+    // 1. Try exact artist match first (prioritized)
     const exactArtistMatch = songs.find(
         (song) => normalizeSearchText(song.artist) === normalizedQuery
     );
@@ -105,13 +87,49 @@ function findMatch(songs, normalizedQuery) {
         return { type: "artist", target: exactArtistMatch.artist };
     }
 
-    // Try partial artist match
+    // 2. Try artist starts with query
+    const artistStartsWith = songs.find((song) =>
+        normalizeSearchText(song.artist).startsWith(normalizedQuery)
+    );
+
+    if (artistStartsWith) {
+        return { type: "artist", target: artistStartsWith.artist };
+    }
+
+    // 3. Try exact song title match
+    const exactSongMatch = songs.find(
+        (song) => normalizeSearchText(song.title) === normalizedQuery
+    );
+
+    if (exactSongMatch) {
+        return { type: "song", target: exactSongMatch.artist };
+    }
+
+    // 4. Try song title starts with query
+    const titleStartsWith = songs.find((song) =>
+        normalizeSearchText(song.title).startsWith(normalizedQuery)
+    );
+
+    if (titleStartsWith) {
+        return { type: "song", target: titleStartsWith.artist };
+    }
+
+    // 5. Try partial artist match (contains)
     const partialArtistMatch = songs.find((song) =>
         normalizeSearchText(song.artist).includes(normalizedQuery)
     );
 
     if (partialArtistMatch) {
         return { type: "artist", target: partialArtistMatch.artist };
+    }
+
+    // 6. Try partial song title match (contains)
+    const partialSongMatch = songs.find((song) =>
+        normalizeSearchText(song.title).includes(normalizedQuery)
+    );
+
+    if (partialSongMatch) {
+        return { type: "song", target: partialSongMatch.artist };
     }
 
     return null;
