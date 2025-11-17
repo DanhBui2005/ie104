@@ -251,6 +251,8 @@ function savePlayerState(force = false) {
             },
             trackIds: playlist.map((t) => t?.id).filter(Boolean),
             currentId: currentTrack?.id || null,
+            // Save additional context to help with reload handling
+            wasPlayingBeforeUnload: !!isPlaying && !isAdPlaying,
         };
 
         localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify(state));
@@ -371,16 +373,19 @@ function restorePlayerState() {
             }
 
             // Restore play/pause state
-            if (isReloadNavigation()) {
-                pause();
-                setPlayUI(false);
+            // Force paused on first visit OR right after login
+            // Use wasPlayingBeforeUnload if available, otherwise fall back to isPlaying
+            const shouldPlay =
+                savedState.wasPlayingBeforeUnload !== undefined
+                    ? savedState.wasPlayingBeforeUnload
+                    : savedState.isPlaying;
+
+            if (!FIRST_VISIT && !JUST_LOGGED_IN && shouldPlay) {
+                // Set the play intent flag to handle potential autoplay restrictions
+                sessionStorage.setItem("musicbox_play_intent", "true");
+                play();
             } else {
-                // Force paused on first visit OR right after login
-                if (!FIRST_VISIT && !JUST_LOGGED_IN && savedState.isPlaying) {
-                    play();
-                } else {
-                    setPlayUI(false);
-                }
+                setPlayUI(false);
             }
 
             return true;
@@ -567,12 +572,33 @@ function loadTrack(trackIndex) {
  * Plays the audio
  */
 function play() {
-    audio.play();
-    isPlaying = true;
-    setPlayUI(true);
-    safeExecute(() => {
-        window.dispatchEvent(new Event("musicbox:statechange"));
-    }, "play:dispatchEvent");
+    // Handle autoplay policy by using a promise
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+        playPromise
+            .then(() => {
+                isPlaying = true;
+                setPlayUI(true);
+                safeExecute(() => {
+                    window.dispatchEvent(new Event("musicbox:statechange"));
+                }, "play:dispatchEvent");
+            })
+            .catch((error) => {
+                console.warn("Autoplay was prevented:", error);
+                isPlaying = false;
+                setPlayUI(false);
+                // Save the intent to play so it can be restored after user interaction
+                sessionStorage.setItem("musicbox_play_intent", "true");
+            });
+    } else {
+        // Fallback for older browsers
+        isPlaying = true;
+        setPlayUI(true);
+        safeExecute(() => {
+            window.dispatchEvent(new Event("musicbox:statechange"));
+        }, "play:dispatchEvent");
+    }
 }
 
 /**
@@ -867,6 +893,18 @@ function setupMobileVolumeToggle() {
  * Sets up all event listeners for player controls
  */
 function setupEventListeners() {
+    // Check for play intent on first user interaction
+    function checkPlayIntent() {
+        const playIntent = sessionStorage.getItem("musicbox_play_intent");
+        if (playIntent === "true" && !isPlaying && !isAdPlaying) {
+            sessionStorage.removeItem("musicbox_play_intent");
+            play();
+        }
+    }
+
+    // Add click listener to document to check for play intent
+    document.addEventListener("click", checkPlayIntent, { once: true });
+
     // Play/pause button
     if (elements.playBtn) {
         elements.playBtn.addEventListener("click", () => {
@@ -1075,6 +1113,11 @@ export function initPlayer(options = {}) {
 
     // Set initial volume slider
     updateVolumeSlider();
+
+    // Save state before page unload
+    window.addEventListener("beforeunload", () => {
+        savePlayerState(true);
+    });
 
     // Expose global API
     safeExecute(() => {
