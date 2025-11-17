@@ -745,10 +745,12 @@ body {
     color: #000;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
-    font-size: 8rem;
+    font-size: 6rem;
     font-weight: 700;
-    line-height: 1;
-    letter-spacing: -4.8px;
+    line-height: 1.15;
+    letter-spacing: -3.5px;
+    margin-left: 10px;
+    margin-bottom: 15px;
 }
 .b-artist {
     display: flex;
@@ -760,10 +762,12 @@ body {
     gap: 10px;
 }
 .b-artist-avatar {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: 999px;
     object-fit: cover;
+    margin-left: 10px;
+    margin-right: 3px;
 }
 .b-artist-name {
     color: #000;
@@ -1090,16 +1094,19 @@ body {
 }
 
 .q-title {
-    font: 700 1.8rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    font: 700 24px/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
     letter-spacing: 1px;
     color: var(--icon);
+    margin-left: 10px;
+    margin-bottom: 5px;
 }
 .q-sub {
     font: 400 1.4rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
     opacity: 0.7;
     color: var(--icon);
+    margin-left: 10px;
 }
 
 .q-list {
@@ -1152,8 +1159,8 @@ body {
 } */
 
 .q-cover {
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -1164,24 +1171,24 @@ body {
     display: block;
 }
 .q-title-text {
-    color: #135e88;
+    color: #000;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 700;
     /* letter-spacing: 1.44px; */
     line-height: 1.25;
-    padding-bottom: 2px;
+    padding-bottom: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
 }
 .q-artist {
-    color: #135e88;
+    color: #000;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 400;
     /* letter-spacing: 1.08px; */
     line-height: 1;
