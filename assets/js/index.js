@@ -72,6 +72,12 @@ function syncRangeFills() {
             const val = Number(volume.value || 0);
             const pct = ((val - min) * 100) / (max - min);
             volume.style.setProperty("--volume-value", pct + "%");
+
+            // Update volume icon if the global function is available
+            const volIcon = document.getElementById("vol-icon");
+            if (volIcon && window.__mbUpdateVolumeIcon) {
+                window.__mbUpdateVolumeIcon(val);
+            }
         };
         volume.addEventListener("input", updateVolume);
         updateVolume();
@@ -127,20 +133,20 @@ function handlePlaylistCardClick(songId) {
     try {
         // Lấy allSongs
         const allSongs = window.__mbAllSongs || [];
-        
+
         // Tìm bài hát trong allSongs
-        const song = allSongs.find(s => s.id === songId);
+        const song = allSongs.find((s) => s.id === songId);
         if (!song) {
-            console.warn('Không tìm thấy bài hát với ID:', songId);
+            console.warn("Không tìm thấy bài hát với ID:", songId);
             return;
         }
 
         // Lấy playlist hiện tại
         const currentPlaylist = window.__mbPlaylist || [];
-        
+
         // Tìm index của bài hát trong playlist hiện tại
-        let songIndex = currentPlaylist.findIndex(s => s && s.id === songId);
-        
+        let songIndex = currentPlaylist.findIndex((s) => s && s.id === songId);
+
         // Nếu chưa có trong playlist, thêm vào
         if (songIndex === -1) {
             if (window.__mbSetPlaylist) {
@@ -156,16 +162,16 @@ function handlePlaylistCardClick(songId) {
         }
 
         // Phát nhạc
-        if (window.MusicBox && typeof window.MusicBox.playAt === 'function') {
+        if (window.MusicBox && typeof window.MusicBox.playAt === "function") {
             window.MusicBox.playAt(songIndex);
-            
+
             // Cập nhật queue nếu có hàm render
             if (window.__mbRenderQueue) {
                 window.__mbRenderQueue();
             }
         }
     } catch (error) {
-        console.error('Lỗi khi phát nhạc:', error);
+        console.error("Lỗi khi phát nhạc:", error);
     }
 }
 
@@ -173,7 +179,11 @@ function handlePlaylistCardClick(songId) {
 function setupPlaylistCardSliders() {
     // Chờ MusicBox sẵn sàng
     function waitForMusicBox(callback, maxAttempts = 50) {
-        if (window.MusicBox && typeof window.MusicBox.playAt === 'function' && window.__mbAllSongs) {
+        if (
+            window.MusicBox &&
+            typeof window.MusicBox.playAt === "function" &&
+            window.__mbAllSongs
+        ) {
             callback();
         } else if (maxAttempts > 0) {
             setTimeout(() => waitForMusicBox(callback, maxAttempts - 1), 100);
@@ -182,18 +192,20 @@ function setupPlaylistCardSliders() {
 
     waitForMusicBox(() => {
         // Tìm tất cả các section có playlist-card với data-song-id
-        const sections = document.querySelectorAll('.home-section');
-        
-        sections.forEach((section) => {
-            const cards = section.querySelectorAll('.playlist-card[data-song-id]');
-            
-            cards.forEach((card) => {
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', (e) => {
-                    // Ngăn chặn event bubble nếu có button bên trong
-                    if (e.target.closest('.slider-btn')) return;
+        const sections = document.querySelectorAll(".home-section");
 
-                    const songId = card.getAttribute('data-song-id');
+        sections.forEach((section) => {
+            const cards = section.querySelectorAll(
+                ".playlist-card[data-song-id]"
+            );
+
+            cards.forEach((card) => {
+                card.style.cursor = "pointer";
+                card.addEventListener("click", (e) => {
+                    // Ngăn chặn event bubble nếu có button bên trong
+                    if (e.target.closest(".slider-btn")) return;
+
+                    const songId = card.getAttribute("data-song-id");
                     if (!songId) return;
 
                     handlePlaylistCardClick(songId);
@@ -204,8 +216,8 @@ function setupPlaylistCardSliders() {
 }
 
 // Chờ DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupPlaylistCardSliders);
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupPlaylistCardSliders);
 } else {
     setupPlaylistCardSliders();
 }
@@ -215,7 +227,7 @@ if (document.readyState === 'loading') {
 function setupArtistCardNavigation() {
     // Chờ hàm go sẵn sàng
     function waitForGo(callback, maxAttempts = 50) {
-        if (window.__mbGo && typeof window.__mbGo === 'function') {
+        if (window.__mbGo && typeof window.__mbGo === "function") {
             callback();
         } else if (maxAttempts > 0) {
             setTimeout(() => waitForGo(callback, maxAttempts - 1), 100);
@@ -223,29 +235,33 @@ function setupArtistCardNavigation() {
     }
 
     waitForGo(() => {
-        const bestArtistsSection = document.querySelector('.home-best-artists');
+        const bestArtistsSection = document.querySelector(".home-best-artists");
         if (!bestArtistsSection) return;
 
         // Chỉ lấy các artist-card mới thêm (có ảnh từ imgs_casi)
-        const artistCards = bestArtistsSection.querySelectorAll('.artist-card');
-        
-        artistCards.forEach((card) => {
-            const img = card.querySelector('.artist-avatar');
-            if (!img) return;
-            
-            const imgSrc = img.getAttribute('src') || '';
-            // Chỉ xử lý các card có ảnh từ imgs_casi (nghệ sĩ mới thêm)
-            if (imgSrc.includes('imgs_casi')) {
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', (e) => {
-                    // Ngăn chặn event bubble nếu có button bên trong
-                    if (e.target.closest('.slider-btn')) return;
+        const artistCards = bestArtistsSection.querySelectorAll(".artist-card");
 
-                    const artistName = card.querySelector('.artist-name')?.textContent?.trim();
+        artistCards.forEach((card) => {
+            const img = card.querySelector(".artist-avatar");
+            if (!img) return;
+
+            const imgSrc = img.getAttribute("src") || "";
+            // Chỉ xử lý các card có ảnh từ imgs_casi (nghệ sĩ mới thêm)
+            if (imgSrc.includes("imgs_casi")) {
+                card.style.cursor = "pointer";
+                card.addEventListener("click", (e) => {
+                    // Ngăn chặn event bubble nếu có button bên trong
+                    if (e.target.closest(".slider-btn")) return;
+
+                    const artistName = card
+                        .querySelector(".artist-name")
+                        ?.textContent?.trim();
                     if (!artistName) return;
 
                     // Điều hướng đến trang tìm kiếm với tên nghệ sĩ
-                    const searchUrl = `./timkiem.html?q=${encodeURIComponent(artistName)}`;
+                    const searchUrl = `./timkiem.html?q=${encodeURIComponent(
+                        artistName
+                    )}`;
                     if (window.__mbGo) {
                         window.__mbGo(searchUrl);
                     } else {
@@ -259,8 +275,8 @@ function setupArtistCardNavigation() {
 }
 
 // Chờ DOM ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupArtistCardNavigation);
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupArtistCardNavigation);
 } else {
     setupArtistCardNavigation();
 }
