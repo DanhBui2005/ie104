@@ -28,16 +28,21 @@
 
     var signupBtn = document.querySelector("[data-cta-signup]");
     var demoBtn = document.querySelector("[data-cta-demo]");
+
+    console.log("Buttons found:", signupBtn, demoBtn);
+
     if (signupBtn) {
-        signupBtn.addEventListener("click", function () {
+        signupBtn.addEventListener("click", function (e) {
             console.log("CTA: Đăng ký miễn phí clicked");
-            // TODO: open signup modal or trigger form
+            // Anchor tag will navigate automatically, but we can add tracking here
         });
     }
     if (demoBtn) {
-        demoBtn.addEventListener("click", function () {
+        demoBtn.addEventListener("click", function (e) {
             console.log("CTA: Xem demo clicked");
-            // TODO: open demo modal or navigate to demo section
+            e.preventDefault();
+            // Show "Không khả dụng" message with browser alert
+            alert("Không khả dụng");
         });
     }
 
