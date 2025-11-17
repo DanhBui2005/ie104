@@ -19,7 +19,8 @@ import { initUI } from "./app/ui.js";
 import DarkModeManager from "./darkmode.js";
 
 // ===== CONSTANTS =====
-const DEFAULT_PLAYLIST_COVER = "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg";
+const DEFAULT_PLAYLIST_COVER =
+    "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg";
 const TRUNCATE_LENGTH = 40;
 const TRUNCATE_PREVIEW = 37;
 const DEFAULT_PLAYLIST_NAME = "Playlist";
@@ -44,7 +45,9 @@ function truncateText(str) {
  */
 function setCoverImage(element, imageUrl) {
     if (!element) return;
-    element.style.backgroundImage = `url('${imageUrl || DEFAULT_PLAYLIST_COVER}')`;
+    element.style.backgroundImage = `url('${
+        imageUrl || DEFAULT_PLAYLIST_COVER
+    }')`;
     element.style.backgroundSize = "cover";
     element.style.backgroundPosition = "center";
     element.style.backgroundRepeat = "no-repeat";
@@ -59,8 +62,13 @@ function navigateToPlaylist(uiContext, playlistId) {
     try {
         uiContext.go(`./playlist.html?id=${encodeURIComponent(playlistId)}`);
     } catch (error) {
-        console.warn("Navigation via uiContext failed, using window.location:", error);
-        window.location.href = `./playlist.html?id=${encodeURIComponent(playlistId)}`;
+        console.warn(
+            "Navigation via uiContext failed, using window.location:",
+            error
+        );
+        window.location.href = `./playlist.html?id=${encodeURIComponent(
+            playlistId
+        )}`;
     }
 }
 
@@ -106,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.__mbSavePlayerState = playerContext.savePlayerState;
     window.__mbGetCurrentIndex = playerContext.getCurrentIndex;
     window.__mbUpdateVolumeSlider = playerContext.updateVolumeSlider;
+    window.__mbUpdateVolumeIcon = playerContext.updateVolumeIcon;
 
     // Set up playlist functions for player
     window.__mbSetPlaylist = setPlaylist;
@@ -147,7 +156,7 @@ function initializePlayerState(playerContext) {
 
     playerContext.loadTrack(0);
     const audio = playerContext.getAudio();
-    
+
     const volumeSlider = document.getElementById("volume");
     if (volumeSlider) {
         audio.volume = Number(volumeSlider.value);
@@ -166,7 +175,10 @@ function initializePlayerState(playerContext) {
         playIcon.classList.remove("fa-pause");
     }
 
-    safeExecute(() => playerContext.updateVolumeSlider(), "updateVolumeSlider");
+    safeExecute(() => {
+        playerContext.updateVolumeSlider();
+        playerContext.updateVolumeIcon(audio.volume);
+    }, "updateVolumeControls");
 }
 
 // ===== ADDITIONAL FEATURES SETUP =====
@@ -193,7 +205,7 @@ function setupProfilePlaylists(uiContext) {
             const titleEl = Array.from(
                 document.querySelectorAll(".section-title")
             ).find((el) => /Playlist\s+đã\s+tạo/i.test(el.textContent));
-            
+
             if (titleEl) {
                 titleEl.textContent = `Playlist đã tạo (${lists.length})`;
             }
@@ -230,12 +242,16 @@ function setupProfilePlaylists(uiContext) {
 
                 const name = card.querySelector(".my-pl-name");
                 if (name) {
-                    name.textContent = truncateText(pl.name || DEFAULT_PLAYLIST_NAME);
+                    name.textContent = truncateText(
+                        pl.name || DEFAULT_PLAYLIST_NAME
+                    );
                 }
 
                 const sub = card.querySelector(".my-pl-sub");
                 if (sub) {
-                    const trackCount = Array.isArray(pl.tracks) ? pl.tracks.length : DEFAULT_TRACK_COUNT;
+                    const trackCount = Array.isArray(pl.tracks)
+                        ? pl.tracks.length
+                        : DEFAULT_TRACK_COUNT;
                     sub.textContent = `${trackCount} bài hát`;
                 }
 
@@ -269,15 +285,21 @@ function setupSidebarPlaylists(uiContext) {
                 row.innerHTML = `
                     <div class="pl-cover"></div>
                     <div class="pl-meta">
-                        <div class="pl-name">${truncateText(pl.name || DEFAULT_PLAYLIST_NAME)}</div>
-                        <div class="pl-sub">Playlist • ${pl.tracks?.length || DEFAULT_TRACK_COUNT} songs</div>
+                        <div class="pl-name">${truncateText(
+                            pl.name || DEFAULT_PLAYLIST_NAME
+                        )}</div>
+                        <div class="pl-sub">Playlist • ${
+                            pl.tracks?.length || DEFAULT_TRACK_COUNT
+                        } songs</div>
                     </div>
                 `;
 
                 const cover = row.querySelector(".pl-cover");
                 setCoverImage(cover, pl.cover);
 
-                row.addEventListener("click", () => navigateToPlaylist(uiContext, pl.id));
+                row.addEventListener("click", () =>
+                    navigateToPlaylist(uiContext, pl.id)
+                );
                 container.appendChild(row);
             });
         }, "renderSidebarPlaylists");
@@ -314,20 +336,24 @@ function setupLikeButton(playerContext) {
         const playlist = getPlaylist();
         const index = playerContext.getCurrentIndex();
         const currentTrack = playlist[index];
-        
+
         if (!currentTrack) return;
 
         let list = getLikedList();
-        const exists = currentTrack.id && Array.isArray(list)
-            ? list.findIndex((x) => x && x.id === currentTrack.id)
-            : -1;
+        const exists =
+            currentTrack.id && Array.isArray(list)
+                ? list.findIndex((x) => x && x.id === currentTrack.id)
+                : -1;
 
         if (exists >= 0) {
             list.splice(exists, 1);
         } else {
             const durationEl = document.getElementById("duration");
             const item = {
-                id: currentTrack.id || currentTrack.src || `${currentTrack.title}|${currentTrack.artist}`,
+                id:
+                    currentTrack.id ||
+                    currentTrack.src ||
+                    `${currentTrack.title}|${currentTrack.artist}`,
                 title: currentTrack.title || "—",
                 artist: currentTrack.artist || "—",
                 cover: currentTrack.cover || "",

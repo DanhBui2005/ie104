@@ -307,6 +307,7 @@ function restorePlayerState() {
                     );
                 }
                 updateVolumeSlider();
+                updateVolumeIcon(audio.volume);
             }
 
             // Restore shuffle
@@ -711,6 +712,24 @@ function updateVolumeSlider() {
     elements.volume.style.setProperty("--volume-value", `${percentage}%`);
 }
 
+/**
+ * Updates volume icon based on current volume level
+ * @param {number} volume - Volume level (0 to 1)
+ */
+function updateVolumeIcon(volume) {
+    if (!elements.volIcon) return;
+
+    let volumeIcon = "fa-solid ";
+    if (volume === 0) {
+        volumeIcon += "fa-volume-xmark";
+    } else if (volume < 0.5) {
+        volumeIcon += "fa-volume-low";
+    } else {
+        volumeIcon += "fa-volume-high";
+    }
+    elements.volIcon.className = volumeIcon;
+}
+
 // ===== AD INTERACTION GUARDS =====
 /**
  * Checks if an element matches ad-locked selectors
@@ -995,17 +1014,9 @@ function setupEventListeners() {
                 `${percentage}%`
             );
 
-            if (elements.volIcon) {
-                let volumeIcon = "fa-solid ";
-                if (audio.volume === 0) {
-                    volumeIcon += "fa-volume-xmark";
-                } else if (audio.volume < 0.5) {
-                    volumeIcon += "fa-volume-low";
-                } else {
-                    volumeIcon += "fa-volume-high";
-                }
-                elements.volIcon.className = volumeIcon;
-            }
+            // Update volume icon using the dedicated function
+            updateVolumeIcon(audio.volume);
+
             savePlayerState(true);
         });
     }
@@ -1128,5 +1139,6 @@ export function initPlayer(options = {}) {
         isCurrentlyPlaying: () => isPlaying,
         getAudio: () => audio,
         updateVolumeSlider,
+        updateVolumeIcon,
     };
 }
