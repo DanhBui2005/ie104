@@ -23,7 +23,8 @@ body.page-nghe-gan-day::-webkit-scrollbar {
 .page-nghe-gan-day .content {
     overflow: hidden;
     min-height: 0;
-    padding: 0;
+    padding: var(--pad);
+    padding-bottom: 0;
     height: calc(100vh - var(--header-height, 80px));
 }
 .page-nghe-gan-day .played-main {
