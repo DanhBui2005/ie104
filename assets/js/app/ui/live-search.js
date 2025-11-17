@@ -38,7 +38,7 @@ const STYLES = {
 function normalizeText(text) {
     const str = String(text || "").trim();
     if (!str) return "";
-    
+
     try {
         return str
             .normalize("NFD")
@@ -144,9 +144,10 @@ class SearchPanel {
 
     calculatePosition() {
         // Khôi fix - panel tìm kiếm căn theo khung search bar, không căn theo ô input nhỏ
-        const anchor = this.searchWrap || 
+        const anchor =
+            this.searchWrap ||
             document.querySelector(CONFIG.SEARCH_WRAP_SELECTOR);
-        
+
         if (!anchor) {
             return this.getDefaultPosition();
         }
@@ -223,7 +224,9 @@ class SearchPanel {
 
         if (!hasQuery || !hasResults) {
             this.panel.innerHTML = hasQuery
-                ? `<div style="padding:10px 12px;color:${STYLES.COLORS.PLACEHOLDER}">Không tìm thấy "${escapeHtml(query)}".</div>`
+                ? `<div style="padding:10px 12px;color:${
+                      STYLES.COLORS.PLACEHOLDER
+                  }">Không tìm thấy "${escapeHtml(query)}".</div>`
                 : "";
 
             hasQuery ? this.show() : this.hide();
@@ -276,17 +279,21 @@ class SearchPanel {
         };
 
         const applyHoverStyles = (isHover) => {
-            item.style.background = isHover ? STYLES.COLORS.HOVER_BG : "transparent";
+            item.style.background = isHover
+                ? STYLES.COLORS.HOVER_BG
+                : "transparent";
             const textColor = isHover ? STYLES.COLORS.HOVER_TEXT : null;
-            
+
             if (elements.title) {
                 elements.title.style.color = textColor || STYLES.COLORS.PRIMARY;
             }
             if (elements.artist) {
-                elements.artist.style.color = textColor || STYLES.COLORS.SECONDARY;
+                elements.artist.style.color =
+                    textColor || STYLES.COLORS.SECONDARY;
             }
             if (elements.type) {
-                elements.type.style.color = textColor || STYLES.COLORS.SECONDARY;
+                elements.type.style.color =
+                    textColor || STYLES.COLORS.SECONDARY;
             }
         };
 
@@ -301,13 +308,18 @@ class SearchPanel {
                 if (!trackId || !window.MusicBox) return;
 
                 const { playAt, playlist, setPlaylist } = window.MusicBox;
-                if (typeof playAt !== "function" || typeof playlist !== "function") {
+                if (
+                    typeof playAt !== "function" ||
+                    typeof playlist !== "function"
+                ) {
                     return;
                 }
 
                 let currentPlaylist = playlist();
                 let trackIndex = Array.isArray(currentPlaylist)
-                    ? currentPlaylist.findIndex((track) => track?.id === trackId)
+                    ? currentPlaylist.findIndex(
+                          (track) => track?.id === trackId
+                      )
                     : -1;
 
                 // Load full catalog if track not in current playlist
@@ -332,7 +344,11 @@ class SearchPanel {
     async loadFullCatalog() {
         try {
             const data = await fetchSongsData();
-            if (Array.isArray(data) && data.length > 0 && window.MusicBox?.setPlaylist) {
+            if (
+                Array.isArray(data) &&
+                data.length > 0 &&
+                window.MusicBox?.setPlaylist
+            ) {
                 window.MusicBox.setPlaylist(data, {
                     type: "global",
                     id: null,
@@ -357,22 +373,48 @@ class SearchEngine {
         const songs = await this.songsCache.load();
         if (!Array.isArray(songs) || songs.length === 0) return [];
 
-        // Prioritize title matches, then artist matches
-        const titleMatches = songs.filter((song) => {
-            const normalizedTitle = normalizeText(song.title);
-            return normalizedTitle.includes(normalizedQuery);
+        // 1. Ưu tiên khớp từ đầu tên nghệ sĩ (starts with)
+        const artistStartsWith = songs.filter((song) => {
+            const normalizedArtist = normalizeText(song.artist);
+            return normalizedArtist.startsWith(normalizedQuery);
         });
 
-        const artistMatches = songs.filter((song) => {
-            const normalizedArtist = normalizeText(song.artist);
+        // 2. Khớp từ đầu tên bài hát (starts with)
+        const titleStartsWith = songs.filter((song) => {
             const normalizedTitle = normalizeText(song.title);
+            const normalizedArtist = normalizeText(song.artist);
             return (
-                normalizedArtist.includes(normalizedQuery) &&
-                !normalizedTitle.includes(normalizedQuery)
+                normalizedTitle.startsWith(normalizedQuery) &&
+                !normalizedArtist.startsWith(normalizedQuery)
             );
         });
 
-        return [...titleMatches, ...artistMatches].slice(0, CONFIG.MAX_RESULTS);
+        // 3. Khớp chứa trong tên nghệ sĩ (contains)
+        const artistContains = songs.filter((song) => {
+            const normalizedArtist = normalizeText(song.artist);
+            return (
+                normalizedArtist.includes(normalizedQuery) &&
+                !normalizedArtist.startsWith(normalizedQuery)
+            );
+        });
+
+        // 4. Khớp chứa trong tên bài hát (contains)
+        const titleContains = songs.filter((song) => {
+            const normalizedTitle = normalizeText(song.title);
+            const normalizedArtist = normalizeText(song.artist);
+            return (
+                normalizedTitle.includes(normalizedQuery) &&
+                !normalizedArtist.includes(normalizedQuery) &&
+                !normalizedTitle.startsWith(normalizedQuery)
+            );
+        });
+
+        return [
+            ...artistStartsWith,
+            ...titleStartsWith,
+            ...artistContains,
+            ...titleContains,
+        ].slice(0, CONFIG.MAX_RESULTS);
     }
 }
 
@@ -430,7 +472,7 @@ class EventManager {
         document.addEventListener("click", (event) => {
             const clickedInsideSearch = this.searchWrap?.contains(event.target);
             const clickedInsidePanel = this.panel.panel?.contains(event.target);
-            
+
             if (!clickedInsideSearch && !clickedInsidePanel) {
                 this.panel.hide();
             }
@@ -475,5 +517,10 @@ export function setupGlobalLiveSearch({ playerContext }) {
     const songsCache = new SongsCache();
     const panel = new SearchPanel(searchWrap);
     const searchEngine = new SearchEngine(songsCache);
-    const eventManager = new EventManager(input, panel, searchEngine, searchWrap);
+    const eventManager = new EventManager(
+        input,
+        panel,
+        searchEngine,
+        searchWrap
+    );
 }
