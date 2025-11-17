@@ -366,6 +366,16 @@ form {
     font-weight: 600;
 }
 
+/* Field-specific error message */
+.field-error {
+    margin: 4px 0 0;
+    padding: 4px 8px;
+    font-size: 13px;
+    color: var(--danger);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
 /* ====== Button Login / Signup (610 × 45) ====== */
 .auth-btn.primary {
     display: flex;

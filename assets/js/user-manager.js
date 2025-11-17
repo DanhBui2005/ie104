@@ -82,11 +82,24 @@
         );
 
         if (user) {
+            // Kiểm tra xem có tên hiển thị tùy chỉnh nào trong localStorage không
+            const displayNameKey = `displayname_${user.id || user.email}`;
+            let savedDisplayName = null;
+            try {
+                savedDisplayName = localStorage.getItem(displayNameKey);
+            } catch (error) {
+                console.error("Error getting saved display name:", error);
+            }
+
             // Lưu thông tin user hiện tại (không bao gồm password)
             const currentUser = {
                 id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                fullName:
+                    savedDisplayName && savedDisplayName.trim()
+                        ? savedDisplayName.trim()
+                        : `${user.firstName} ${user.lastName}`.trim(),
                 email: user.email,
                 phone: user.phone,
                 gender: user.gender,
@@ -94,6 +107,25 @@
             };
 
             localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+
+            // Lưu tên đầy đủ vào auth_user để sử dụng trong hồ sơ
+            try {
+                localStorage.setItem(
+                    "auth_user",
+                    JSON.stringify({
+                        id: user.id,
+                        email: user.email,
+                    })
+                );
+
+                // Nếu chưa có tên hiển thị, lưu tên đầy đủ vào localStorage
+                if (!savedDisplayName) {
+                    localStorage.setItem(displayNameKey, currentUser.fullName);
+                }
+            } catch (error) {
+                console.error("Error saving user display name:", error);
+            }
+
             return { success: true, user: currentUser };
         } else {
             return {
