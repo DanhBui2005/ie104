@@ -1,97 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Favicon -->
         <link
             rel="apple-touch-icon"
             sizes="57x57"
             href="./assets/favicon/apple-icon-57x57.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="60x60"
             href="./assets/favicon/apple-icon-60x60.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="72x72"
             href="./assets/favicon/apple-icon-72x72.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="76x76"
             href="./assets/favicon/apple-icon-76x76.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="114x114"
             href="./assets/favicon/apple-icon-114x114.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="120x120"
             href="./assets/favicon/apple-icon-120x120.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="144x144"
             href="./assets/favicon/apple-icon-144x144.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="152x152"
             href="./assets/favicon/apple-icon-152x152.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="180x180"
             href="./assets/favicon/apple-icon-180x180.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="192x192"
             href="./assets/favicon/android-icon-192x192.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
             href="./assets/favicon/favicon-32x32.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="96x96"
             href="./assets/favicon/favicon-96x96.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
             href="./assets/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="./assets/favicon/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
+        >
+        <link rel="manifest" href="./assets/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
         <meta
             name="msapplication-TileImage"
             content="./assets/favicon/ms-icon-144x144.png"
-        />
-        <meta name="theme-color" content="#ffffff" />
+        >
+        <meta name="theme-color" content="#ffffff">
 
         <title>Music Box</title>
-        <link rel="stylesheet" href="./assets/css/reset.css" />
-        <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
-        <link rel="stylesheet" href="./assets/css/style.css" />
+        <link rel="stylesheet" href="./assets/css/reset.css">
+        <link rel="stylesheet" href="./assets/fonts/stylesheet.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
-        <link rel="stylesheet" href="./assets/css/timkiem.css" />
-        <link rel="stylesheet" href="./assets/css/dark-mode.css" />
+        >
+        <link rel="stylesheet" href="./assets/css/timkiem.css">
+        <link rel="stylesheet" href="./assets/css/dark-mode.css">
     </head>
     <body>
         <div class="wrap">
@@ -114,10 +114,11 @@
                         </a>
                     </div>
                     <div class="header-center">
-                        <button class="nav-btn" id="nav-back" title="Quay lại">
+                        <button type="button" class="nav-btn" id="nav-back" title="Quay lại">
                             <i class="fa-solid fa-chevron-left"></i>
                         </button>
                         <button
+                            type="button"
                             class="nav-btn"
                             id="nav-forward"
                             title="Tiến tới"
@@ -130,11 +131,12 @@
                                 type="search"
                                 placeholder="Tìm bài hát, nghệ sĩ..."
                                 aria-label="Tìm kiếm"
-                            />
+                            >
                         </div>
                     </div>
                     <div class="header-right">
                         <button
+                            type="button"
                             class="premium-btn"
                             title="Premium"
                             aria-label="Premium"
@@ -144,6 +146,7 @@
                         </button>
                         <div class="profile-wrapper">
                             <button
+                                type="button"
                                 class="profile-btn"
                                 id="profile-btn"
                                 title="Hồ sơ"
@@ -161,6 +164,7 @@
                                 aria-hidden="true"
                             >
                                 <button
+                                    type="button"
                                     class="profile-item"
                                     id="profile-open"
                                     role="menuitem"
@@ -169,6 +173,7 @@
                                     <span>Hồ sơ</span>
                                 </button>
                                 <button
+                                    type="button"
                                     class="profile-item"
                                     id="profile-logout"
                                     role="menuitem"
@@ -188,11 +193,11 @@
                 <!-- Sidebar -->
                 <aside class="sidebar" id="sidebar">
                     <nav class="menu">
-                        <button class="menu-btn explore">
+                        <button type="button" class="menu-btn explore">
                             <i class="fa-solid fa-compass"></i
                             ><span>Khám phá</span>
                         </button>
-                        <button class="menu-btn your">
+                        <button type="button" class="menu-btn your">
                             <i class="fa-regular fa-user"></i
                             ><span>Playlist của bạn</span>
                         </button>
@@ -203,11 +208,11 @@
                             <div class="section-sep"></div>
                         </div>
 
-                        <button class="menu-btn liked">
+                        <button type="button" class="menu-btn liked">
                             <i class="fa-regular fa-heart"></i
                             ><span>Yêu thích</span>
                         </button>
-                        <button class="menu-btn recent">
+                        <button type="button" class="menu-btn recent">
                             <i class="fa-solid fa-clock-rotate-left"></i
                             ><span>Nghe gần đây</span>
                         </button>
@@ -216,9 +221,9 @@
                             <div class="section-sep"></div>
                             <div class="section-header">
                                 <span class="section-label"
-                                    >Danh sách đã tạo</span
-                                >
+                                    >Danh sách đã tạo</span>
                                 <button
+                                    type="button"
                                     class="icon-btn add"
                                     title="Thêm playlist"
                                 >
@@ -281,7 +286,7 @@
                     <div class="q-banner" id="np-banner">
                         <div class="q-banner-inner">
                             <div class="q-banner-cover">
-                                <img id="b-cover" alt="Cover lớn" />
+                                <img id="b-cover" src="123" alt="Cover lớn">
                             </div>
                             <div class="q-banner-text">
                                 <div class="b-title" id="b-title">—</div>
@@ -292,7 +297,7 @@
                                             id="b-artist-avatar"
                                             src="./assets/imgs/artist.jpg"
                                             alt="Artist"
-                                        />
+                                        >
                                         <div class="b-artist-meta">
                                             <div class="b-artist-label">
                                                 Ca sĩ
@@ -306,6 +311,7 @@
                                         </div>
                                     </div>
                                     <button
+                                        type="button"
                                         class="follow-btn"
                                         id="b-follow"
                                         aria-pressed="false"
@@ -342,6 +348,7 @@
                                     <div class="artist-name">Sơn Tùng MTP</div>
                                     <div class="artist-type">Nghệ sĩ</div>
                                     <button
+                                        type="button"
                                         class="follow-button"
                                         id="follow-button"
                                         aria-pressed="false"
@@ -518,12 +525,13 @@
                 <!-- cover + meta -->
                 <div class="left">
                     <div class="cover">
-                        <img id="cover" alt="Bìa bài hát" />
+                        <img id="cover" src="123" alt="Bìa bài hát">
                     </div>
                     <div class="meta">
                         <div class="title" id="title">—</div>
                         <div class="meta-actions">
                             <button
+                                type="button"
                                 class="btn like-btn"
                                 id="like"
                                 title="Yêu thích"
@@ -532,6 +540,7 @@
                             </button>
                             <div class="more-wrapper">
                                 <button
+                                    type="button"
                                     class="btn more-btn"
                                     id="more"
                                     title="Tùy chọn"
@@ -545,6 +554,7 @@
                                     aria-hidden="true"
                                 >
                                     <button
+                                        type="button"
                                         class="more-item"
                                         id="download"
                                         role="menuitem"
@@ -553,6 +563,7 @@
                                         <span>Tải về</span>
                                     </button>
                                     <button
+                                        type="button"
                                         class="more-item"
                                         id="add-to-playlist"
                                         role="menuitem"
@@ -570,23 +581,25 @@
                 <!--controls + timeline -->
                 <div class="center">
                     <div class="controls">
-                        <button class="btn" id="shuffle" title="Shuffle (trộn)">
+                        <button type="button" class="btn" id="shuffle" title="Shuffle (trộn)">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
-                        <button class="btn" id="prev" title="Prev">
+                        <button type="button" class="btn" id="prev" title="Prev">
                             <i class="fa-solid fa-backward-step"></i>
                         </button>
                         <button
+                            type="button"
                             class="btn play"
                             id="play"
                             title="Phát/Tạm dừng"
                         >
                             <i id="play-icon" class="fa-solid fa-play"></i>
                         </button>
-                        <button class="btn" id="next" title="Next">
+                        <button type="button" class="btn" id="next" title="Next">
                             <i class="fa-solid fa-forward-step"></i>
                         </button>
                         <button
+                            type="button"
                             class="btn"
                             id="repeat"
                             title="Repeat (off/all/one)"
@@ -603,7 +616,7 @@
                             max="100"
                             value="0"
                             aria-label="Tiến độ"
-                        />
+                        >
                         <div class="time" id="duration">0:00</div>
                     </div>
                 </div>
@@ -619,7 +632,7 @@
                         step="0.01"
                         value="0.8"
                         aria-label="Âm lượng"
-                    />
+                    >
                 </div>
             </div>
         </div>
