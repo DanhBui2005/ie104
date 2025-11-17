@@ -20,11 +20,14 @@
 /* .pl-head .pl-title-col { padding-left: calc(var(--pl-cover) + var(--pl-gap)); } */
 .pl-head .pl-artist-col {
     padding-left: 0;
+    font-size: 16px;;
 }
 .pl-head .pl-time-col {
     text-align: right;
     padding-right: 8px;
     white-space: nowrap;
+    font-size: 16px;
+    margin-left: -50px;
 }
 .pl-head .pl-hash {
     text-align: center;
@@ -99,9 +102,9 @@ body {
     justify-content: center;
 }
 .user-name {
-    font-size: 60px;
+    font-size: 55px;
     font-weight: 800;
-    color: #135e88;
+    color: #000;
     letter-spacing: -0.4px;
 }
 .user-name-row {
@@ -120,8 +123,9 @@ body {
     background: #d9eef9;
 }
 #pl-count {
-    font-size: 15px;
+    font-size: 18px;
     opacity: 0.85;
+    color:#000;
 }
 .song-list {
     width: 100%;
@@ -187,11 +191,12 @@ body {
     justify-content: center;
 }
 .pl-body .pl-row .pl-time {
-    text-align: right;
+    text-align: center;
     padding-right: 8px;
     font-variant-numeric: tabular-nums;
     -webkit-font-feature-settings: "tnum";
     font-feature-settings: "tnum";
+    color: #7f8b99
 }
 /* Hover swap: show trash only on hover, hide number */
 .pl-body .pl-row .pl-idx .pl-num {
@@ -246,9 +251,9 @@ body {
     min-width: 0;
 }
 .pl-title {
-    color: #1666b2;
+    color: #000;
     font-weight: 700;
-    font-size: 1.6rem;
+    font-size: 16px;
     line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
@@ -261,7 +266,7 @@ body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.2;
 }
 .pl-cover {
@@ -321,6 +326,7 @@ body {
 /* Center the '#' in header to align with body */
 .pl-head .pl-hash {
     text-align: center;
+    font-size: 16px;
 }
 .btn.outline {
     border: 1.4px solid rgba(19, 94, 136, 0.55);
@@ -401,7 +407,7 @@ body {
         align-items: center;
     }
     .pl-title {
-        font-size: 13px;
+        font-size: 16px;
         line-height: 1.15;
         white-space: nowrap;
         overflow: hidden;
