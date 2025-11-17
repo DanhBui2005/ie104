@@ -562,6 +562,7 @@ img {
     position: absolute;
     inset: 0;
     opacity: 0.12;
+    pointer-events: none;
 }
 .cta .grid {
     display: grid;
@@ -857,10 +858,22 @@ img {
     gap: 12px;
     flex-wrap: wrap;
     margin: 16px 0 24px;
+    position: relative;
+    z-index: 10;
 }
 .actions-cta .button,
 .actions-cta button {
     cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+.actions-cta .button-white:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+}
+.actions-cta .button-outline.white:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Feature icon color variants */
@@ -976,6 +989,26 @@ img {
     display: grid;
     gap: 8px;
     margin: 8px 0 0;
+}
+
+/* Custom notification */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    color: #333;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+        Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.notification.show {
+    transform: translateX(0);
 }
 .list-grid-10 {
     display: grid;
