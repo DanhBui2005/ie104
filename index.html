@@ -1,97 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Favicon -->
         <link
             rel="apple-touch-icon"
             sizes="57x57"
             href="./assets/favicon/apple-icon-57x57.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="60x60"
             href="./assets/favicon/apple-icon-60x60.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="72x72"
             href="./assets/favicon/apple-icon-72x72.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="76x76"
             href="./assets/favicon/apple-icon-76x76.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="114x114"
             href="./assets/favicon/apple-icon-114x114.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="120x120"
             href="./assets/favicon/apple-icon-120x120.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="144x144"
             href="./assets/favicon/apple-icon-144x144.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="152x152"
             href="./assets/favicon/apple-icon-152x152.png"
-        />
+        >
         <link
             rel="apple-touch-icon"
             sizes="180x180"
             href="./assets/favicon/apple-icon-180x180.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="192x192"
             href="./assets/favicon/android-icon-192x192.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="32x32"
             href="./assets/favicon/favicon-32x32.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="96x96"
             href="./assets/favicon/favicon-96x96.png"
-        />
+        >
         <link
             rel="icon"
             type="image/png"
             sizes="16x16"
             href="./assets/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="./assets/favicon/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
+        >
+        <link rel="manifest" href="./assets/favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
         <meta
             name="msapplication-TileImage"
             content="./assets/favicon/ms-icon-144x144.png"
-        />
-        <meta name="theme-color" content="#ffffff" />
+        >
+        <meta name="theme-color" content="#ffffff">
 
         <title>Music Box</title>
-        <link rel="stylesheet" href="./assets/css/reset.css" />
-        <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
-        <link rel="stylesheet" href="./assets/css/style.css" />
-        <link rel="stylesheet" href="./assets/css/index.css" />
-        <link rel="stylesheet" href="./assets/css/dark-mode.css" />
+        <link rel="stylesheet" href="./assets/css/reset.css">
+        <link rel="stylesheet" href="./assets/fonts/stylesheet.css">
+        <link rel="stylesheet" href="./assets/css/style.css">
+        <link rel="stylesheet" href="./assets/css/index.css">
+        <link rel="stylesheet" href="./assets/css/dark-mode.css">
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
+        >
     </head>
 
     <body>
@@ -116,6 +116,7 @@
                     </div>
                     <div class="header-center">
                         <button
+                            type="button"
                             class="nav-btn"
                             id="nav-back"
                             title="Quay lại"
@@ -127,6 +128,7 @@
                             ></i>
                         </button>
                         <button
+                            type="button"
                             class="nav-btn"
                             id="nav-forward"
                             title="Tiến tới"
@@ -147,11 +149,12 @@
                                 type="search"
                                 placeholder="Tìm bài hát, nghệ sĩ..."
                                 aria-label="Tìm kiếm"
-                            />
+                           >
                         </div>
                     </div>
                     <div class="header-right">
                         <button
+                            type="button"
                             class="premium-btn"
                             title="Premium"
                             aria-label="Premium"
@@ -161,6 +164,7 @@
                         </button>
                         <div class="profile-wrapper">
                             <button
+                                type="button"
                                 class="profile-btn"
                                 id="profile-btn"
                                 title="Hồ sơ"
@@ -178,6 +182,7 @@
                                 aria-hidden="true"
                             >
                                 <button
+                                    type="button"
                                     class="profile-item"
                                     id="profile-open"
                                     role="menuitem"
@@ -186,6 +191,7 @@
                                     <span>Hồ sơ</span>
                                 </button>
                                 <button
+                                    type="button"
                                     class="profile-item"
                                     id="profile-logout"
                                     role="menuitem"
@@ -205,11 +211,11 @@
                 <!-- Sidebar -->
                 <aside class="sidebar" id="sidebar">
                     <nav class="menu">
-                        <button class="menu-btn explore">
+                        <button type="button" class="menu-btn explore">
                             <i class="fa-solid fa-compass"></i
                             ><span>Khám phá</span>
                         </button>
-                        <button class="menu-btn your">
+                        <button type="button" class="menu-btn your">
                             <i class="fa-regular fa-user"></i
                             ><span>Playlist của bạn</span>
                         </button>
@@ -220,11 +226,11 @@
                             <div class="section-sep"></div>
                         </div>
 
-                        <button class="menu-btn liked">
+                        <button type="button" class="menu-btn liked">
                             <i class="fa-regular fa-heart"></i
                             ><span>Yêu thích</span>
                         </button>
-                        <button class="menu-btn recent">
+                        <button type="button" class="menu-btn recent">
                             <i class="fa-solid fa-clock-rotate-left"></i
                             ><span>Nghe gần đây</span>
                         </button>
@@ -236,6 +242,7 @@
                                     >Danh sách đã tạo</span
                                 >
                                 <button
+                                    type="button"
                                     class="icon-btn add"
                                     title="Thêm playlist"
                                 >
@@ -297,7 +304,7 @@
                     <div class="q-banner" id="np-banner">
                         <div class="q-banner-inner">
                             <div class="q-banner-cover">
-                                <img id="b-cover" alt="Cover lớn" />
+                                <img id="b-cover" src="123" alt="Cover lớn">
                             </div>
                             <div class="q-banner-text">
                                 <div class="b-title" id="b-title">—</div>
@@ -306,8 +313,9 @@
                                         <img
                                             class="b-artist-avatar"
                                             id="b-artist-avatar"
+                                            src="123"
                                             alt="Artist"
-                                        />
+                                       >
                                         <div class="b-artist-meta">
                                             <div class="b-artist-label">
                                                 Ca sĩ
@@ -321,6 +329,7 @@
                                         </div>
                                     </div>
                                     <button
+                                        type="button"
                                         class="follow-btn"
                                         id="b-follow"
                                         aria-pressed="false"
@@ -350,6 +359,7 @@
                     <div
                         class="hero-carousel"
                         id="hero-carousel"
+                        role="region"
                         aria-label="Album nổi bật"
                     >
                         <div
@@ -362,7 +372,7 @@
                                     <img
                                         src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=500&auto=format&fit=crop"
                                         alt="DJ performing electronic music"
-                                    />
+                                   >
                                 </div>
                                 <div class="q-banner-text">
                                     <div class="b-title">Midnight City</div>
@@ -371,7 +381,7 @@
                                             class="b-artist-avatar"
                                             src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?w=200&auto=format&fit=crop"
                                             alt="Artist avatar"
-                                        />
+                                       >
                                         <span class="b-artist-name">
                                             Neon Waves
                                         </span>
@@ -413,7 +423,7 @@
                                     <img
                                         src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=500&auto=format&fit=crop"
                                         alt="Acoustic guitar and warm lights"
-                                    />
+                                   >
                                 </div>
                                 <div class="q-banner-text">
                                     <div class="b-title">Acoustic Stories</div>
@@ -422,7 +432,7 @@
                                             class="b-artist-avatar"
                                             src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&auto=format&fit=crop"
                                             alt="Artist avatar"
-                                        />
+                                       >
                                         <span class="b-artist-name">
                                             Minh An
                                         </span>
@@ -462,7 +472,7 @@
                                     <img
                                         src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&auto=format&fit=crop"
                                         alt="Crowd at a live concert"
-                                    />
+                                   >
                                 </div>
                                 <div class="q-banner-text">
                                     <div class="b-title">Live Moments</div>
@@ -471,7 +481,7 @@
                                             class="b-artist-avatar"
                                             src="https://images.unsplash.com/photo-1438109491414-7198515b166b?w=200&auto=format&fit=crop"
                                             alt="Band avatar"
-                                        />
+                                       >
                                         <span class="b-artist-name">
                                             Music Box Live
                                         </span>
@@ -505,16 +515,19 @@
                         <!-- Điều khiển carousel -->
                         <div class="hero-dots" id="hero-dots">
                             <button
+                                type="button"
                                 class="hero-dot is-active"
                                 data-target="0"
                                 aria-label="Slide 1"
                             ></button>
                             <button
+                                type="button"
                                 class="hero-dot"
                                 data-target="1"
                                 aria-label="Slide 2"
                             ></button>
                             <button
+                                type="button"
                                 class="hero-dot"
                                 data-target="2"
                                 aria-label="Slide 3"
@@ -549,7 +562,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label">Chill</span>
                                     <span class="category-sub"
                                         >Thư giãn • Chill & Lo-fi</span
@@ -568,7 +581,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label"
                                         >Tập trung</span
                                     >
@@ -589,7 +602,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label"
                                         >Tập luyện</span
                                     >
@@ -610,7 +623,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label">Acoustic</span>
                                     <span class="category-sub"
                                         >Ghi-ta mộc • Ballad</span
@@ -629,7 +642,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label">EDM</span>
                                     <span class="category-sub"
                                         >Dance • Electronic</span
@@ -648,7 +661,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label">K-Pop</span>
                                     <span class="category-sub"
                                         >K-Pop hits & trending</span
@@ -667,7 +680,7 @@
                                         );
                                     "
                                 >
-                                    <div class="category-bg-overlay"></div>
+                                    <span class="category-bg-overlay"></span>
                                     <span class="category-label">Việt Pop</span>
                                     <span class="category-sub"
                                         >Nhạc trẻ Việt Nam</span
@@ -715,7 +728,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/anh_trai_say_hi/da_nghi.jpg"
                                             alt="Đa Nghi"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Đa Nghi</h3>
@@ -733,7 +746,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/han_sara/giong_nhu_em.jpg"
                                             alt="Giống Như Em"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -751,7 +764,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/son_tung_mtp/muon_roi_ma_sao_con.jpg"
                                             alt="Muộn Rồi Mà Sao Còn"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -771,7 +784,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/tlinh/neu_luc_do.jpg"
                                             alt="Nếu Lúc Đó"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -789,7 +802,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/chi_xe/tra_va_ca_phe.jpg"
                                             alt="Trà Và Cà Phê"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -807,7 +820,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/em_xinh_say_hi/khong_dau_nua_roi.jpg"
                                             alt="Không Đau Nữa Rồi"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -827,7 +840,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/truc_nhan/made_in_vietnam.jpg"
                                             alt="Made In Vietnam"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -845,7 +858,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/han_sara/do_anh_si.jpg"
                                             alt="Do Anh Si"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -893,7 +906,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/son_tung_mtp/noi_nay_co_anh.jpg"
                                             alt="Nơi Này Có Anh"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -913,7 +926,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/son_tung_mtp/chung_ta_cua_hien_tai.jpg"
                                             alt="Chúng Ta Của Hiện Tại"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -933,7 +946,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/tlinh/gai_doc_than.jpg"
                                             alt="Gái Độc Thân"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -951,7 +964,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/tlinh/nu_sieu_anh_hung.jpg"
                                             alt="Nữ Siêu Anh Hùng"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -969,7 +982,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/truc_nhan/lon_roi_con_khoc_nhe.jpg"
                                             alt="Lớn Rồi Còn Khóc Nhè"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -987,7 +1000,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/han_sara/dem_cuu.jpg"
                                             alt="Đếm Cừu"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Đếm Cừu</h3>
@@ -1003,7 +1016,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/em_xinh_say_hi/ga_san_ca.jpg"
                                             alt="Gã săn cá"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1023,7 +1036,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/anh_trai_say_hi/hermosa.jpg"
                                             alt="Hermosa"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Hermosa</h3>
@@ -1071,7 +1084,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/09/23/0/5/2/3/1758595550293_300.jpg"
                                             alt="Anh Trai Say Hi 2025 playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1089,7 +1102,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/10/27/8/8/5/b/1761540203774_300.jpg"
                                             alt="V-Pop Thịnh Hành playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1106,7 +1119,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/09/22/8/f/d/9/1758535642289_300.jpg"
                                             alt="Hit Việt Quốc Dân playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1123,7 +1136,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/11/11/6/d/e/1/1762848762321_300.jpg"
                                             alt="Nhạc Việt Triển Vọng playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1141,7 +1154,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/08/01/6/e/0/4/1754038888864_300.jpg"
                                             alt="Indie Việt playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1159,7 +1172,7 @@
                                         <img
                                             src="https://image-cdn.nct.vn/playlist/2025/10/20/0/6/f/2/1760948038285_300.jpg"
                                             alt="Hip-Hop Việt playlist cover"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1212,7 +1225,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/son_tung_mtp/co_chac_yeu_la_day.jpg"
                                             alt="Có Chắc Yêu Là Đây"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1232,7 +1245,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/tlinh/phong_zin_zin.jpg"
                                             alt="Phong Zin Zin"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1250,7 +1263,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/truc_nhan/sang_mat_chua.jpg"
                                             alt="Sáng Mắt Chưa"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1268,7 +1281,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/han_sara/xinh.jpg"
                                             alt="Xinh"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Xinh</h3>
@@ -1284,7 +1297,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/em_xinh_say_hi/he.jpg"
                                             alt="Hề"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Hề</h3>
@@ -1302,7 +1315,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/anh_trai_say_hi/nguoi_nhu_anh_xung_dang_co_don.jpg"
                                             alt="Người Như Anh Xứng Đáng Cô Đơn"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1322,7 +1335,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/chi_xe/moc_mien.jpg"
                                             alt="Mộc Miên"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Mộc Miên</h3>
@@ -1371,7 +1384,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/truc_nhan/toi_thay_hoa_vang_tren_co_xanh.jpg"
                                             alt="Tôi Thấy Hoa Vàng Trên Cỏ Xanh"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1389,7 +1402,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/em_xinh_say_hi/not_my_fault.jpg"
                                             alt="Not My Fault"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1409,7 +1422,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/anh_trai_say_hi/nguoi_yeu_chua_sinh_ra.jpg"
                                             alt="Người Yêu Chưa Sinh Ra"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1429,7 +1442,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/chi_xe/seenderella.jpg"
                                             alt="Seenderella"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1447,7 +1460,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/chi_xe/xoay.jpg"
                                             alt="Xoay"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">Xoay</h3>
@@ -1463,7 +1476,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/son_tung_mtp/muon_roi_ma_sao_con.jpg"
                                             alt="Muộn Rồi Mà Sao Còn"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1483,7 +1496,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/tlinh/neu_luc_do.jpg"
                                             alt="Nếu Lúc Đó"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1501,7 +1514,7 @@
                                         <img
                                             src="./assets/music_data/imgs_song/truc_nhan/made_in_vietnam.jpg"
                                             alt="Made In Vietnam"
-                                        />
+                                       >
                                     </div>
                                     <div class="playlist-content">
                                         <h3 class="playlist-title">
@@ -1550,7 +1563,7 @@
                                             src="./assets/music_data/imgs_casi/tlinh.jpg"
                                             alt="Tlinh"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Tlinh</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1562,7 +1575,7 @@
                                             src="./assets/music_data/imgs_casi/truc_nhan.jpg"
                                             alt="Trúc Nhân"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Trúc Nhân</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1574,7 +1587,7 @@
                                             src="./assets/music_data/imgs_casi/han_sara.jpg"
                                             alt="Han Sara"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Han Sara</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1586,7 +1599,7 @@
                                             src="./assets/music_data/imgs_casi/son_tung_mtp.jpg"
                                             alt="Sơn Tùng M-TP"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Sơn Tùng M-TP</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1598,7 +1611,7 @@
                                             src="./assets/music_data/imgs_casi/chi_xe.jpg"
                                             alt="Chi Xê"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Chi Xê</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1610,7 +1623,7 @@
                                             src="./assets/music_data/imgs_casi/em_xinh_say_hi.jpg"
                                             alt="Em Xinh Say Hi"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Em Xinh Say Hi</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1622,7 +1635,7 @@
                                             src="./assets/imgs/adele.jpg"
                                             alt="Portrait of Adele"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Adele</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1634,7 +1647,7 @@
                                             src="./assets/imgs/billie_eilish.jpg"
                                             alt="Portrait of Billie Eilish"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Billie Eilish</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1646,7 +1659,7 @@
                                             src="./assets/imgs/sam_smith.jpg"
                                             alt="Portrait of Sam Smith"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Sam Smith</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1658,7 +1671,7 @@
                                             src="./assets/imgs/hozier.jpg"
                                             alt="Portrait of Hozier"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Hozier</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1670,7 +1683,7 @@
                                             src="./assets/imgs/sia.jpg"
                                             alt="Portrait of Sia"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">Sia</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1682,7 +1695,7 @@
                                             src="./assets/imgs/john_legend.jpg"
                                             alt="Portrait of John Legend"
                                             class="artist-avatar"
-                                        />
+                                       >
                                     </div>
                                     <h3 class="artist-name">John Legend</h3>
                                     <p class="artist-genre">Nghệ sĩ</p>
@@ -1747,7 +1760,7 @@
                                                 <img
                                                     src="./assets/imgs/the_fate_of_ophelia.jpg"
                                                     alt="The Fate of Ophelia cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1785,7 +1798,7 @@
                                                 <img
                                                     src="./assets/imgs/golden_huntr.jpg"
                                                     alt="Golden cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1824,7 +1837,7 @@
                                                 <img
                                                     src="./assets/imgs/man_i_need.jpg"
                                                     alt="Man I Need cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1862,7 +1875,7 @@
                                                 <img
                                                     src="./assets/imgs/back_to_friends.jpg"
                                                     alt="back to friends cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1900,7 +1913,7 @@
                                                 <img
                                                     src="./assets/imgs/ordinary_alex_warren.jpg"
                                                     alt="Ordinary cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1938,7 +1951,7 @@
                                                 <img
                                                     src="./assets/imgs/opalite.jpg"
                                                     alt="Opalite cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -1976,7 +1989,7 @@
                                                 <img
                                                     src="./assets/imgs/so_easy_olivia_dean.jpg"
                                                     alt="So Easy (To Fall In Love) cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -2014,7 +2027,7 @@
                                                 <img
                                                     src="./assets/imgs/la_perla.jpg"
                                                     alt="La Perla cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -2051,7 +2064,7 @@
                                                 <img
                                                     src="./assets/imgs/where_is_my_husband.jpg"
                                                     alt="WHERE IS MY HUSBAND! cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -2089,7 +2102,7 @@
                                                 <img
                                                     src="./assets/imgs/birds_of_a_feather.jpg"
                                                     alt="BIRDS OF A FEATHER cover"
-                                                />
+                                               >
                                             </div>
                                         </td>
                                         <td>
@@ -2184,12 +2197,13 @@
             <div class="bar">
                 <div class="left">
                     <div class="cover">
-                        <img id="cover" alt="Bìa bài hát" />
+                        <img id="cover" src="123" alt="Bìa bài hát">
                     </div>
                     <div class="meta">
                         <div class="title" id="title">—</div>
                         <div class="meta-actions">
                             <button
+                                type="button"
                                 class="btn like-btn"
                                 id="like"
                                 title="Yêu thích"
@@ -2198,6 +2212,7 @@
                             </button>
                             <div class="more-wrapper">
                                 <button
+                                    type="button"
                                     class="btn more-btn"
                                     id="more"
                                     title="Tùy chọn"
@@ -2211,6 +2226,7 @@
                                     aria-hidden="true"
                                 >
                                     <button
+                                        type="button"
                                         class="more-item"
                                         id="download"
                                         role="menuitem"
@@ -2219,6 +2235,7 @@
                                         <span>Tải về</span>
                                     </button>
                                     <button
+                                        type="button"
                                         class="more-item"
                                         id="add-to-playlist"
                                         role="menuitem"
@@ -2235,23 +2252,25 @@
 
                 <div class="center">
                     <div class="controls">
-                        <button class="btn" id="shuffle" title="Shuffle (trộn)">
+                        <button type="button" class="btn" id="shuffle" title="Shuffle (trộn)">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
-                        <button class="btn" id="prev" title="Prev">
+                        <button type="button" class="btn" id="prev" title="Prev">
                             <i class="fa-solid fa-backward-step"></i>
                         </button>
                         <button
+                            type="button"
                             class="btn play"
                             id="play"
                             title="Phát/Tạm dừng"
                         >
                             <i id="play-icon" class="fa-solid fa-play"></i>
                         </button>
-                        <button class="btn" id="next" title="Next">
+                        <button type="button" class="btn" id="next" title="Next">
                             <i class="fa-solid fa-forward-step"></i>
                         </button>
                         <button
+                            type="button"
                             class="btn"
                             id="repeat"
                             title="Repeat (off/all/one)"
@@ -2268,7 +2287,7 @@
                             max="100"
                             value="0"
                             aria-label="Tiến độ"
-                        />
+                       >
                         <div class="time" id="duration">0:00</div>
                     </div>
                 </div>
@@ -2283,7 +2302,7 @@
                         step="0.01"
                         value="0.8"
                         aria-label="Âm lượng"
-                    />
+                   >
                 </div>
             </div>
         </div>
