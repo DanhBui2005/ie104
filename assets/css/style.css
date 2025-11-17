@@ -1096,7 +1096,7 @@ body {
     color: var(--icon);
 }
 .q-sub {
-    font: 400 1.2rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    font: 400 1.4rem/1 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
     opacity: 0.7;
     color: var(--icon);
@@ -1181,7 +1181,7 @@ body {
     color: #135e88;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     /* letter-spacing: 1.08px; */
     line-height: 1;
