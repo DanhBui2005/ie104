@@ -6,11 +6,7 @@
 [data-theme="dark"] .profile-page,
 [data-theme="dark"] .profile-content,
 [data-theme="dark"] .main-content {
-    background: radial-gradient(
-        ellipse at top,
-        #161d42 0%,
-        #0a0e27 100%
-    ) !important;
+    background: transparent !important;
     color: var(--text-primary) !important;
     min-height: 100vh;
 }
@@ -162,7 +158,10 @@
 [data-theme="dark"] .page-profile .profile-avatar-container img,
 [data-theme="dark"] .page-profile .avatar-container img,
 [data-theme="dark"] body:has(script[src*="hoso.js"]) .user-avatar img,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .profile-avatar-container img,
+[data-theme="dark"]
+    body:has(script[src*="hoso.js"])
+    .profile-avatar-container
+    img,
 [data-theme="dark"] body:has(script[src*="hoso.js"]) .avatar-container img {
     width: 100% !important;
     height: 100% !important;
@@ -193,7 +192,9 @@
 }
 
 /* Ẩn nút xoá khi avatar trống trong dark mode (override display:flex !important ở trên) */
-[data-theme="dark"] .avatar-wrap:has(.user-avatar:not([style*="background-image"])) .avatar-remove {
+[data-theme="dark"]
+    .avatar-wrap:has(.user-avatar:not([style*="background-image"]))
+    .avatar-remove {
     display: none !important;
 }
 
