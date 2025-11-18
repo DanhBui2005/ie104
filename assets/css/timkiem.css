@@ -130,7 +130,7 @@ body {
 
 /* Canh thẳng tiêu đề với cột số thứ tự */
 .top-songs-section .section-title {
-    margin-left: 15px;   /* hoặc padding-left: 12px; đều được */
+    margin-left: 15px; /* hoặc padding-left: 12px; đều được */
 }
 
 /* Ensure albums section is not affected */
@@ -142,7 +142,7 @@ body {
 
 .albums-section .songs-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
     margin-top: 14px;
 }
@@ -157,6 +157,7 @@ body {
     transition: background-color 0.2s;
     width: 180px;
     gap: 6px;
+    min-width: 180px;
 }
 
 .albums-section .song-item:hover {
@@ -173,8 +174,9 @@ body {
 }
 
 .albums-section .song-info {
-    text-align: center;
+    text-align: left;
     width: 100%;
+    min-width: 180px;
 }
 
 .albums-section .song-name {
@@ -184,10 +186,10 @@ body {
     margin: 8px 0px 10px;
     margin-left: 10px;
     text-align: left;
-    width: 100%;
+    width: auto;
+    min-width: 160px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
 }
 
 .albums-section .song-artist {
@@ -196,7 +198,7 @@ body {
     margin-bottom: 12px;
     text-align: left;
     width: 100%;
-    padding-left: 10px; 
+    padding-left: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -421,9 +423,8 @@ body {
     font-size: 17px;
     line-height: 22px;
     color: #000;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
     margin: 0;
     margin-left: 10px;
     padding: 0;
@@ -583,4 +584,3 @@ a:focus-visible {
         gap: 24px;
     }
 }
-
