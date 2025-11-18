@@ -133,6 +133,8 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     background: #fff;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
 }
 
 .page-yeuthich .main-content::-webkit-scrollbar {
@@ -183,7 +185,7 @@
     font-variant-numeric: tabular-nums;
     -webkit-font-feature-settings: "tnum";
     font-feature-settings: "tnum";
-    color: #7f8b99
+    color: #7f8b99;
 }
 
 .page-yeuthich .pt-body .pt-col.time {
