@@ -106,14 +106,17 @@ function setupSliders() {
                 track.scrollBy({ left: scrollAmount(), behavior: "smooth" })
             );
 
-        // Map vertical wheel to horizontal when appropriate (trackpad friendly)
+        // Only handle horizontal wheel scroll (left/right on trackpad)
+        // Vertical scroll (up/down) is ignored to allow normal page scrolling
         track.addEventListener(
             "wheel",
             (e) => {
-                if (Math.abs(e.deltaX) < 2 && Math.abs(e.deltaY) > 0) {
+                // Only handle horizontal scroll (deltaX)
+                if (Math.abs(e.deltaX) > 2) {
                     e.preventDefault();
-                    track.scrollBy({ left: e.deltaY, behavior: "auto" });
+                    track.scrollBy({ left: e.deltaX, behavior: "auto" });
                 }
+                // If only vertical scroll (deltaY), let it pass through for normal page scrolling
             },
             { passive: false }
         );
