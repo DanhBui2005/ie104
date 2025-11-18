@@ -20,7 +20,7 @@
 /* .pl-head .pl-title-col { padding-left: calc(var(--pl-cover) + var(--pl-gap)); } */
 .pl-head .pl-artist-col {
     padding-left: 0;
-    font-size: 16px;;
+    font-size: 16px;
 }
 .pl-head .pl-time-col {
     text-align: right;
@@ -50,7 +50,7 @@ body {
     padding: 20px 36px 32px;
     background: #f9f8fd;
     border-radius: 12px;
-    box-shadow: 0 4px 4px 5px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
     overflow: hidden auto;
     height: 100%;
     min-height: 0;
@@ -125,7 +125,7 @@ body {
 #pl-count {
     font-size: 18px;
     opacity: 0.85;
-    color:#000;
+    color: #000;
 }
 .song-list {
     width: 100%;
@@ -196,7 +196,7 @@ body {
     font-variant-numeric: tabular-nums;
     -webkit-font-feature-settings: "tnum";
     font-feature-settings: "tnum";
-    color: #7f8b99
+    color: #7f8b99;
 }
 /* Hover swap: show trash only on hover, hide number */
 .pl-body .pl-row .pl-idx .pl-num {
