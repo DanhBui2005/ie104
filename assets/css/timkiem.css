@@ -150,14 +150,15 @@ body {
 .albums-section .song-item {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 0px;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0;
     border-radius: 8px;
     transition: background-color 0.2s;
     width: 180px;
-    gap: 6px;
+    gap: 8px;
     min-width: 180px;
+    overflow: hidden;
 }
 
 .albums-section .song-item:hover {
@@ -165,12 +166,13 @@ body {
 }
 
 .albums-section .song-cover {
-    width: 180px;
+    width: 100%;
     height: 180px;
-    border-radius: 8px;
+    border-radius: 0;
     background-size: cover;
     background-position: center;
-    margin-bottom: 8px;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
 }
 
 .albums-section .song-info {
@@ -321,12 +323,13 @@ body {
 .song-item {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     align-items: center;
-    padding: 6px;
+    padding: 8px;
     border-radius: 10px;
     cursor: pointer;
     min-width: 0;
+    overflow: hidden;
 }
 .song-item:hover {
     background: rgba(0, 0, 0, 0.05);
@@ -336,6 +339,10 @@ body {
     height: 116px;
     background: #d9d9d9;
     border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
 }
 .song-info {
     display: flex;
@@ -412,6 +419,8 @@ body {
     border-radius: 4px;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
 }
 
 /* Song title styling for top songs and albums */
