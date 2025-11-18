@@ -21,7 +21,16 @@
             var el = document.querySelector(targetId);
             if (el) {
                 e.preventDefault();
-                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                var headerHeight =
+                    document.querySelector(".header").offsetHeight;
+                var elementPosition = el.getBoundingClientRect().top;
+                var offsetPosition =
+                    elementPosition + window.pageYOffset - headerHeight - 20; // Thêm 20px padding
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                });
             }
         });
     });
