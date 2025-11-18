@@ -12,7 +12,7 @@ body {
 .main-content {
     flex: 1;
     padding: 40px 48px;
-    background: #f8fdfd;
+    background: transparent;
     overflow-y: auto;
 
     height: 100%;
@@ -89,9 +89,20 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 .avatar-remove:hover {
     background: #f1f5f9;
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+}
+.avatar-remove i {
+    transition: all 0.3s ease;
+}
+.avatar-remove:hover i {
+    color: #ff6b9d;
+    transform: rotate(90deg);
 }
 
 .user-info {
