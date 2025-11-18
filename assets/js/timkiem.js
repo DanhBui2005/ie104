@@ -197,7 +197,7 @@
         container.innerHTML = songs
             .slice(0, 4)
             .map((song, i) => {
-                const songIndex = mapToPlaylistIndex(song);
+                // Store song data directly in element instead of trying to map to playlist index
                 const duration = formatDuration(song);
                 console.log(
                     `Song ${i}:`,
@@ -209,7 +209,7 @@
                 ); // Debug log
 
                 return `
-                <div class="top-song-item" data-index="${songIndex}">
+                <div class="top-song-item" data-song='${JSON.stringify(song)}'>
                     <div class="song-number">${i + 1}</div>
                     <div class="song-cover" style="background-image: url('${
                         song.cover || "./assets/imgs/album-cover-1.jpg"
@@ -234,14 +234,38 @@
         document.querySelectorAll(".top-song-item").forEach((item) => {
             item.style.cursor = "pointer";
             item.addEventListener("click", (e) => {
-                const index = parseInt(item.getAttribute("data-index"));
-                if (
-                    !isNaN(index) &&
-                    index >= 0 &&
-                    window.MusicBox &&
-                    typeof window.MusicBox.playAt === "function"
-                ) {
-                    window.MusicBox.playAt(index);
+                try {
+                    const songData = JSON.parse(item.getAttribute("data-song"));
+                    if (!songData) {
+                        console.error("No song data found");
+                        return;
+                    }
+                    
+                    // Find song in the global playlist
+                    const playlist = window.MusicBox ? window.MusicBox.playlist() : [];
+                    console.log("Playlist:", playlist); // Debug log
+                    console.log("Song data:", songData); // Debug log
+                    
+                    const playlistIndex = playlist.findIndex(
+                        (p) => p.id === songData.id || 
+                               (p.title === songData.title && p.artist === songData.artist)
+                    );
+                    
+                    console.log("Found playlist index:", playlistIndex); // Debug log
+                    
+                    if (
+                        playlistIndex >= 0 &&
+                        window.MusicBox &&
+                        typeof window.MusicBox.playAt === "function"
+                    ) {
+                        console.log("Playing song at index:", playlistIndex); // Debug log
+                        window.MusicBox.playAt(playlistIndex);
+                    } else {
+                        console.error("Could not play song. MusicBox available:", !!window.MusicBox, 
+                                      "Playlist index:", playlistIndex);
+                    }
+                } catch (error) {
+                    console.error("Error playing song:", error);
                 }
             });
         });
@@ -335,6 +359,21 @@
         renderArtistHeader(pickedArtist, artistImg);
         renderSongs(artistSongs);
         renderAlbums(pickedArtist);
+        
+        // Wait for MusicBox to be available before adding click events
+        if (!window.MusicBox) {
+            // Check periodically for MusicBox to be available
+            const checkInterval = setInterval(() => {
+                if (window.MusicBox) {
+                    clearInterval(checkInterval);
+                    // Re-render songs to attach click events properly
+                    renderSongs(artistSongs);
+                }
+            }, 100);
+            
+            // Stop checking after 10 seconds
+            setTimeout(() => clearInterval(checkInterval), 10000);
+        }
     }
 
     if (document.readyState === "loading") {
