@@ -175,13 +175,11 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #000;
 }
 
 .my-pl-sub {
     font-size: 14px;
     opacity: 0.7;
-    color: #000;
 }
 
 /* Playlist card actions (edit/delete) */
