@@ -1508,7 +1508,6 @@ input[type="range"]::-moz-range-thumb {
     flex: none;
 }
 
-/* Responsive styles for volume: show vertical popover on tap */
 @media (max-width: 900px) {
     .right {
         position: relative;
@@ -1525,15 +1524,13 @@ input[type="range"]::-moz-range-thumb {
     .right.show-volume input {
         display: block;
         position: absolute;
-        bottom: 36px; /* above the icon */
-        right: 0; /* stick to the icon at the end to avoid exceeding end point */
+        bottom: 36px; /* above icon */
+        right: 0; /* stick to icon at the end to avoid exceeding end point */
         transform: none;
         width: 28px;
         height: 140px;
-        -webkit-appearance: none;
-        appearance: none;
-        writing-mode: vertical-lr;
-        direction: rtl;
+        -webkit-appearance: slider-vertical;
+        appearance: slider-vertical;
         background: rgba(127, 212, 249, 0.2);
         border-radius: 6px;
         padding: 4px 0;
@@ -1545,6 +1542,13 @@ input[type="range"]::-moz-range-thumb {
     .right.show-volume input {
         height: 120px;
         width: 26px;
+    }
+}
+
+/* Show pointer on volume icon when responsive */
+@media (max-width: 900px) {
+    .player .right #vol-icon {
+        cursor: pointer;
     }
 }
 
