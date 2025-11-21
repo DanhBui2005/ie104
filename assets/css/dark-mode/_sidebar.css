@@ -5,6 +5,14 @@
 [data-theme="dark"] .sidebar {
     background: linear-gradient(180deg, #0f1535 0%, #0a0e27 100%);
     /* border-right: 1px solid var(--border-color); */
+    /* Fix scrolling issues in dark mode */
+    height: calc(100% - var(--player-h)) !important;
+    max-height: calc(100vh - var(--header-height) - var(--player-h)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    min-height: 0 !important;
 }
 
 /* --- Sidebar: Menu Buttons --- */
@@ -141,4 +149,24 @@
     box-shadow: none !important;
     border: none !important;
     outline: none !important;
+}
+
+/* Responsive fixes for dark mode sidebar */
+@media (max-width: 900px) {
+    [data-theme="dark"] .sidebar {
+        height: calc(100% - var(--player-h)) !important;
+        max-height: calc(100vh - var(--header-height) - var(--player-h)) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding: 10px;
+        padding-bottom: 24px;
+    }
+}
+
+/* Ensure scrollbar is hidden in dark mode */
+[data-theme="dark"] .sidebar::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+    display: none !important;
 }
