@@ -38,4 +38,43 @@
 
 [data-theme="dark"] .content {
     background-color: var(--bg-primary) !important;
+    /* Ensure content area doesn't interfere with sidebar scrolling */
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Fix sidebar container in dark mode */
+[data-theme="dark"] .content {
+    display: grid;
+    grid-template-columns: var(--sidebar) 1fr;
+    gap: var(--gap);
+    padding: var(--pad);
+    padding-bottom: 0;
+    align-items: stretch;
+    min-height: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Ensure main content area works properly with sidebar in dark mode */
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .home-main,
+[data-theme="dark"] .played-main,
+[data-theme="dark"] .timkiem-main {
+    overflow-y: auto;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Hide scrollbars in dark mode main content */
+[data-theme="dark"] .main-content::-webkit-scrollbar,
+[data-theme="dark"] .home-main::-webkit-scrollbar,
+[data-theme="dark"] .played-main::-webkit-scrollbar,
+[data-theme="dark"] .timkiem-main::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+    display: none;
 }
