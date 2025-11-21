@@ -93,6 +93,7 @@ body.dark-mode .home-section-sub {
     padding-bottom: 24px;
     overflow-y: auto;
     min-height: 0;
+    height: calc(100% - var(--player-h));
 }
 
 /* Khi Queue hiển thị, ẩn phần main content (chỉ trang index có .home-main) */
