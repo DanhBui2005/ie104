@@ -87,18 +87,13 @@
 
 [data-theme="dark"] #volume::-webkit-slider-thumb {
     background-color: var(--glow-color);
-    border: none;
-    box-shadow: 0 0 8px rgba(74, 108, 247, 0.5);
 }
 
 [data-theme="dark"] #volume::-moz-range-thumb {
     background-color: var(--glow-color);
-    border: none;
-    box-shadow: 0 0 8px rgba(74, 108, 247, 0.5);
 }
 
 /* --- Player: Volume Icon --- */
 [data-theme="dark"] #vol-icon {
     color: var(--text-primary);
-    filter: drop-shadow(0 0 4px rgba(74, 108, 247, 0.3));
 }

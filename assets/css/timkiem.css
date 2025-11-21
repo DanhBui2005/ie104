@@ -59,34 +59,6 @@ body {
 .timkiem-main::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
 */
 
-/* SIDEBAR - Use same styling as other pages */
-.sidebar {
-    /* Remove sticky positioning to match other pages */
-    background: #fff;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
-    padding: 14px;
-    padding-bottom: 20px;
-    color: #000;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Helvetica, Arial, sans-serif;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    /* Đảm bảo có đủ không gian để thấy phần tử cuối cùng */
-    max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
-}
-
-/* Hide scrollbar for sidebar */
-.sidebar::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
 /* Hide scrollbar for timkiem-main */
 .timkiem-main::-webkit-scrollbar {
     width: 0;
@@ -498,12 +470,6 @@ a:focus-visible {
     /* Khi Queue hiển thị -> 1 cột (đồng bộ rule global) */
     .content:has(.queue:not(.hidden)) {
         grid-template-columns: 1fr !important;
-    }
-    /* Sidebar thu gọn theo style.css */
-    .sidebar {
-        padding: 10px;
-        padding-bottom: 20px;
-        max-height: calc(100vh - var(--header-height) - var(--player-h) - 10px);
     }
 
     /* Center icon buttons and hide text labels */

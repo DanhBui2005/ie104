@@ -731,6 +731,9 @@ function updateShuffleA11y() {
 /**
  * Updates volume slider visual indicator
  */
+/**
+ * Updates volume slider visual indicator
+ */
 function updateVolumeSlider() {
     if (!elements.volume) return;
     const value = elements.volume.value;
@@ -754,6 +757,46 @@ function updateVolumeIcon(volume) {
         volumeIcon += "fa-volume-high";
     }
     elements.volIcon.className = volumeIcon;
+}
+
+/**
+ * Sets up mobile volume toggle functionality
+ */
+function setupMobileVolumeToggle() {
+    function toggleMobileVolume(e) {
+        if (window.innerWidth > MOBILE_BREAKPOINT) return;
+        const right = elements.volIcon.closest(".right");
+        if (!right) return;
+        e.stopPropagation();
+        right.classList.toggle("show-volume");
+    }
+
+    function hideMobileVolume() {
+        const right = document.querySelector(".right.show-volume");
+        if (right) right.classList.remove("show-volume");
+    }
+
+    elements.volIcon.addEventListener("click", toggleMobileVolume);
+
+    document.addEventListener(
+        "click",
+        (e) => {
+            if (window.innerWidth > MOBILE_BREAKPOINT) return;
+            const right = document.querySelector(".right");
+            if (
+                right &&
+                (right.contains(e.target) || e.target === elements.volIcon)
+            ) {
+                return;
+            }
+            hideMobileVolume();
+        },
+        true
+    );
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > MOBILE_BREAKPOINT) hideMobileVolume();
+    });
 }
 
 // ===== AD INTERACTION GUARDS =====
@@ -848,45 +891,6 @@ function handleTrackEnded() {
     }
 }
 
-/**
- * Sets up mobile volume toggle functionality
- */
-function setupMobileVolumeToggle() {
-    function toggleMobileVolume(e) {
-        if (window.innerWidth > MOBILE_BREAKPOINT) return;
-        const right = elements.volIcon.closest(".right");
-        if (!right) return;
-        e.stopPropagation();
-        right.classList.toggle("show-volume");
-    }
-
-    function hideMobileVolume() {
-        const right = document.querySelector(".right.show-volume");
-        if (right) right.classList.remove("show-volume");
-    }
-
-    elements.volIcon.addEventListener("click", toggleMobileVolume);
-
-    document.addEventListener(
-        "click",
-        (e) => {
-            if (window.innerWidth > MOBILE_BREAKPOINT) return;
-            const right = document.querySelector(".right");
-            if (
-                right &&
-                (right.contains(e.target) || e.target === elements.volIcon)
-            ) {
-                return;
-            }
-            hideMobileVolume();
-        },
-        true
-    );
-
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > MOBILE_BREAKPOINT) hideMobileVolume();
-    });
-}
 
 // ===== EVENT LISTENERS SETUP =====
 /**
@@ -1040,24 +1044,24 @@ function setupEventListeners() {
 
     // Volume control
     if (elements.volume) {
-        elements.volume.addEventListener("input", (e) => {
-            const v = Number(e.target.value);
-            audio.volume = v;
-            elements.volume.setAttribute("aria-valuenow", String(v));
+    elements.volume.addEventListener("input", (e) => {
+        const v = Number(e.target.value);
+        audio.volume = v;
+        elements.volume.setAttribute("aria-valuenow", String(v));
 
-            // Update volume slider visual indicator
-            const percentage = (v / elements.volume.max) * 100;
-            elements.volume.style.setProperty(
-                "--volume-value",
-                `${percentage}%`
-            );
+        // Update volume slider visual indicator
+        const percentage = (v / elements.volume.max) * 100;
+        elements.volume.style.setProperty(
+            "--volume-value",
+            `${percentage}%`
+        );
 
-            // Update volume icon using the dedicated function
-            updateVolumeIcon(audio.volume);
+        // Update volume icon using the dedicated function
+        updateVolumeIcon(audio.volume);
 
-            savePlayerState(true);
-        });
-    }
+        savePlayerState(true);
+    });
+}
 
     // Mobile volume toggle
     if (elements.volIcon) {

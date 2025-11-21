@@ -66,22 +66,23 @@ function syncRangeFills() {
         updateProgress();
     }
     if (volume) {
-        const updateVolume = () => {
-            const min = Number(volume.min || 0);
-            const max = Number(volume.max || 1);
-            const val = Number(volume.value || 0);
-            const pct = ((val - min) * 100) / (max - min);
-            volume.style.setProperty("--volume-value", pct + "%");
+    const updateVolume = () => {
+        const min = Number(volume.min || 0);
+        const max = Number(volume.max || 1);
+        const val = Number(volume.value || 0);
+        const pct = ((val - min) * 100) / (max - min);
+        volume.style.setProperty("--volume-value", pct + "%");
 
-            // Update volume icon if the global function is available
-            const volIcon = document.getElementById("vol-icon");
-            if (volIcon && window.__mbUpdateVolumeIcon) {
-                window.__mbUpdateVolumeIcon(val);
-            }
-        };
-        volume.addEventListener("input", updateVolume);
-        updateVolume();
-    }
+        // Update volume icon if the global function is available
+        const volIcon = document.getElementById("vol-icon");
+        if (volIcon && window.__mbUpdateVolumeIcon) {
+            window.__mbUpdateVolumeIcon(val);
+        }
+    };
+    volume.addEventListener("input", updateVolume);
+    updateVolume();
+}
+
 }
 
 document.addEventListener("DOMContentLoaded", syncRangeFills);
