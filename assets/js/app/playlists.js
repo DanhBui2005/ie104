@@ -1,23 +1,28 @@
 // ===== PLAYLISTS MODULE =====
+// Module quản lý playlist cho ứng dụng music player
 
 // ===== CONSTANTS =====
+// Các khóa lưu trữ dữ liệu trong localStorage
 const STORAGE_KEYS = {
-    PLAYER_STATE: "player_state_v1",
-    USER_PLAYLISTS: "user_playlists_v1",
-    LIKED_SONGS: "liked_songs",
-    FOLLOWED_ARTISTS: "followed_artists",
+    PLAYER_STATE: "player_state_v1", // Trạng thái player
+    USER_PLAYLISTS: "user_playlists_v1", // Playlist người dùng
+    LIKED_SONGS: "liked_songs", // Bài hát đã thích
+    FOLLOWED_ARTISTS: "followed_artists", // Nghệ sĩ đã theo dõi
 };
 
+// Các loại playlist
 const PLAYLIST_TYPES = {
-    GLOBAL: "global",
-    USER: "user",
+    GLOBAL: "global", // Playlist toàn cục (tất cả bài hát)
+    USER: "user", // Playlist do người dùng tạo
 };
 
-const DEFAULT_PLAYLIST_COVER = "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg";
-const SONGS_JSON_PATH = "./assets/music_data/songs.json";
-const MIN_PLAYLIST_LENGTH = 3;
+// Các đường dẫn và cấu hình mặc định
+const DEFAULT_PLAYLIST_COVER = "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg"; // Ảnh bìa playlist mặc định
+const SONGS_JSON_PATH = "./assets/music_data/songs.json"; // Đường dẫn file JSON chứa danh sách bài hát
+const MIN_PLAYLIST_LENGTH = 3; // Số bài hát tối thiểu trong playlist
 
 // ===== FALLBACK DATA =====
+// Dữ liệu dự phòng khi không thể tải file JSON
 const fallbackPlaylist = [
     {
         title: "Muộn Rồi Mà Sao Còn",
@@ -50,16 +55,19 @@ const fallbackPlaylist = [
 ];
 
 // ===== GLOBAL STATE =====
-let playlist = [];
-let allSongs = [];
-let currentPlaylistCtx = { type: PLAYLIST_TYPES.GLOBAL, id: null };
+// Các biến trạng thái toàn cục
+let playlist = []; // Danh sách bài hát hiện tại đang phát
+let allSongs = []; // Danh sách tất cả bài hát có sẵn
+let currentPlaylistCtx = { type: PLAYLIST_TYPES.GLOBAL, id: null }; // Context của playlist hiện tại
 
 // ===== UTILITY FUNCTIONS =====
+// Các hàm tiện ích sử dụng trong module
+
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -71,9 +79,9 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Formats seconds to MM:SS format
- * @param {number} seconds - Time in seconds
- * @returns {string} Formatted time string
+ * Định dạng giây sang định dạng MM:SS
+ * @param {number} seconds - Thời gian tính bằng giây
+ * @returns {string} Chuỗi thời gian đã định dạng
  */
 function formatTime(seconds) {
     if (!isFinite(seconds)) return "--:--";
@@ -85,15 +93,15 @@ function formatTime(seconds) {
 }
 
 /**
- * Gets current filename from pathname
- * @returns {string} Current filename in lowercase
+ * Lấy tên file hiện tại từ pathname
+ * @returns {string} Tên file hiện tại ở dạng chữ thường
  */
 function getCurrentFilename() {
     return (location.pathname.split("/").pop() || "").toLowerCase();
 }
 
 /**
- * Checks if current page is index/home page
+ * Kiểm tra trang hiện tại có phải là trang chủ/index không
  * @returns {boolean}
  */
 function isIndexPage() {
@@ -102,7 +110,7 @@ function isIndexPage() {
 }
 
 /**
- * Sets playlist to global catalog
+ * Đặt playlist thành danh sách toàn cục (tất cả bài hát)
  */
 function setGlobalPlaylist() {
     currentPlaylistCtx = { type: PLAYLIST_TYPES.GLOBAL, id: null };
@@ -110,8 +118,10 @@ function setGlobalPlaylist() {
 }
 
 // ===== PLAYLIST LOADING =====
+// Các hàm liên quan đến việc tải và khởi tạo playlist
+
 /**
- * Initializes playlist from loaded songs
+ * Khởi tạo playlist từ các bài hát đã tải
  */
 function initializePlaylist() {
     if (isIndexPage()) {
@@ -122,8 +132,8 @@ function initializePlaylist() {
 }
 
 /**
- * Loads playlist from JSON file
- * @returns {Promise<Object>} Playlist data with playlist, allSongs, and currentPlaylistCtx
+ * Tải playlist từ file JSON
+ * @returns {Promise<Object>} Dữ liệu playlist bao gồm playlist, allSongs và currentPlaylistCtx
  */
 export async function loadPlaylistFromJSON() {
     try {
@@ -140,7 +150,7 @@ export async function loadPlaylistFromJSON() {
             throw new Error("songs.json invalid or empty");
         }
         
-        // Keep full catalog separate from current queue
+        // Giữ danh sách đầy đủ riêng biệt với hàng đợi hiện tại
         allSongs = data;
         initializePlaylist();
         
@@ -153,7 +163,7 @@ export async function loadPlaylistFromJSON() {
     } catch (error) {
         console.error("Không thể tải playlist từ songs.json:", error);
         
-        // Fallback to built-in playlist
+        // Sử dụng playlist dự phòng
         allSongs = fallbackPlaylist;
         initializePlaylist();
         
@@ -163,8 +173,8 @@ export async function loadPlaylistFromJSON() {
 }
 
 /**
- * Rehydrates playlist from saved player state
- * @returns {boolean} Success status
+ * Khôi phục playlist từ trạng thái player đã lưu
+ * @returns {boolean} Trạng thái thành công
  */
 function rehydratePlaylistFromSavedContext() {
     return safeExecute(() => {
@@ -176,7 +186,7 @@ function rehydratePlaylistFromSavedContext() {
             Array.isArray(savedState.trackIds) &&
             savedState.trackIds.length > 0
         ) {
-            // Map track IDs to actual track objects
+            // Ánh xạ ID bài hát sang đối tượng bài hát thực tế
             const trackMap = new Map(
                 (allSongs || []).map((track) => [track.id, track])
             );
@@ -199,8 +209,8 @@ function rehydratePlaylistFromSavedContext() {
 }
 
 /**
- * Gets saved player state from localStorage
- * @returns {Object|null} Saved state or null
+ * Lấy trạng thái player đã lưu từ localStorage
+ * @returns {Object|null} Trạng thái đã lưu hoặc null
  */
 function getSavedPlayerState() {
     return safeExecute(() => {
@@ -215,9 +225,11 @@ function getSavedPlayerState() {
 }
 
 // ===== USER PLAYLISTS MANAGEMENT =====
+// Các hàm quản lý playlist của người dùng
+
 /**
- * Gets all user playlists from localStorage
- * @returns {Array} Array of user playlists
+ * Lấy tất cả playlist người dùng từ localStorage
+ * @returns {Array} Mảng các playlist người dùng
  */
 export function getUserPlaylists() {
     return safeExecute(() => {
@@ -228,8 +240,8 @@ export function getUserPlaylists() {
 }
 
 /**
- * Saves user playlists to localStorage
- * @param {Array} playlists - Array of playlists to save
+ * Lưu playlist người dùng vào localStorage
+ * @param {Array} playlists - Mảng các playlist cần lưu
  */
 export function setUserPlaylists(playlists) {
     safeExecute(() => {
@@ -244,7 +256,7 @@ export function setUserPlaylists(playlists) {
 }
 
 /**
- * Ensures demo playlists exist for new users
+ * Đảm bảo playlist demo tồn tại cho người dùng mới
  */
 export function ensureDemoPlaylists() {
     const currentPlaylists = getUserPlaylists();
@@ -291,9 +303,11 @@ export function ensureDemoPlaylists() {
 }
 
 // ===== LIKED SONGS MANAGEMENT =====
+// Các hàm quản lý bài hát đã thích
+
 /**
- * Gets liked songs list from localStorage
- * @returns {Array} Array of liked songs
+ * Lấy danh sách bài hát đã thích từ localStorage
+ * @returns {Array} Mảng các bài hát đã thích
  */
 export function getLikedList() {
     return safeExecute(() => {
@@ -303,8 +317,8 @@ export function getLikedList() {
 }
 
 /**
- * Saves liked songs list to localStorage
- * @param {Array} list - Array of liked songs
+ * Lưu danh sách bài hát đã thích vào localStorage
+ * @param {Array} list - Mảng các bài hát đã thích
  */
 export function setLikedList(list) {
     safeExecute(() => {
@@ -316,8 +330,8 @@ export function setLikedList(list) {
 }
 
 /**
- * Checks if a song is liked
- * @param {string} id - Song ID
+ * Kiểm tra xem bài hát có được thích không
+ * @param {string} id - ID bài hát
  * @returns {boolean}
  */
 export function isLiked(id) {
@@ -327,10 +341,12 @@ export function isLiked(id) {
 }
 
 // ===== FOLLOWED ARTISTS MANAGEMENT =====
+// Các hàm quản lý nghệ sĩ đã theo dõi
+
 /**
- * Normalizes artist name for consistent comparison
- * @param {string} name - Artist name
- * @returns {string} Normalized artist name
+ * Chuẩn hóa tên nghệ sĩ để so sánh nhất quán
+ * @param {string} name - Tên nghệ sĩ
+ * @returns {string} Tên nghệ sĩ đã chuẩn hóa
  */
 export function normArtist(name) {
     return String(name || "")
@@ -340,8 +356,8 @@ export function normArtist(name) {
 }
 
 /**
- * Gets followed artists from localStorage
- * @returns {Set} Set of normalized artist names
+ * Lấy danh sách nghệ sĩ đã theo dõi từ localStorage
+ * @returns {Set} Set chứa tên nghệ sĩ đã chuẩn hóa
  */
 export function getFollowedArtists() {
     return safeExecute(() => {
@@ -353,8 +369,8 @@ export function getFollowedArtists() {
 }
 
 /**
- * Saves followed artists to localStorage
- * @param {Set} artistSet - Set of artist names
+ * Lưu danh sách nghệ sĩ đã theo dõi vào localStorage
+ * @param {Set} artistSet - Set chứa tên nghệ sĩ
  */
 export function saveFollowedArtists(artistSet) {
     safeExecute(() => {
@@ -366,10 +382,12 @@ export function saveFollowedArtists(artistSet) {
 }
 
 // ===== QUEUE RENDERING =====
+// Các hàm liên quan đến việc hiển thị hàng đợi phát nhạc
+
 /**
- * Loads and displays track duration
- * @param {string} src - Audio source URL
- * @param {string} timeElementId - ID of element to update
+ * Tải và hiển thị thời lượng của bài hát
+ * @param {string} src - URL nguồn audio
+ * @param {string} timeElementId - ID của phần tử cần cập nhật
  */
 function loadTrackDuration(src, timeElementId) {
     const audio = new Audio(src);
@@ -382,9 +400,9 @@ function loadTrackDuration(src, timeElementId) {
 }
 
 /**
- * Renders the queue list
- * @param {HTMLElement} queueListEl - Container element for queue
- * @param {Function} onItemClick - Callback when queue item is clicked
+ * Hiển thị danh sách hàng đợi
+ * @param {HTMLElement} queueListEl - Phần tử chứa hàng đợi
+ * @param {Function} onItemClick - Hàm callback khi một mục trong hàng đợi được nhấp
  */
 export function renderQueue(queueListEl, onItemClick) {
     if (!queueListEl) return;
@@ -410,14 +428,14 @@ export function renderQueue(queueListEl, onItemClick) {
         
         queueListEl.appendChild(row);
         
-        // Prefetch and display duration
+        // Tải trước và hiển thị thời lượng
         loadTrackDuration(track.src, `qtime-${index}`);
     });
 }
 
 /**
- * Updates active queue item styling
- * @param {number} index - Index of active track
+ * Cập nhật giao diện của mục đang phát trong hàng đợi
+ * @param {number} index - Chỉ số của bài hát đang phát
  */
 export function updateQueueActive(index) {
     document
@@ -433,11 +451,13 @@ export function updateQueueActive(index) {
 }
 
 // ===== PLAYLIST STATE MANAGEMENT =====
+// Các hàm quản lý trạng thái của playlist
+
 /**
- * Sets the current playlist
- * @param {Array} tracksArray - Array of track objects
- * @param {Object} context - Playlist context (type and id)
- * @returns {boolean} Success status
+ * Đặt playlist hiện tại
+ * @param {Array} tracksArray - Mảng các đối tượng bài hát
+ * @param {Object} context - Context của playlist (loại và ID)
+ * @returns {boolean} Trạng thái thành công
  */
 export function setPlaylist(tracksArray, context) {
     return safeExecute(() => {
@@ -455,34 +475,36 @@ export function setPlaylist(tracksArray, context) {
 }
 
 /**
- * Gets a copy of the current playlist
- * @returns {Array} Copy of playlist array
+ * Lấy bản sao của playlist hiện tại
+ * @returns {Array} Bản sao của mảng playlist
  */
 export function getPlaylist() {
     return playlist.slice();
 }
 
 /**
- * Gets a copy of all songs catalog
- * @returns {Array} Copy of allSongs array
+ * Lấy bản sao của danh sách tất cả bài hát
+ * @returns {Array} Bản sao của mảng allSongs
  */
 export function getAllSongs() {
     return allSongs.slice();
 }
 
 /**
- * Gets current playlist context
- * @returns {Object} Copy of currentPlaylistCtx
+ * Lấy context của playlist hiện tại
+ * @returns {Object} Bản sao của currentPlaylistCtx
  */
 export function getCurrentPlaylistCtx() {
     return { ...currentPlaylistCtx };
 }
 
 // ===== USER PLAYLIST OPERATIONS =====
+// Các hàm thực hiện thao tác với playlist người dùng
+
 /**
- * Converts string to URL-friendly slug
- * @param {string} str - String to slugify
- * @returns {string} Slugified string
+ * Chuyển đổi chuỗi thành slug thân thiện với URL
+ * @param {string} str - Chuỗi cần chuyển đổi
+ * @returns {string} Chuỗi đã slugify
  */
 function slugify(str) {
     return String(str || "")
@@ -493,10 +515,10 @@ function slugify(str) {
 }
 
 /**
- * Generates a unique playlist ID
- * @param {string} name - Playlist name
- * @param {Array} existingPlaylists - Existing playlists to check against
- * @returns {string} Unique playlist ID
+ * Tạo ID playlist duy nhất
+ * @param {string} name - Tên playlist
+ * @param {Array} existingPlaylists - Các playlist đã tồn tại để kiểm tra
+ * @returns {string} ID playlist duy nhất
  */
 function generateUniquePlaylistId(name, existingPlaylists) {
     const base = "pl_" + slugify(name || "new");
@@ -515,21 +537,21 @@ function generateUniquePlaylistId(name, existingPlaylists) {
 }
 
 /**
- * Finds playlist index by ID
- * @param {Array} playlists - Array of playlists
- * @param {string} id - Playlist ID
- * @returns {number} Index or -1 if not found
+ * Tìm chỉ số playlist theo ID
+ * @param {Array} playlists - Mảng các playlist
+ * @param {string} id - ID playlist
+ * @returns {number} Chỉ số hoặc -1 nếu không tìm thấy
  */
 function findPlaylistIndex(playlists, id) {
     return playlists.findIndex((playlist) => playlist?.id === id);
 }
 
 /**
- * Creates a new user playlist
- * @param {Object} options - Playlist options
- * @param {string} options.name - Playlist name
- * @param {string} options.cover - Cover image URL
- * @returns {Object|null} New playlist object or null on error
+ * Tạo playlist người dùng mới
+ * @param {Object} options - Tùy chọn playlist
+ * @param {string} options.name - Tên playlist
+ * @param {string} options.cover - URL ảnh bìa
+ * @returns {Object|null} Đối tượng playlist mới hoặc null nếu có lỗi
  */
 export function createUserPlaylist({ name, cover }) {
     return safeExecute(() => {
@@ -550,10 +572,10 @@ export function createUserPlaylist({ name, cover }) {
 }
 
 /**
- * Renames a user playlist
- * @param {string} id - Playlist ID
- * @param {string} newName - New playlist name
- * @returns {boolean} Success status
+ * Đổi tên playlist người dùng
+ * @param {string} id - ID playlist
+ * @param {string} newName - Tên mới của playlist
+ * @returns {boolean} Trạng thái thành công
  */
 export function renameUserPlaylist(id, newName) {
     return safeExecute(() => {
@@ -569,10 +591,10 @@ export function renameUserPlaylist(id, newName) {
 }
 
 /**
- * Updates playlist cover image
- * @param {string} id - Playlist ID
- * @param {string} newCoverUrl - New cover image URL
- * @returns {boolean} Success status
+ * Cập nhật ảnh bìa playlist
+ * @param {string} id - ID playlist
+ * @param {string} newCoverUrl - URL ảnh bìa mới
+ * @returns {boolean} Trạng thái thành công
  */
 export function updateUserPlaylistCover(id, newCoverUrl) {
     return safeExecute(() => {
@@ -588,9 +610,9 @@ export function updateUserPlaylistCover(id, newCoverUrl) {
 }
 
 /**
- * Deletes a user playlist
- * @param {string} id - Playlist ID
- * @returns {boolean} Success status
+ * Xóa playlist người dùng
+ * @param {string} id - ID playlist
+ * @returns {boolean} Trạng thái thành công
  */
 export function deleteUserPlaylist(id) {
     return safeExecute(() => {
@@ -606,9 +628,11 @@ export function deleteUserPlaylist(id) {
 }
 
 // ===== INITIALIZATION =====
+// Hàm khởi tạo module
+
 /**
- * Initializes the playlists module
- * @returns {Object} Playlist context with all exported functions
+ * Khởi tạo module playlists
+ * @returns {Object} Context playlist với tất cả các hàm đã export
  */
 export function initPlaylists() {
     ensureDemoPlaylists();

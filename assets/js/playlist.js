@@ -1,59 +1,59 @@
-// ===== PLAYLIST PAGE MODULE =====
+// ===== MODULE TRANG PLAYLIST =====
 
-// ===== CONSTANTS =====
+// ===== HẰNG SỐ =====
 const STORAGE_KEYS = {
-    USER_PLAYLISTS: "user_playlists_v1",
-    PLAYER_STATE: "player_state_v1",
+    USER_PLAYLISTS: "user_playlists_v1", // Lưu trữ playlist người dùng
+    PLAYER_STATE: "player_state_v1",     // Lưu trữ trạng thái player
 };
 
-const SONGS_JSON_PATH = "./assets/music_data/songs.json";
+const SONGS_JSON_PATH = "./assets/music_data/songs.json"; // Đường dẫn file dữ liệu bài hát
 const PLAYLIST_TYPES = {
-    USER: "user",
+    USER: "user", // Loại playlist người dùng
 };
 
-const DEFAULT_PLAYLIST_NAME = "Playlist";
-const DEFAULT_TIME_DISPLAY = "--:--";
+const DEFAULT_PLAYLIST_NAME = "Playlist"; // Tên mặc định cho playlist
+const DEFAULT_TIME_DISPLAY = "--:--";    // Hiển thị thời gian mặc định
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh cho ghi log lỗi
+ * @returns {*} Kết quả hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
         return fn();
     } catch (error) {
-        console.error(`Error in ${context}:`, error);
+        console.error(`Lỗi trong ${context}:`, error);
         return null;
     }
 }
 
 /**
- * Query selector helper
- * @param {string} selector - CSS selector
- * @param {Document|Element} root - Root element to search from
- * @returns {HTMLElement|null} Found element or null
+ * Trình chọn CSS helper
+ * @param {string} selector - Bộ chọn CSS
+ * @param {Document|Element} root - Phần tử gốc để tìm kiếm
+ * @returns {HTMLElement|null} Phần tử tìm thấy hoặc null
  */
 function querySelector(selector, root = document) {
     return root.querySelector(selector);
 }
 
 /**
- * Query selector all helper
- * @param {string} selector - CSS selector
- * @param {Document|Element} root - Root element to search from
- * @returns {Array<HTMLElement>} Array of found elements
+ * Trình chọn tất cả CSS helper
+ * @param {string} selector - Bộ chọn CSS
+ * @param {Document|Element} root - Phần tử gốc để tìm kiếm
+ * @returns {Array<HTMLElement>} Mảng các phần tử tìm thấy
  */
 function querySelectorAll(selector, root = document) {
     return Array.from(root.querySelectorAll(selector));
 }
 
 /**
- * Gets URL parameter value
- * @param {string} name - Parameter name
- * @returns {string} Parameter value or empty string
+ * Lấy giá trị tham số URL
+ * @param {string} name - Tên tham số
+ * @returns {string} Giá trị tham số hoặc chuỗi rỗng
  */
 function getUrlParam(name) {
     return safeExecute(() => {
@@ -62,9 +62,9 @@ function getUrlParam(name) {
 }
 
 /**
- * Formats seconds to MM:SS format
- * @param {number} seconds - Time in seconds
- * @returns {string} Formatted time string
+ * Định dạng giây thành định dạng MM:SS
+ * @param {number} seconds - Thời gian tính bằng giây
+ * @returns {string} Chuỗi thời gian đã định dạng
  */
 function formatTime(seconds) {
     if (!isFinite(seconds) || seconds < 0) return "0:00";
@@ -76,8 +76,8 @@ function formatTime(seconds) {
 }
 
 /**
- * Gets user playlists from localStorage
- * @returns {Array} Array of user playlists
+ * Lấy danh sách playlist người dùng từ localStorage
+ * @returns {Array} Mảng playlist người dùng
  */
 function getUserPlaylists() {
     return safeExecute(() => {
@@ -88,8 +88,8 @@ function getUserPlaylists() {
 }
 
 /**
- * Gets cached songs from window
- * @returns {Array} Array of songs
+ * Lấy các bài hát đã lưu trữ từ window
+ * @returns {Array} Mảng các bài hát
  */
 function getCachedSongs() {
     return safeExecute(() => {
@@ -98,8 +98,8 @@ function getCachedSongs() {
 }
 
 /**
- * Sets cached songs to window
- * @param {Array} songs - Array of songs
+ * Đặt các bài hát đã lưu trữ vào window
+ * @param {Array} songs - Mảng các bài hát
  */
 function setCachedSongs(songs) {
     safeExecute(() => {
@@ -108,8 +108,8 @@ function setCachedSongs(songs) {
 }
 
 /**
- * Loads all songs from JSON file
- * @returns {Promise<Array>} Array of songs
+ * Tải tất cả bài hát từ file JSON
+ * @returns {Promise<Array>} Mảng các bài hát
  */
 async function loadAllSongs() {
     const cached = getCachedSongs();
@@ -133,9 +133,9 @@ async function loadAllSongs() {
 }
 
 /**
- * Creates a map of items by ID
- * @param {Array} items - Array of items with id property
- * @returns {Map} Map of id to item
+ * Tạo bản đồ các mục theo ID
+ * @param {Array} items - Mảng các mục có thuộc tính id
+ * @returns {Map} Bản đồ id tới mục
  */
 function createIdMap(items) {
     const map = new Map();
@@ -148,8 +148,8 @@ function createIdMap(items) {
 }
 
 /**
- * Saves user playlists to localStorage
- * @param {Array} playlists - Array of playlists
+ * Lưu playlist người dùng vào localStorage
+ * @param {Array} playlists - Mảng các playlist
  */
 function setUserPlaylists(playlists) {
     safeExecute(() => {
@@ -163,11 +163,11 @@ function setUserPlaylists(playlists) {
     }, "setUserPlaylists");
 }
 
-// ===== TRACK RENDERING =====
+// ===== RENDER BÀI HÁT =====
 /**
- * Loads and displays track duration
- * @param {string} src - Audio source URL
- * @param {string} durationElementId - ID of element to update
+ * Tải và hiển thị thời lượng bài hát
+ * @param {string} src - URL nguồn audio
+ * @param {string} durationElementId - ID của phần tử cần cập nhật
  */
 function loadTrackDuration(src, durationElementId) {
     safeExecute(() => {
@@ -182,10 +182,10 @@ function loadTrackDuration(src, durationElementId) {
 }
 
 /**
- * Creates a playlist row element
- * @param {Object} track - Track object
- * @param {number} index - Track index
- * @returns {HTMLElement} Row element
+ * Tạo phần tử hàng playlist
+ * @param {Object} track - Đối tượng bài hát
+ * @param {number} index - Chỉ số bài hát
+ * @returns {HTMLElement} Phần tử hàng
  */
 function createPlaylistRow(track, index) {
     const row = document.createElement("div");
@@ -209,9 +209,9 @@ function createPlaylistRow(track, index) {
 }
 
 /**
- * Renders playlist tracks
- * @param {HTMLElement} container - Container element
- * @param {Array} tracks - Array of track objects
+ * Render các bài hát trong playlist
+ * @param {HTMLElement} container - Phần tử container
+ * @param {Array} tracks - Mảng các đối tượng bài hát
  */
 function renderPlaylistTracks(container, tracks) {
     if (!container) return;
@@ -226,9 +226,9 @@ function renderPlaylistTracks(container, tracks) {
 }
 
 /**
- * Updates playlist header information
- * @param {Object} playlist - Playlist object
- * @param {number} trackCount - Number of tracks
+ * Cập nhật thông tin header của playlist
+ * @param {Object} playlist - Đối tượng playlist
+ * @param {number} trackCount - Số lượng bài hát
  */
 function updatePlaylistHeader(playlist, trackCount) {
     const nameElement = querySelector("#pl-name");
@@ -250,10 +250,10 @@ function updatePlaylistHeader(playlist, trackCount) {
     }
 }
 
-// ===== PLAYLIST STATE MANAGEMENT =====
+// ===== QUẢN LÝ TRẠNG THÁI PLAYLIST =====
 /**
- * Gets saved player state from localStorage
- * @returns {Object|null} Saved state or null
+ * Lấy trạng thái player đã lưu từ localStorage
+ * @returns {Object|null} Trạng thái đã lưu hoặc null
  */
 function getSavedPlayerState() {
     return safeExecute(() => {
@@ -264,8 +264,8 @@ function getSavedPlayerState() {
 }
 
 /**
- * Checks if this playlist is currently active in player
- * @param {Object} playlist - Playlist object
+ * Kiểm tra xem playlist này có đang hoạt động trong player không
+ * @param {Object} playlist - Đối tượng playlist
  * @returns {boolean}
  */
 function isPlaylistActive(playlist) {
@@ -278,11 +278,11 @@ function isPlaylistActive(playlist) {
 }
 
 /**
- * Syncs playlist with player after deletion
- * @param {Array} tracks - Updated tracks array
- * @param {Object} playlist - Playlist object
- * @param {string|null} currentTrackId - Current playing track ID
- * @param {boolean} wasPlaying - Whether player was playing
+ * Đồng bộ playlist với player sau khi xóa
+ * @param {Array} tracks - Mảng bài hát đã cập nhật
+ * @param {Object} playlist - Đối tượng playlist
+ * @param {string|null} currentTrackId - ID bài hát đang phát
+ * @param {boolean} wasPlaying - Player có đang phát không
  */
 function syncPlaylistWithPlayer(tracks, playlist, currentTrackId, wasPlaying) {
     if (
@@ -314,8 +314,8 @@ function syncPlaylistWithPlayer(tracks, playlist, currentTrackId, wasPlaying) {
 }
 
 /**
- * Updates row indices after deletion
- * @param {HTMLElement} container - Container element
+ * Cập nhật chỉ số hàng sau khi xóa
+ * @param {HTMLElement} container - Phần tử container
  */
 function updateRowIndices(container) {
     const rows = querySelectorAll("#pl-body .pl-row", container);
@@ -328,9 +328,9 @@ function updateRowIndices(container) {
     });
 }
 
-// ===== MAIN INITIALIZATION =====
+// ===== KHỞI TẠO CHÍNH =====
 /**
- * Initializes the playlist page
+ * Khởi tạo trang playlist
  */
 async function initializePlaylistPage() {
     const playlistId = getUrlParam("id");
@@ -340,28 +340,28 @@ async function initializePlaylistPage() {
 
     if (!playlist) return;
 
-    // Load and map tracks
+    // Tải và ánh xạ các bài hát
     const songs = await loadAllSongs();
     const songMap = createIdMap(songs);
     let trackIds = Array.isArray(playlist.tracks) ? playlist.tracks.slice() : [];
     let tracks = trackIds.map((id) => songMap.get(id)).filter(Boolean);
 
-    // Update header
+    // Cập nhật header
     updatePlaylistHeader(playlist, tracks.length);
 
-    // Render tracks
+    // Render các bài hát
     const bodyContainer = querySelector("#pl-body");
     renderPlaylistTracks(bodyContainer, tracks);
 
-    // ===== DELETE FUNCTIONALITY =====
+    // ===== CHỨC NĂNG XÓA =====
     /**
-     * Deletes a track from playlist
-     * @param {number} indexToRemove - Index of track to remove
-     * @param {Object} playlist - Playlist object
-     * @param {Array} currentTrackIds - Current track IDs array
-     * @param {Array} currentTracks - Current tracks array
-     * @param {Map} songMap - Map of songs by ID
-     * @returns {Object|null} Updated tracks and trackIds or null
+     * Xóa một bài hát khỏi playlist
+     * @param {number} indexToRemove - Chỉ số bài hát cần xóa
+     * @param {Object} playlist - Đối tượng playlist
+     * @param {Array} currentTrackIds - Mảng ID bài hát hiện tại
+     * @param {Array} currentTracks - Mảng bài hát hiện tại
+     * @param {Map} songMap - Bản đồ bài hát theo ID
+     * @returns {Object|null} Cập nhật tracks và trackIds hoặc null
      */
     function deleteTrackFromPlaylist(
         indexToRemove,
@@ -389,25 +389,25 @@ async function initializePlaylistPage() {
             const trackIdToRemove = currentTrackIds[indexToRemove];
             if (!trackIdToRemove) return null;
 
-            // Remove track from playlist
+            // Xóa bài hát khỏi playlist
             playlists[playlistIndex].tracks = (
                 playlists[playlistIndex].tracks || []
             ).filter((id) => id !== trackIdToRemove);
 
             setUserPlaylists(playlists);
 
-            // Update local arrays
+            // Cập nhật mảng cục bộ
             const updatedTrackIds = playlists[playlistIndex].tracks.slice();
             const updatedTracks = updatedTrackIds
                 .map((id) => songMap.get(id))
                 .filter(Boolean);
 
-            // Get player state for sync
+            // Lấy trạng thái player để đồng bộ
             const playerState = getSavedPlayerState();
             const wasPlaying = !!playerState?.isPlaying;
             const currentTrackId = playerState?.currentId || null;
 
-            // Sync with player if this playlist is active
+            // Đồng bộ với player nếu playlist này đang hoạt động
             if (isPlaylistActive(playlist)) {
                 syncPlaylistWithPlayer(
                     updatedTracks,
@@ -417,7 +417,7 @@ async function initializePlaylistPage() {
                 );
             }
 
-            // Remove row from DOM
+            // Xóa hàng khỏi DOM
             const rowToRemove = querySelector(
                 `#pl-body .pl-row[data-index="${indexToRemove}"]`
             );
@@ -425,10 +425,10 @@ async function initializePlaylistPage() {
                 rowToRemove.remove();
             }
 
-            // Update remaining row indices
+            // Cập nhật chỉ số các hàng còn lại
             updateRowIndices(bodyContainer);
 
-            // Update count
+            // Cập nhật số lượng
             updatePlaylistHeader(playlist, updatedTracks.length);
 
             return {
@@ -438,9 +438,9 @@ async function initializePlaylistPage() {
         }, "deleteTrackFromPlaylist") ?? null;
     }
 
-    // ===== CURRENT TRACK HIGHLIGHTING =====
+    // ===== HIGHLIGHT BÀI HÁT HIỆN TẠI =====
     /**
-     * Clears all current row highlights
+     * Xóa tất cả highlight hàng hiện tại
      */
     function clearAllHighlights() {
         const rows = querySelectorAll("#pl-body .pl-row");
@@ -448,8 +448,8 @@ async function initializePlaylistPage() {
     }
 
     /**
-     * Highlights the current playing row
-     * @param {Object} playlist - Playlist object
+     * Highlight hàng đang phát
+     * @param {Object} playlist - Đối tượng playlist
      */
     function highlightCurrentRow(playlist) {
         safeExecute(() => {
@@ -480,23 +480,23 @@ async function initializePlaylistPage() {
         }, "highlightCurrentRow");
     }
 
-    // Setup track change listener
+    // Thiết lập listener thay đổi bài hát
     window.addEventListener("musicbox:trackchange", () => {
         highlightCurrentRow(playlist);
     });
     highlightCurrentRow(playlist);
 
-    // ===== ROW INTERACTIONS =====
+    // ===== TƯƠNG TÁC HÀNG =====
     /**
-     * Handles row click to play track
-     * @param {HTMLElement} row - Clicked row element
-     * @param {Array} currentTracks - Current tracks array
-     * @param {Object} playlist - Playlist object
+     * Xử lý click hàng để phát bài hát
+     * @param {HTMLElement} row - Phần tử hàng được click
+     * @param {Array} currentTracks - Mảng bài hát hiện tại
+     * @param {Object} playlist - Đối tượng playlist
      */
     function handleRowClick(row, currentTracks, playlist) {
         const index = Number(row.getAttribute("data-index")) || 0;
 
-        // Set playlist as active
+        // Đặt playlist làm hoạt động
         if (typeof window.MusicBox?.setPlaylist === "function") {
             window.MusicBox.setPlaylist(currentTracks, {
                 type: PLAYLIST_TYPES.USER,
@@ -504,24 +504,24 @@ async function initializePlaylistPage() {
             });
         }
 
-        // Play track
+        // Phát bài hát
         if (typeof window.MusicBox?.playAt === "function") {
             window.MusicBox.playAt(index);
         }
 
-        // Optimistic highlight
+        // Highlight ngay lập tức
         clearAllHighlights();
         row.classList.add("is-current");
     }
 
     /**
-     * Handles delete button click
-     * @param {Event} event - Click event
-     * @param {HTMLElement} row - Row element
-     * @param {Object} playlist - Playlist object
-     * @param {Array} currentTrackIds - Current track IDs
-     * @param {Array} currentTracks - Current tracks
-     * @param {Map} songMap - Song map
+     * Xử lý click nút xóa
+     * @param {Event} event - Sự kiện click
+     * @param {HTMLElement} row - Phần tử hàng
+     * @param {Object} playlist - Đối tượng playlist
+     * @param {Array} currentTrackIds - ID bài hát hiện tại
+     * @param {Array} currentTracks - Bài hát hiện tại
+     * @param {Map} songMap - Bản đồ bài hát
      */
     function handleDeleteClick(
         event,
@@ -543,13 +543,13 @@ async function initializePlaylistPage() {
         );
 
         if (result) {
-            // Update local variables
+            // Cập nhật biến cục bộ
             trackIds = result.trackIds;
             tracks = result.tracks;
         }
     }
 
-    // Setup row event listeners
+    // Thiết lập listeners cho các hàng
     const rows = querySelectorAll("#pl-body .pl-row");
     rows.forEach((row) => {
         row.style.cursor = "pointer";
@@ -575,9 +575,9 @@ async function initializePlaylistPage() {
     });
 }
 
-// ===== INITIALIZATION =====
+// ===== KHỞI TẠO =====
 /**
- * Starts the playlist page initialization
+ * Bắt đầu khởi tạo trang playlist
  */
 function start() {
     if (document.readyState === "loading") {
@@ -591,10 +591,10 @@ function start() {
 
 start();
 
-// ===== QUEUE VISIBILITY SYNC =====
+// ===== ĐỒNG BỘ HIỂN THỊ QUEUE =====
 /**
- * Checks if an element is visible
- * @param {HTMLElement} element - Element to check
+ * Kiểm tra xem phần tử có hiển thị không
+ * @param {HTMLElement} element - Phần tử cần kiểm tra
  * @returns {boolean}
  */
 function isElementVisible(element) {
@@ -613,7 +613,7 @@ function isElementVisible(element) {
 }
 
 /**
- * Ensures queue visibility CSS is injected
+ * Đảm bảo CSS hiển thị queue được chèn
  */
 function ensureQueueVisibilityCSS() {
     const HIDE_CLASS = "is-hidden";
@@ -630,7 +630,7 @@ function ensureQueueVisibilityCSS() {
 }
 
 /**
- * Syncs main content visibility with queue visibility
+ * Đồng bộ hiển thị nội dung chính với hiển thị queue
  */
 function syncMainContentVisibility() {
     const MAIN_SELECTOR = ".main-content";
@@ -647,7 +647,7 @@ function syncMainContentVisibility() {
 }
 
 /**
- * Sets up queue visibility observer
+ * Thiết lập observer hiển thị queue
  */
 function setupQueueVisibilityObserver() {
     ensureQueueVisibilityCSS();

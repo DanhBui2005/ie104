@@ -1,61 +1,68 @@
-// ===== DARK MODE MANAGER =====
+// ===== QUẢN LÝ CHẾ ĐỘ TỐI =====
 
-// ===== CONSTANTS =====
+// ===== HẰNG SỐ =====
+// Khóa lưu trữ trong localStorage
 const STORAGE_KEYS = {
     DARK_MODE: "musicbox-dark-mode",
 };
 
+// Các selector CSS
 const SELECTORS = {
-    HEADER_RIGHT: ".header-right",
-    DARK_MODE_TOGGLE: ".dark-mode-toggle",
-    PREMIUM_BUTTON: ".premium-btn",
+    HEADER_RIGHT: ".header-right",          // Vùng bên phải của header
+    DARK_MODE_TOGGLE: ".dark-mode-toggle", // Nút chuyển đổi chế độ tối
+    PREMIUM_BUTTON: ".premium-btn",        // Nút premium
 };
 
+// Các chủ đề
 const THEMES = {
-    DARK: "dark",
-    LIGHT: "light",
+    DARK: "dark",   // Chế độ tối
+    LIGHT: "light", // Chế độ sáng
 };
 
+// Các icon
 const ICONS = {
-    MOON: "fa-solid fa-moon",
-    SUN: "fa-solid fa-sun",
+    MOON: "fa-solid fa-moon", // Icon mặt trăng cho chế độ tối
+    SUN: "fa-solid fa-sun",   // Icon mặt trời cho chế độ sáng
 };
 
+// Cấu hình animation
 const ANIMATION = {
-    ROTATING_CLASS: "rotating",
-    DURATION: 300,
+    ROTATING_CLASS: "rotating", // Class CSS cho hiệu ứng xoay
+    DURATION: 300,             // Thời gian animation (ms)
 };
 
+// Các thuộc tính
 const ATTRIBUTES = {
-    DATA_THEME: "data-theme",
-    DATA_INITIALIZED: "data-initialized",
-    ARIA_LABEL: "aria-label",
-    ARIA_HIDDEN: "aria-hidden",
+    DATA_THEME: "data-theme",       // Thuộc tính data-theme
+    DATA_INITIALIZED: "data-initialized", // Thuộc tính đánh dấu đã khởi tạo
+    ARIA_LABEL: "aria-label",       // Thuộc tính aria-label
+    ARIA_HIDDEN: "aria-hidden",     // Thuộc tính aria-hidden
 };
 
+// Media query để kiểm tra chế độ tối của hệ thống
 const MEDIA_QUERY = "(prefers-color-scheme: dark)";
-const DEFAULT_THEME = THEMES.LIGHT;
-const INITIALIZED_FLAG = "true";
+const DEFAULT_THEME = THEMES.LIGHT; // Chủ đề mặc định
+const INITIALIZED_FLAG = "true";    // Cờ đánh dấu đã khởi tạo
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
         return fn();
     } catch (error) {
-        console.error(`Error in ${context}:`, error);
+        console.error(`Lỗi trong ${context}:`, error);
         return null;
     }
 }
 
 /**
- * Gets saved theme from localStorage
- * @returns {string|null} Saved theme or null
+ * Lấy chủ đề đã lưu từ localStorage
+ * @returns {string|null} Chủ đề đã lưu hoặc null
  */
 function getSavedTheme() {
     return safeExecute(() => {
@@ -64,8 +71,8 @@ function getSavedTheme() {
 }
 
 /**
- * Saves theme to localStorage
- * @param {string} theme - Theme to save
+ * Lưu chủ đề vào localStorage
+ * @param {string} theme - Chủ đề cần lưu
  */
 function saveTheme(theme) {
     safeExecute(() => {
@@ -74,8 +81,8 @@ function saveTheme(theme) {
 }
 
 /**
- * Checks if system prefers dark mode
- * @returns {boolean} True if system prefers dark mode
+ * Kiểm tra hệ thống có ưu tiên chế độ tối không
+ * @returns {boolean} True nếu hệ thống ưu tiên chế độ tối
  */
 function prefersDarkMode() {
     return safeExecute(() => {
@@ -84,9 +91,9 @@ function prefersDarkMode() {
 }
 
 /**
- * Gets icon class name for theme
- * @param {string} theme - Theme name
- * @returns {string} Icon class name
+ * Lấy tên class icon cho chủ đề
+ * @param {string} theme - Tên chủ đề
+ * @returns {string} Tên class icon
  */
 function getIconForTheme(theme) {
     return theme === THEMES.DARK ? ICONS.MOON : ICONS.SUN;
@@ -98,24 +105,24 @@ function getIconForTheme(theme) {
  */
 class DarkModeManager {
     /**
-     * Creates a new DarkModeManager instance
+     * Tạo một thể hiện mới của DarkModeManager
      */
     constructor() {
-        this.toggleButton = null;
-        this.init();
+        this.toggleButton = null; // Nút chuyển đổi chế độ tối
+        this.init(); // Khởi tạo quản lý chế độ tối
     }
 
     /**
      * Khởi tạo dark mode
      */
     init() {
-        // Apply saved theme or system preference
+        // Áp dụng chủ đề đã lưu hoặc tùy chọn của hệ thống
         this.applyInitialTheme();
 
-        // Tạo toggle button
+        // Tạo nút chuyển đổi
         this.createToggleButton();
 
-        // Listen for system theme changes
+        // Lắng nghe thay đổi chủ đề của hệ thống
         this.setupSystemThemeListener();
     }
 
@@ -123,11 +130,13 @@ class DarkModeManager {
      * Applies initial theme from saved preference or system
      */
     applyInitialTheme() {
-        const savedTheme = getSavedTheme();
+        const savedTheme = getSavedTheme(); // Lấy chủ đề đã lưu
 
         if (savedTheme) {
+            // Nếu có chủ đề đã lưu, áp dụng nó
             this.setTheme(savedTheme);
         } else {
+            // Nếu không, sử dụng chủ đề của hệ thống
             const systemTheme = prefersDarkMode() ? THEMES.DARK : THEMES.LIGHT;
             this.setTheme(systemTheme);
         }
@@ -140,7 +149,7 @@ class DarkModeManager {
         safeExecute(() => {
             const mediaQuery = window.matchMedia(MEDIA_QUERY);
             mediaQuery.addEventListener("change", (event) => {
-                // Only apply system theme if user hasn't set a preference
+                // Chỉ áp dụng chủ đề hệ thống nếu người dùng chưa đặt tùy chọn
                 if (!getSavedTheme()) {
                     const newTheme = event.matches ? THEMES.DARK : THEMES.LIGHT;
                     this.setTheme(newTheme);
@@ -161,11 +170,12 @@ class DarkModeManager {
             SELECTORS.DARK_MODE_TOGGLE
         );
         if (existingButton) {
+            // Nếu nút đã tồn tại, thiết lập nó
             this.setupExistingButton(existingButton);
             return;
         }
 
-        // Tạo button mới
+        // Nếu không, tạo nút mới
         this.createNewToggleButton(headerRight);
     }
 
@@ -175,12 +185,12 @@ class DarkModeManager {
      */
     setupExistingButton(button) {
         this.toggleButton = button;
-        this.updateToggleIcon(this.getCurrentTheme());
+        this.updateToggleIcon(this.getCurrentTheme()); // Cập nhật icon theo chủ đề hiện tại
 
-        // Add event listener nếu chưa có
+        // Thêm event listener nếu chưa có
         if (!button.dataset.initialized) {
             button.addEventListener("click", () => this.toggle());
-            button.dataset.initialized = INITIALIZED_FLAG;
+            button.dataset.initialized = INITIALIZED_FLAG; // Đánh dấu đã khởi tạo
         }
     }
 
@@ -198,14 +208,14 @@ class DarkModeManager {
         );
         this.toggleButton.dataset.initialized = INITIALIZED_FLAG;
 
-        // Thêm icon
+        // Thêm icon vào nút
         const icon = this.createToggleIcon();
         this.toggleButton.appendChild(icon);
 
-        // Add event listener
+        // Thêm event listener cho nút
         this.toggleButton.addEventListener("click", () => this.toggle());
 
-        // Insert button into header
+        // Chèn nút vào header
         this.insertToggleButton(headerRight);
     }
 
@@ -215,9 +225,9 @@ class DarkModeManager {
      */
     createToggleIcon() {
         const icon = document.createElement("i");
-        const currentTheme = this.getCurrentTheme();
-        icon.className = getIconForTheme(currentTheme);
-        icon.setAttribute(ATTRIBUTES.ARIA_HIDDEN, "true");
+        const currentTheme = this.getCurrentTheme(); // Lấy chủ đề hiện tại
+        icon.className = getIconForTheme(currentTheme); // Đặt class icon tương ứng
+        icon.setAttribute(ATTRIBUTES.ARIA_HIDDEN, "true"); // Ẩn icon khỏi screen reader
         return icon;
     }
 
@@ -230,8 +240,10 @@ class DarkModeManager {
             SELECTORS.PREMIUM_BUTTON
         );
         if (premiumButton) {
+            // Nếu có nút premium, chèn nút dark mode trước nó
             headerRight.insertBefore(this.toggleButton, premiumButton);
         } else {
+            // Nếu không, chèn vào đầu
             headerRight.insertBefore(
                 this.toggleButton,
                 headerRight.firstChild
@@ -244,6 +256,7 @@ class DarkModeManager {
      * @returns {string} Current theme (dark or light)
      */
     getCurrentTheme() {
+        // Lấy chủ đề hiện tại từ data-theme hoặc trả về chủ đề mặc định
         return (
             document.documentElement.getAttribute(ATTRIBUTES.DATA_THEME) ||
             DEFAULT_THEME
@@ -256,9 +269,10 @@ class DarkModeManager {
      */
     setTheme(theme) {
         safeExecute(() => {
+            // Đặt thuộc tính data-theme cho document
             document.documentElement.setAttribute(ATTRIBUTES.DATA_THEME, theme);
-            saveTheme(theme);
-            this.updateToggleIcon(theme);
+            saveTheme(theme); // Lưu chủ đề vào localStorage
+            this.updateToggleIcon(theme); // Cập nhật icon
         }, "setTheme");
     }
 
@@ -267,10 +281,11 @@ class DarkModeManager {
      */
     toggle() {
         const currentTheme = this.getCurrentTheme();
+        // Chuyển đổi giữa chế độ tối và sáng
         const newTheme =
             currentTheme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK;
-        this.setTheme(newTheme);
-        this.animateToggleButton();
+        this.setTheme(newTheme); // Áp dụng chủ đề mới
+        this.animateToggleButton(); // Thực hiện animation
     }
 
     /**
@@ -280,7 +295,9 @@ class DarkModeManager {
         if (!this.toggleButton) return;
 
         safeExecute(() => {
+            // Thêm class xoay
             this.toggleButton.classList.add(ANIMATION.ROTATING_CLASS);
+            // Xóa class xoay sau khi animation kết thúc
             setTimeout(() => {
                 this.toggleButton.classList.remove(ANIMATION.ROTATING_CLASS);
             }, ANIMATION.DURATION);
@@ -297,24 +314,26 @@ class DarkModeManager {
         safeExecute(() => {
             const icon = this.toggleButton.querySelector("i");
             if (icon) {
+                // Cập nhật class của icon theo chủ đề
                 icon.className = getIconForTheme(theme);
             }
         }, "updateToggleIcon");
     }
 }
 
-// ===== EXPORT & INITIALIZATION =====
+// ===== XUẤT KHẨU VÀ KHỞI TẠO =====
 /**
- * Exports DarkModeManager class for ES6 modules
+ * Xuất lớp DarkModeManager cho các module ES6
  */
 export default DarkModeManager;
 
 /**
- * Auto-initializes DarkModeManager if not using ES6 modules
+ * Tự động khởi tạo DarkModeManager nếu không sử dụng module ES6
  */
 if (typeof module === "undefined") {
     document.addEventListener("DOMContentLoaded", () => {
         safeExecute(() => {
+            // Tạo thể hiện DarkModeManager và gán vào window
             window.darkModeManager = new DarkModeManager();
         }, "darkmode:autoInit");
     });

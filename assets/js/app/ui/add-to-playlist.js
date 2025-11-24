@@ -1,6 +1,6 @@
-// ===== ADD TO PLAYLIST MODULE =====
+// ===== MODULE THÊM VÀO DANH SÁCH PHÁT =====
 
-// ===== CONSTANTS =====
+// ===== HẰNG SỐ =====
 const TOAST_TYPES = {
     SUCCESS: "success",
     ERROR: "error",
@@ -10,12 +10,12 @@ const TOAST_DURATION = 1800;
 const TOAST_FADE_OUT = 200;
 const MOBILE_BREAKPOINT = 420;
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả hàm hoặc null khi có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -27,18 +27,18 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Escapes HTML special characters in a string
- * @param {string} str - String to escape
- * @returns {string} Escaped string
+ * Chuyển đổi các ký tự đặc biệt HTML trong chuỗi
+ * @param {string} str - Chuỗi cần chuyển đổi
+ * @returns {string} Chuỗi đã được chuyển đổi
  */
 function escapeHtml(str) {
     return String(str || "").replace(/"/g, "&quot;");
 }
 
 /**
- * Ensures a style element exists in the document
- * @param {string} id - Style element ID
- * @param {string} css - CSS content
+ * Đảm bảo phần tử style tồn tại trong tài liệu
+ * @param {string} id - ID của phần tử style
+ * @param {string} css - Nội dung CSS
  */
 function ensureStyle(id, css) {
     safeExecute(() => {
@@ -50,7 +50,7 @@ function ensureStyle(id, css) {
     }, `ensureStyle:${id}`);
 }
 
-// ===== STYLES =====
+// ===== KIỂU DÁNG =====
 const PICKER_STYLES = `
     .pl-picker-overlay {
         position: fixed;
@@ -211,22 +211,22 @@ const TOAST_STYLES = `
 `;
 
 /**
- * Ensures picker modal styles are loaded
+ * Đảm bảo kiểu dáng của modal picker được tải
  */
 function ensurePickerStyle() {
     ensureStyle("pl-picker-style", PICKER_STYLES);
 }
 
 /**
- * Ensures toast notification styles are loaded
+ * Đảm bảo kiểu dáng của thông báo toast được tải
  */
 function ensureToastStyle() {
     ensureStyle("toast-style", TOAST_STYLES);
 }
-// ===== TOAST NOTIFICATIONS =====
+// ===== THÔNG BÁO TOAST =====
 /**
- * Gets or creates the toast container element
- * @returns {HTMLElement} Toast wrapper element
+ * Lấy hoặc tạo phần tử container của toast
+ * @returns {HTMLElement} Phần tử wrapper của toast
  */
 function getToastWrap() {
     let wrapper = document.querySelector(".toast-wrap");
@@ -239,9 +239,9 @@ function getToastWrap() {
 }
 
 /**
- * Shows a toast notification
- * @param {string} message - Toast message
- * @param {string} type - Toast type ('success' or 'error')
+ * Hiển thị thông báo toast
+ * @param {string} message - Nội dung thông báo
+ * @param {string} type - Loại toast ('success' hoặc 'error')
  */
 function showToast(message, type = TOAST_TYPES.SUCCESS) {
     safeExecute(() => {
@@ -264,10 +264,10 @@ function showToast(message, type = TOAST_TYPES.SUCCESS) {
     }, "showToast");
 }
 
-// ===== PICKER MODAL =====
+// ===== MODAL PICKER =====
 /**
- * Closes the picker modal
- * @param {HTMLElement} overlay - Overlay element to remove
+ * Đóng modal picker
+ * @param {HTMLElement} overlay - Phần tử overlay cần xóa
  */
 function closePicker(overlay) {
     safeExecute(() => {
@@ -278,9 +278,9 @@ function closePicker(overlay) {
 }
 
 /**
- * Checks if a track exists in a playlist
- * @param {Object} playlist - Playlist object
- * @param {string} trackId - Track ID to check
+ * Kiểm tra xem một bài hát có tồn tại trong playlist không
+ * @param {Object} playlist - Đối tượng playlist
+ * @param {string} trackId - ID bài hát cần kiểm tra
  * @returns {boolean}
  */
 function trackExistsInPlaylist(playlist, trackId) {
@@ -288,10 +288,10 @@ function trackExistsInPlaylist(playlist, trackId) {
 }
 
 /**
- * Creates a playlist row element
- * @param {Object} playlist - Playlist object
- * @param {string} trackId - Track ID being added
- * @returns {HTMLElement} Row element
+ * Tạo phần tử hàng playlist
+ * @param {Object} playlist - Đối tượng playlist
+ * @param {string} trackId - ID bài hát đang được thêm
+ * @returns {HTMLElement} Phần tử hàng
  */
 function createPlaylistRow(playlist, trackId) {
     const row = document.createElement("div");
@@ -316,11 +316,11 @@ function createPlaylistRow(playlist, trackId) {
 }
 
 /**
- * Handles playlist selection
- * @param {string} playlistId - Selected playlist ID
- * @param {string} trackId - Track ID to add
- * @param {HTMLElement} overlay - Overlay element to close
- * @param {Object} playlistContext - Playlist context
+ * Xử lý việc chọn playlist
+ * @param {string} playlistId - ID playlist được chọn
+ * @param {string} trackId - ID bài hát cần thêm
+ * @param {HTMLElement} overlay - Phần tử overlay cần đóng
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function handlePlaylistSelection(playlistId, trackId, overlay, playlistContext) {
     return safeExecute(() => {
@@ -352,35 +352,35 @@ function handlePlaylistSelection(playlistId, trackId, overlay, playlistContext) 
 }
 
 /**
- * Sets up picker modal event listeners
- * @param {HTMLElement} overlay - Overlay element
- * @param {string} trackId - Track ID being added
- * @param {Object} playlistContext - Playlist context
+ * Thiết lập trình lắng nghe sự kiện cho modal picker
+ * @param {HTMLElement} overlay - Phần tử overlay
+ * @param {string} trackId - ID bài hát đang được thêm
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function setupPickerEvents(overlay, trackId, playlistContext) {
-    // Click handler
+    // Xử lý click
     overlay.addEventListener("click", (event) => {
         const target = event.target;
         if (!(target instanceof Element)) return;
         
-        // Close on overlay click
+        // Đóng khi click vào overlay
         if (target.classList.contains("pl-picker-overlay")) {
             closePicker(overlay);
             return;
         }
         
-        // Close on close button click
+        // Đóng khi click vào nút đóng
         const action = target.getAttribute("data-act");
         if (action === "close") {
             closePicker(overlay);
             return;
         }
         
-        // Handle playlist row click
+        // Xử lý click vào hàng playlist
         const row = target.closest(".row");
         if (row) {
             if (row.classList.contains("is-exist")) {
-                return; // Don't allow adding to playlist that already has the track
+                return; // Không cho phép thêm vào playlist đã có bài hát
             }
             
             const playlistId = row.getAttribute("data-pl-id");
@@ -390,7 +390,7 @@ function setupPickerEvents(overlay, trackId, playlistContext) {
         }
     });
     
-    // Escape key handler
+    // Xử lý phím Escape
     const handleEscape = (event) => {
         if (event.key === "Escape") {
             event.preventDefault();
@@ -402,9 +402,9 @@ function setupPickerEvents(overlay, trackId, playlistContext) {
 }
 
 /**
- * Opens the playlist picker modal
- * @param {string} trackId - Track ID to add
- * @param {Object} playlistContext - Playlist context
+ * Mở modal picker playlist
+ * @param {string} trackId - ID bài hát cần thêm
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function openPicker(trackId, playlistContext) {
     if (!trackId) return;
@@ -436,22 +436,22 @@ function openPicker(trackId, playlistContext) {
     setupPickerEvents(overlay, trackId, playlistContext);
 }
 
-// ===== MAIN SETUP =====
+// ===== THIẾT LẬP CHÍNH =====
 /**
- * Sets up the add to playlist functionality
- * @param {Object} options - Setup options
- * @param {Object} options.playerContext - Player context
- * @param {Object} options.playlistContext - Playlist context
+ * Thiết lập chức năng thêm vào playlist
+ * @param {Object} options - Tùy chọn thiết lập
+ * @param {Object} options.playerContext - Ngữ cảnh player
+ * @param {Object} options.playlistContext - Ngữ cảnh playlist
  */
 export function setupAddToPlaylist({ playerContext, playlistContext }) {
     const addButton = document.getElementById("add-to-playlist");
     if (!addButton) return;
 
-    // Initialize styles
+    // Khởi tạo kiểu dáng
     ensurePickerStyle();
     ensureToastStyle();
 
-    // Handle add button click
+    // Xử lý click vào nút thêm
     addButton.addEventListener("click", () => {
         safeExecute(() => {
             const playlist = playlistContext.getPlaylist();

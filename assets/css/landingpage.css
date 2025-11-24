@@ -1,66 +1,92 @@
-/* Base */
+/* Cơ sở */
 :root {
-    --primary: #4683a6;
-    --primary-600: #3b6f8d;
-    --primary-200: #e0f2fe;
-    --bg: #ffffff;
-    --muted: #64748b; /* slate-500/600 */
-    --text: #0f172a; /* slate-800 */
+    --primary: #4683a6; /* Màu chính */
+    --primary-600: #3b6f8d; /* Màu chính đậm hơn */
+    --primary-200: #e0f2fe; /* Màu chính nhạt hơn */
+    --bg: #ffffff; /* Màu nền */
+    --muted: #64748b; /* Màu văn bản mờ */
+    --text: #0f172a; /* Màu văn bản chính */
 }
+
+/* Reset box-sizing cho tất cả phần tử */
 * {
     box-sizing: border-box;
 }
+
+/* Con trỏ chuột cho các nút */
 button {
     cursor: pointer;
 }
+
+/* Chiều cao đầy đủ cho html và body */
 html,
 body {
     height: 100%;
 }
+
+/* Body */
 body {
     margin: 0;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
         "Apple Color Emoji", "Segoe UI Emoji";
     color: var(--text);
     background: var(--bg);
-    padding-top: 64px;
+    padding-top: 64px; /* Chừa không gian cho header cố định */
 }
+
+/* Cuộn mượt mà */
 html {
     scroll-behavior: smooth;
 }
+
+/* Hình ảnh */
 img {
     max-width: 100%;
     display: block;
 }
+
+/* Container chính */
 .container {
     max-width: 1100px;
     margin-inline: auto;
     padding-inline: 16px;
 }
+
+/* Section */
 .section {
     padding: 40px 0;
 }
+
+/* Tiêu đề h1 */
 .h1 {
     font-size: clamp(32px, 6vw, 56px);
     margin: 0 0 16px;
 }
+
+/* Tiêu đề h2 */
 .h2 {
     font-size: clamp(28px, 5vw, 40px);
     margin: 0 0 12px;
 }
+
+/* Tiêu đề h3 */
 .h3 {
     font-size: 20px;
     margin: 0 0 8px;
 }
+
+/* Đoạn văn */
 .p {
     color: var(--muted);
     line-height: 1.7;
 }
+
+/* Căn giữa văn bản */
 .center {
     text-align: center;
 }
 
-/* Buttons */
+/* Nút bấm */
 .button {
     display: inline-flex;
     align-items: center;
@@ -74,34 +100,50 @@ img {
     text-decoration: none;
     transition: 0.2s ease;
 }
+
+/* Nút chính */
 .button-primary {
     background: var(--primary);
     color: #fff;
     box-shadow: 0 8px 24px rgba(70, 131, 166, 0.25);
 }
+
+/* Hiệu ứng hover cho nút chính */
 .button-primary:hover {
     background: var(--primary-600);
 }
+
+/* Nút trong suốt */
 .button-ghost {
     background: transparent;
     color: var(--primary);
 }
+
+/* Hiệu ứng hover cho nút trong suốt */
 .button-ghost:hover {
     background: var(--primary-200);
 }
+
+/* Nút viền */
 .button-outline {
     background: transparent;
     color: var(--primary);
     border-color: var(--primary);
 }
+
+/* Nút viền màu trắng */
 .button-outline.white {
     color: #fff;
     border-color: #fff;
 }
+
+/* Nút nền trắng */
 .button-white {
     background: #fff;
     color: var(--primary);
 }
+
+/* Hiệu ứng hover cho nút nền trắng */
 .button-white:hover {
     background: rgba(255, 255, 255, 0.9);
 }
@@ -116,12 +158,16 @@ img {
     background: rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid rgba(70, 131, 166, 0.2);
 }
+
+/* Thanh điều hướng */
 .nav {
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
+/* Thương hiệu */
 .brand {
     display: flex;
     align-items: center;
@@ -129,6 +175,8 @@ img {
     font-weight: 800;
     color: var(--primary);
 }
+
+/* Logo */
 .logo {
     width: 70px;
     height: 40px;
@@ -139,24 +187,34 @@ img {
     background-position: center;
     box-shadow: none;
 }
+
+/* Menu điều hướng */
 .menu {
     display: none;
     align-items: center;
     gap: 36px;
 }
+
+/* Link trong menu */
 .menu a {
     color: #334155;
     text-decoration: none;
     font-weight: 600;
 }
+
+/* Hiệu ứng hover cho link menu */
 .menu a:hover {
     color: var(--primary);
 }
+
+/* Phần xác thực (đăng nhập/đăng ký) */
 .auth {
     display: none;
     align-items: center;
     gap: 10px;
 }
+
+/* Nút menu cho mobile */
 .burger {
     display: grid;
     place-items: center;
@@ -165,10 +223,13 @@ img {
     background: transparent;
     border: 0;
 }
+
+/* Hiệu ứng hover cho nút burger */
 .burger:hover {
     background: var(--primary-200);
 }
 
+/* Responsive cho màn hình lớn hơn 768px */
 @media (min-width: 768px) {
     .menu {
         display: flex;
@@ -181,14 +242,19 @@ img {
     }
 }
 
+/* Menu cho mobile */
 .mobile {
     display: none;
     padding: 16px 0;
     border-top: 1px solid rgba(70, 131, 166, 0.2);
 }
+
+/* Menu mobile khi mở */
 .mobile.open {
     display: block;
 }
+
+/* Link trong menu mobile */
 .mobile a {
     display: block;
     padding: 8px;
@@ -196,10 +262,14 @@ img {
     text-decoration: none;
     border-radius: 8px;
 }
+
+/* Hiệu ứng hover cho link menu mobile */
 .mobile a:hover {
     color: var(--primary);
     background: var(--primary-200);
 }
+
+/* Stack trong menu mobile */
 .mobile .stack {
     display: flex;
     flex-direction: column;
@@ -207,19 +277,25 @@ img {
     padding-top: 8px;
 }
 
-/* Hero */
+/* Hero section */
 .hero {
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #f8fafc, var(--primary-200), #f8fafc);
 }
+
+/* ID hero để điều hướng */
 #hero {
     scroll-margin-top: 72px;
 }
+
+/* Trang trí hero */
 .hero-deco {
     position: absolute;
     opacity: 0.2;
 }
+
+/* Badge trong hero */
 .hero .badge {
     display: inline-flex;
     align-items: center;
@@ -231,6 +307,8 @@ img {
     margin-bottom: 16px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 }
+
+/* Tiêu đề h1 trong hero */
 .hero .h1 {
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
         Arial, "Apple Color Emoji", "Segoe UI Emoji";
@@ -240,6 +318,8 @@ img {
     font-weight: 400;
     color: #1d293d;
 }
+
+/* Văn bản màu chính trong tiêu đề hero */
 .hero .h1 .primary {
     color: #4683a6;
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
@@ -249,16 +329,22 @@ img {
     font-style: normal;
     font-weight: 400;
 }
+
+/* Grid cho hero */
 .hero-grid {
     display: grid;
     gap: 32px;
     align-items: center;
 }
+
+/* Responsive cho hero grid */
 @media (min-width: 1024px) {
     .hero-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* Grid thống kê 3 cột */
 .stats3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -266,6 +352,8 @@ img {
     margin-top: 32px;
     max-width: 520px;
 }
+
+/* Card */
 .card {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(6px);
@@ -274,6 +362,8 @@ img {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(70, 131, 166, 0.15);
 }
+
+/* Card trong stats3 */
 .stats3 .card {
     text-align: center;
     display: flex;
@@ -283,9 +373,12 @@ img {
     gap: 6px;
 }
 
+/* Container cho ảnh hero */
 .hero-imgwrap {
     position: relative;
 }
+
+/* Ảnh hero */
 .hero-img {
     border-radius: 24px;
     overflow: hidden;
@@ -293,9 +386,13 @@ img {
     transform: translateZ(0);
     transition: transform 0.3s ease;
 }
+
+/* Hiệu ứng hover cho ảnh hero */
 .hero-img:hover {
     transform: scale(1.03);
 }
+
+/* Phần tử nổi trong hero */
 .hero-float {
     position: absolute;
     top: -16px;
@@ -306,31 +403,41 @@ img {
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
     animation: bounce 2.2s infinite;
 }
+
+/* Icon trong tiêu đề hero */
 .hero .h1 i {
     font-size: 28px;
     color: var(--primary);
     vertical-align: middle;
 }
+
+/* Icon trong phần tử nổi */
 .hero-float i {
     font-size: 16px;
     color: var(--primary);
 }
 
-/* Features */
+/* Tính năng */
 .features .grid {
     display: grid;
     gap: 20px;
 }
+
+/* Responsive cho grid tính năng trên tablet */
 @media (min-width: 768px) {
     .features .grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Responsive cho grid tính năng trên desktop */
 @media (min-width: 1024px) {
     .features .grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* Feature card */
 .feature {
     background: linear-gradient(135deg, #f8fafc, #fff);
     padding: 28px;
@@ -339,10 +446,14 @@ img {
     transition: 0.25s ease;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
 }
+
+/* Hiệu ứng hover cho feature card */
 .feature:hover {
     border-color: rgba(70, 131, 166, 0.3);
     transform: translateY(-6px);
 }
+
+/* Icon trong feature card */
 .feature .icon {
     width: 56px;
     height: 56px;
@@ -353,35 +464,41 @@ img {
     margin-bottom: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
+
+/* Icon trong feature card */
 .feature .icon i {
     font-size: 24px;
     line-height: 1;
 }
 
-/* Stats section */
+/* Section thống kê */
 .stats .grid {
     display: grid;
     gap: 28px;
     align-items: center;
 }
+
+/* Responsive cho grid thống kê */
 @media (min-width: 1024px) {
     .stats .grid {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* Grid các card thống kê */
 .stat-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
+
+/* Card thống kê */
 .stat-card {
     background: linear-gradient(135deg, #f8fafc, #fff);
     padding: 20px;
     border-radius: 18px;
     border: 1px solid rgba(70, 131, 166, 0.12);
     transition: 0.25s ease;
-}
-.stat-card {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -389,23 +506,30 @@ img {
     justify-content: center;
     gap: 6px;
 }
+
+/* Số trong card thống kê */
 .stat-card .number {
     font-weight: 800;
     color: var(--primary);
     font-size: 34px;
 }
 
+/* Block hình ảnh */
 .image-block {
     position: relative;
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
+
+/* Overlay cho hình ảnh */
 .image-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(70, 131, 166, 0.4), transparent);
 }
+
+/* Card nổi trên hình ảnh */
 .float-card {
     position: absolute;
     left: 16px;
@@ -420,29 +544,39 @@ img {
     gap: 12px;
 }
 
-/* Team */
+/* Đội ngũ */
 .team {
     background: linear-gradient(135deg, #f8fafc, var(--primary-200), #f8fafc);
 }
+
+/* Grid đội ngũ */
 .team-grid {
     display: grid;
     gap: 20px;
 }
+
+/* Responsive cho grid đội ngũ trên tablet */
 @media (min-width: 768px) {
     .team-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Responsive cho grid đội ngũ trên desktop nhỏ */
 @media (min-width: 1024px) {
     .team-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* Responsive cho grid đội ngũ trên desktop lớn */
 @media (min-width: 1280px) {
     .team-grid {
         grid-template-columns: repeat(5, 1fr);
     }
 }
+
+/* Thành viên đội ngũ */
 .member {
     background: #fff;
     border: 1px solid rgba(70, 131, 166, 0.12);
@@ -451,11 +585,15 @@ img {
     transition: 0.25s ease;
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.08);
 }
+
+/* Hiệu ứng hover cho thành viên */
 .member:hover {
     border-color: rgba(70, 131, 166, 0.3);
     transform: translateY(-8px);
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
 }
+
+/* Avatar thành viên */
 .member .avatar {
     width: 96px;
     height: 96px;
@@ -467,20 +605,28 @@ img {
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
+/* Icon trong avatar */
 .member .avatar i {
     font-size: 40px;
     color: #fff;
 }
+
+/* Hiệu ứng hover cho avatar */
 .member:hover .avatar {
     transform: translateY(-6px) scale(1.06);
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
 }
+
+/* Hình ảnh avatar */
 .avatar-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 999px;
 }
+
+/* Vai trò của thành viên */
 .member .role {
     position: absolute;
     bottom: -10px;
@@ -493,36 +639,49 @@ img {
     border-radius: 999px;
     white-space: nowrap;
 }
+
+/* Mạng xã hội của thành viên */
 .member .social {
     display: flex;
     justify-content: center;
     gap: 8px;
 }
+
+/* Nút mạng xã hội */
 .member .social button {
     padding: 8px;
     border-radius: 10px;
     background: #f8fafc;
     border: 0;
 }
+
+/* Hiệu ứng hover cho nút mạng xã hội */
 .member .social button:hover {
     background: var(--primary-200);
 }
+
+/* Icon trong nút mạng xã hội */
 .member .social button i {
     font-size: 16px;
     color: var(--primary);
     line-height: 1;
 }
 
+/* Giá trị */
 .values {
     display: grid;
     gap: 16px;
     margin-top: 32px;
 }
+
+/* Responsive cho grid giá trị */
 @media (min-width: 768px) {
     .values {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* Giá trị */
 .value {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(6px);
@@ -531,6 +690,8 @@ img {
     border: 1px solid rgba(70, 131, 166, 0.12);
     text-align: center;
 }
+
+/* Icon giá trị */
 .value .vicon {
     width: 44px;
     height: 44px;
@@ -543,16 +704,20 @@ img {
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
+/* Icon trong vicon */
 .value .vicon i {
     font-size: 18px;
     line-height: 1;
 }
+
+/* Hiệu ứng hover cho icon giá trị */
 .value:hover .vicon {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* CTA */
+/* Kêu gọi hành động (Call To Action) */
 .cta {
     position: relative;
     overflow: hidden;
@@ -564,22 +729,30 @@ img {
         #5a9bc4
     );
 }
+
+/* Pattern trong CTA */
 .cta .pattern {
     position: absolute;
     inset: 0;
     opacity: 0.12;
     pointer-events: none;
 }
+
+/* Grid trong CTA */
 .cta .grid {
     display: grid;
     gap: 28px;
     align-items: center;
 }
+
+/* Responsive cho grid CTA */
 @media (min-width: 1024px) {
     .cta .grid {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* Badge */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -590,17 +763,23 @@ img {
     border-radius: 999px;
     margin-bottom: 16px;
 }
+
+/* Badge tính năng */
 .features-badge {
     gap: 10px;
     border: 1px solid rgba(70, 131, 166, 0.25);
     box-shadow: 0 8px 16px rgba(70, 131, 166, 0.12);
     animation: floatY 3s ease-in-out infinite;
 }
+
+/* Icon trong badge tính năng */
 .features-badge i {
     font-size: 16px;
     color: var(--primary);
     opacity: 0.9;
 }
+
+/* Animation nổi lên */
 @keyframes floatY {
     0%,
     100% {
@@ -610,11 +789,15 @@ img {
         transform: translateY(-4px);
     }
 }
+
+/* Tắt animation nếu người dùng yêu cầu giảm chuyển động */
 @media (prefers-reduced-motion: reduce) {
     .features-badge {
         animation: none;
     }
 }
+
+/* Icon tick */
 .tick {
     width: 20px;
     height: 20px;
@@ -624,11 +807,15 @@ img {
     place-items: center;
     font-size: 12px;
 }
+
+/* Icon trong tick */
 .tick i {
     font-size: 12px;
     color: #fff;
     line-height: 1;
 }
+
+/* Hộp nổi */
 .float-box {
     position: absolute;
     left: -16px;
@@ -648,11 +835,15 @@ img {
     padding-top: 64px;
     padding-bottom: 32px;
 }
+
+/* Dòng thương hiệu trong footer */
 .footer .brandline {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+/* Logo trong footer */
 .footer .brandline .logo {
     width: 32px;
     height: 32px;
@@ -663,50 +854,72 @@ img {
     border-radius: 0;
     box-shadow: none;
 }
+
+/* Grid trong footer */
 .footer .grid {
     display: grid;
     gap: 20px;
 }
+
+/* Responsive cho grid footer trên tablet */
 @media (min-width: 768px) {
     .footer .grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Responsive cho grid footer trên desktop */
 @media (min-width: 1024px) {
     .footer .grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* Dòng thương hiệu (lặp lại) */
 .footer .brandline {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
 }
+
+/* Màu văn bản trong footer */
 .footer p,
 .footer a,
 .footer span {
     color: #90a1b9;
 }
+
+/* Đoạn văn trong footer */
 .footer p {
     line-height: 1.9;
 }
+
+/* Span trong dòng thương hiệu */
 .footer .brandline span {
     color: #fff;
 }
+
+/* Tiêu đề h3 trong footer */
 .footer .h3,
 .footer h3 {
     color: #fff;
 }
+
+/* Link trong list grid 8 */
 .footer .list-grid-8 li a {
     color: #90a1b9;
     display: block;
     padding: 4px 0;
     line-height: 1.8;
 }
+
+/* Hiệu ứng hover cho link trong list grid 8 */
 .footer .list-grid-8 li a:hover {
     color: var(--primary-200);
 }
+
+/* Item trong list grid 10 */
 .footer .list-grid-10 li {
     display: flex;
     align-items: center;
@@ -714,18 +927,28 @@ img {
     color: #90a1b9;
     line-height: 1.8;
 }
+
+/* List grid 10 */
 .footer .list-grid-10 {
     gap: 12px;
 }
+
+/* Mạng xã hội trong footer */
 .footer .social {
     margin-top: 12px;
 }
+
+/* Link trong footer */
 .footer a {
     text-decoration: none;
 }
+
+/* Hiệu ứng hover cho link trong footer */
 .footer a:hover {
     color: var(--primary-200);
 }
+
+/* Link mạng xã hội trong footer */
 .footer .social a {
     width: 40px;
     height: 40px;
@@ -734,27 +957,40 @@ img {
     place-items: center;
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* Hiệu ứng hover cho link mạng xã hội */
 .footer .social a:hover {
     background: var(--primary);
 }
+
+/* Icon trong link mạng xã hội */
 .footer .social a i {
     color: rgba(255, 255, 255, 0.7);
 }
+
+/* Hiệu ứng hover cho icon trong link mạng xã hội */
 .footer .social a:hover i {
     color: #fff;
 }
+
+/* Icon trong list */
 .footer li i {
     margin-right: 8px;
 }
 
+/* Icon trong tiêu đề h2 */
 .h2 i {
     margin-right: 8px;
 }
+
+/* Newsletter trong footer */
 .footer .newsletter {
     display: flex;
     gap: 8px;
     margin-top: 16px;
 }
+
+/* Input email trong footer */
 .footer input[type="email"] {
     flex: 1;
     padding: 10px 12px;
@@ -763,6 +999,8 @@ img {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
 }
+
+/* Phần dưới của footer */
 .footer .bottom {
     margin-top: 24px;
     padding-top: 24px;
@@ -771,6 +1009,8 @@ img {
     flex-direction: column;
     gap: 12px;
 }
+
+/* Responsive cho phần dưới footer */
 @media (min-width: 768px) {
     .footer .bottom {
         flex-direction: row;
@@ -779,7 +1019,7 @@ img {
     }
 }
 
-/* Helpers */
+/* Helper classes */
 .grid-2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -797,10 +1037,12 @@ img {
     }
 }
 
-/* Inline-style replacements */
+/* Thay thế inline-style */
 .primary {
     color: var(--primary);
 }
+
+/* Chấm tròn */
 .dot {
     width: 8px;
     height: 8px;
@@ -808,12 +1050,16 @@ img {
     background: var(--primary);
     display: inline-block;
 }
+
+/* Hành động */
 .actions {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
     margin-top: 16px;
 }
+
+/* Margin utilities */
 .mb-48 {
     margin-bottom: 48px;
 }
@@ -829,6 +1075,8 @@ img {
 .mt-8 {
     margin-top: 8px;
 }
+
+/* Max-width utilities */
 .mxw-640 {
     max-width: 640px;
 }
@@ -836,10 +1084,14 @@ img {
     max-width: 720px;
     margin: 0 auto;
 }
+
+/* Height utility */
 .h-500 {
     height: 500px;
     object-fit: cover;
 }
+
+/* Vuông gradient */
 .sq-gradient {
     width: 48px;
     height: 48px;
@@ -849,16 +1101,24 @@ img {
     place-items: center;
     color: #fff;
 }
+
+/* Icon trong vuông gradient */
 .sq-gradient i {
     font-size: 20px;
     line-height: 1;
 }
+
+/* Position utility */
 .relative {
     position: relative;
 }
+
+/* Overlay tối cho CTA */
 .cta-overlay-dark {
     background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
 }
+
+/* Hành động CTA */
 .actions-cta {
     display: flex;
     gap: 12px;
@@ -867,22 +1127,28 @@ img {
     position: relative;
     z-index: 10;
 }
+
+/* Nút trong hành động CTA */
 .actions-cta .button,
 .actions-cta button {
     cursor: pointer;
     position: relative;
     z-index: 10;
 }
+
+/* Hiệu ứng hover cho nút trắng trong CTA */
 .actions-cta .button-white:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
 }
+
+/* Hiệu ứng hover cho nút viền trắng trong CTA */
 .actions-cta .button-outline.white:hover {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Feature icon color variants */
+/* Bi thể màu icon tính năng */
 .icon-blue {
     background: linear-gradient(135deg, #60a5fa, #22d3ee);
 }
@@ -902,7 +1168,7 @@ img {
     background: linear-gradient(135deg, #6366f1, #60a5fa);
 }
 
-/* Footer helpers */
+/* Helper cho footer */
 .footer-social {
     display: flex;
     gap: 10px;
@@ -913,17 +1179,24 @@ img {
     gap: 16px;
 }
 
-/* More utilities */
+/* Utility classes khác */
 .stat-strong {
     color: var(--primary);
     font-weight: 800;
 }
+
+/* Font size utilities */
 .small {
     font-size: 14px;
 }
 .xsmall {
     font-size: 12px;
 }
+.text-22 {
+    font-size: 22px;
+}
+
+/* Vuông gradient lớn */
 .sq-gradient-lg {
     width: 64px;
     height: 64px;
@@ -934,10 +1207,14 @@ img {
     color: #fff;
     font-size: 24px;
 }
+
+/* Icon trong vuông gradient lớn */
 .sq-gradient-lg i {
     font-size: 24px;
     line-height: 1;
 }
+
+/* Text utilities */
 .text-left {
     text-align: left;
 }
@@ -947,9 +1224,13 @@ img {
 .text-white {
     color: #fff;
 }
+
+/* Max-width utility */
 .mxw-620 {
     max-width: 620px;
 }
+
+/* Margin utilities */
 .mt-48 {
     margin-top: 48px;
 }
@@ -959,34 +1240,41 @@ img {
 .mb-4 {
     margin-bottom: 4px;
 }
+
+/* Flex utilities */
 .row-start {
     display: flex;
     gap: 12px;
     align-items: flex-start;
-}
-.text-22 {
-    font-size: 22px;
 }
 .row-center {
     display: flex;
     gap: 14px;
     align-items: center;
 }
+.flex-center {
+    display: flex;
+    align-items: center;
+}
+
+/* Height utility */
 .h-400 {
     height: 400px;
     width: 100%;
     object-fit: cover;
 }
+
+/* Gap utility */
 .gap-8 {
     gap: 8px;
 }
-.flex-center {
-    display: flex;
-    align-items: center;
-}
+
+/* Font weight utility */
 .fw-800 {
     font-weight: 800;
 }
+
+/* List utility */
 .no-list {
     list-style: none;
     padding: 0;
@@ -997,7 +1285,7 @@ img {
     margin: 8px 0 0;
 }
 
-/* Custom notification */
+/* Thông báo tùy chỉnh */
 .notification {
     position: fixed;
     top: 20px;
@@ -1013,9 +1301,13 @@ img {
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
         Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
+/* Hiển thị thông báo */
 .notification.show {
     transform: translateX(0);
 }
+
+/* List grid 10 */
 .list-grid-10 {
     display: grid;
     gap: 10px;

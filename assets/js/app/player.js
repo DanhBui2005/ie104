@@ -1,62 +1,64 @@
-// ===== PLAYER MODULE =====
+// ===== MODULE PLAYER NHẠC =====
 
-// ===== CONSTANTS =====
+// ===== HẰNG SỐ =====
+// Các chế độ phát lại
 const REPEAT_MODES = {
-    OFF: "off",
-    ALL: "all",
-    ONE: "one",
+    OFF: "off",  // Tắt phát lại
+    ALL: "all",  // Phát lại tất cả
+    ONE: "one",  // Phát lại một bài
 };
 
-const PLAYER_STATE_KEY = "player_state_v1";
-const STATE_SAVE_THROTTLE_MS = 500;
-const TIME_BUFFER_SECONDS = 0.2;
-const DEFAULT_VOLUME = 0.8;
-const MOBILE_BREAKPOINT = 900;
-const NAVIGATION_TYPE_RELOAD = 1;
+const PLAYER_STATE_KEY = "player_state_v1";  // Khóa lưu trạng thái player
+const STATE_SAVE_THROTTLE_MS = 500;          // Thời gian chờ lưu trạng thái (ms)
+const TIME_BUFFER_SECONDS = 0.2;             // Thời gian đệm khi tua
+const DEFAULT_VOLUME = 0.8;                  // Âm lượng mặc định
+const MOBILE_BREAKPOINT = 900;               // Điểm ngắt cho giao diện mobile
+const NAVIGATION_TYPE_RELOAD = 1;            // Loại điều hướng tải lại trang
 
+// Các selector bị khóa khi phát quảng cáo
 const AD_LOCK_SELECTORS = [
-    "#play",
-    "#next",
-    "#prev",
-    "#shuffle",
-    "#repeat",
-    "#progress",
-    "#queue-list",
-    "#pl-tbody tr",
-    ".song-card",
-    ".song-item",
-    ".q-list",
-    ".q-item",
-    ".q-row",
+    "#play",          // Nút play
+    "#next",          // Nút next
+    "#prev",          // Nút prev
+    "#shuffle",       // Nút xáo trộn
+    "#repeat",        // Nút phát lại
+    "#progress",      // Thanh tiến trình
+    "#queue-list",    // Danh sách hàng đợi
+    "#pl-tbody tr",   // Dòng trong bảng playlist
+    ".song-card",     // Thẻ bài hát
+    ".song-item",     // Mục bài hát
+    ".q-list",        // Danh sách hàng đợi
+    ".q-item",        // Mục hàng đợi
+    ".q-row",         // Dòng hàng đợi
 ];
 
-// ===== STATE VARIABLES =====
-// Player state
-let audio = null;
-let index = 0;
-let isPlaying = false;
-let shuffle = false;
-let repeatMode = REPEAT_MODES.OFF;
+// ===== BIẾN TRẠNG THÁI =====
+// Trạng thái player
+let audio = null;                           // Đối tượng audio
+let index = 0;                              // Chỉ số bài hát hiện tại
+let isPlaying = false;                      // Trạng thái phát nhạc
+let shuffle = false;                        // Trạng thái xáo trộn
+let repeatMode = REPEAT_MODES.OFF;          // Chế độ phát lại
 
-// Ad state
-let isAdPlaying = false;
-let adAfterCallback = null;
-let adShownThisTrackCycle = false;
-let lastAdTrackId = null;
-let currentTrackKey = null;
+// Trạng thái quảng cáo
+let isAdPlaying = false;                    // Trạng thái phát quảng cáo
+let adAfterCallback = null;                 // Callback sau quảng cáo
+let adShownThisTrackCycle = false;          // Đã hiển thị quảng cáo trong chu kỳ này
+let lastAdTrackId = null;                   // ID bài hát cuối cùng có quảng cáo
+let currentTrackKey = null;                 // Khóa bài hát hiện tại
 
-// Logout flag
-let logoutInProgress = false;
+// Cờ đăng xuất
+let logoutInProgress = false;               // Trạng thái đang đăng xuất
 
-// DOM elements (will be set during init)
+// Các phần tử DOM (sẽ được thiết lập trong quá trình khởi tạo)
 let elements = {};
 
-// Player state persistence
-let lastStateSavedAt = 0;
+// Lưu trạng thái player
+let lastStateSavedAt = 0;                   // Thời điểm lưu trạng thái cuối cùng
 
-// ===== INITIALIZATION HELPERS =====
+// ===== TRỢ GIÚP KHỞI TẠO =====
 /**
- * Detects if this is the first visit
+ * Phát hiện nếu đây là lần truy cập đầu tiên
  * @returns {boolean}
  */
 function detectFirstVisit() {
@@ -70,7 +72,7 @@ function detectFirstVisit() {
 }
 
 /**
- * Detects if user just logged in
+ * Phát hiện nếu người dùng vừa đăng nhập
  * @returns {boolean}
  */
 function detectJustLoggedIn() {
@@ -90,21 +92,21 @@ function detectJustLoggedIn() {
 const FIRST_VISIT = detectFirstVisit();
 const JUST_LOGGED_IN = detectJustLoggedIn();
 
-// ===== AD ASSETS =====
+// ===== TÀI SẢN QUẢNG CÁO =====
 const adAssets = {
-    title: "Quảng cáo",
-    artist: "Tài trợ",
-    src: "./assets/quang_cao/songs_quang_cao/quang_cao.mp3",
-    cover: "./assets/quang_cao/imgs_banner_quang_cao/quang_cao.png",
-    artistImg: "./assets/quang_cao/imgs_logo_quang_cao/quang_cao.png",
+    title: "Quảng cáo",                                                  // Tiêu đề quảng cáo
+    artist: "Tài trợ",                                                    // Tên nghệ sĩ
+    src: "./assets/quang_cao/songs_quang_cao/quang_cao.mp3",             // Nguồn file âm thanh
+    cover: "./assets/quang_cao/imgs_banner_quang_cao/quang_cao.png",     // Ảnh bìa
+    artistImg: "./assets/quang_cao/imgs_logo_quang_cao/quang_cao.png",    // Ảnh nghệ sĩ
 };
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -116,9 +118,9 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Formats seconds to MM:SS format
- * @param {number} seconds - Time in seconds
- * @returns {string} Formatted time string
+ * Định dạng giây thành định dạng MM:SS
+ * @param {number} seconds - Thời gian tính bằng giây
+ * @returns {string} Chuỗi thời gian đã định dạng
  */
 function formatTime(seconds) {
     if (!isFinite(seconds)) return "0:00";
@@ -130,7 +132,7 @@ function formatTime(seconds) {
 }
 
 /**
- * Checks if navigation was a reload
+ * Kiểm tra xem điều hướng có phải là tải lại trang không
  * @returns {boolean}
  */
 function isReloadNavigation() {
@@ -142,7 +144,7 @@ function isReloadNavigation() {
             if (navEntries?.[0]?.type === "string") {
                 return navEntries[0].type === "reload";
             }
-            // Fallback (deprecated API)
+            // Fallback (API đã lỗi thời)
             if (performance?.navigation?.type === "number") {
                 return performance.navigation.type === NAVIGATION_TYPE_RELOAD;
             }
@@ -152,9 +154,9 @@ function isReloadNavigation() {
 }
 
 /**
- * Gets a unique key for a track
- * @param {Object} track - Track object
- * @returns {string|null} Track key or null
+ * Lấy khóa duy nhất cho một bài hát
+ * @param {Object} track - Đối tượng bài hát
+ * @returns {string|null} Khóa bài hát hoặc null
  */
 function getTrackKey(track) {
     if (!track) return null;
@@ -162,8 +164,8 @@ function getTrackKey(track) {
 }
 
 /**
- * Updates play/pause UI icon
- * @param {boolean} isPlaying - Whether audio is playing
+ * Cập nhật biểu tượng phát/tạm dừng UI
+ * @param {boolean} isPlaying - Âm thanh có đang phát không
  */
 function setPlayUI(isPlaying) {
     if (!elements.playIcon) return;
@@ -172,8 +174,8 @@ function setPlayUI(isPlaying) {
 }
 
 /**
- * Enables or disables player controls
- * @param {boolean} disabled - Whether to disable controls
+ * Bật hoặc tắt điều khiển player
+ * @param {boolean} disabled - Có vô hiệu hóa điều khiển không
  */
 function setControlsDisabled(disabled) {
     const controls = [
@@ -196,7 +198,7 @@ function setControlsDisabled(disabled) {
 }
 
 /**
- * Checks if premium is enabled
+ * Kiểm tra xem premium có được bật không
  * @returns {boolean}
  */
 function isPremiumOn() {
@@ -208,17 +210,17 @@ function isPremiumOn() {
     );
 }
 
-// ===== PLAYER STATE PERSISTENCE =====
+// ===== LƯU TRỮ TRẠNG THÁI PLAYER =====
 /**
- * Saves current player state to localStorage
- * @param {boolean} force - Force save even if throttled
+ * Lưu trạng thái player hiện tại vào localStorage
+ * @param {boolean} force - Buộc lưu ngay cả khi đang bị giới hạn
  */
 function savePlayerState(force = false) {
-    if (isAdPlaying) return; // Avoid saving ad as track
+    if (isAdPlaying) return; // Tránh lưu quảng cáo như một bài hát
 
     const now = Date.now();
     if (!force && now - lastStateSavedAt < STATE_SAVE_THROTTLE_MS) {
-        return; // Throttle saves
+        return; // Giới hạn tần suất lưu
     }
     lastStateSavedAt = now;
 
@@ -251,7 +253,7 @@ function savePlayerState(force = false) {
             },
             trackIds: playlist.map((t) => t?.id).filter(Boolean),
             currentId: currentTrack?.id || null,
-            // Save additional context to help with reload handling
+            // Lưu ngữ cảnh bổ sung để giúp xử lý tải lại trang
             wasPlayingBeforeUnload: !!isPlaying && !isAdPlaying,
         };
 
@@ -260,8 +262,8 @@ function savePlayerState(force = false) {
 }
 
 /**
- * Retrieves saved player state from localStorage
- * @returns {Object|null} Saved state or null
+ * Lấy trạng thái player đã lưu từ localStorage
+ * @returns {Object|null} Trạng thái đã lưu hoặc null
  */
 function getSavedPlayerState() {
     return (
@@ -278,8 +280,8 @@ function getSavedPlayerState() {
 }
 
 /**
- * Restores player state from localStorage
- * @returns {boolean} Success status
+ * Khôi phục trạng thái player từ localStorage
+ * @returns {boolean} Trạng thái thành công
  */
 function restorePlayerState() {
     const savedState = getSavedPlayerState();
@@ -289,7 +291,7 @@ function restorePlayerState() {
         safeExecute(() => {
             const playlist = window.__mbPlaylist || [];
 
-            // Validate index
+            // Xác thực chỉ số
             if (
                 typeof savedState.index !== "number" ||
                 savedState.index < 0 ||
@@ -298,7 +300,7 @@ function restorePlayerState() {
                 return false;
             }
 
-            // Restore volume
+            // Khôi phục âm lượng
             if (typeof savedState.volume === "number") {
                 audio.volume = Math.min(1, Math.max(0, savedState.volume));
                 if (elements.volume) {
@@ -312,7 +314,7 @@ function restorePlayerState() {
                 updateVolumeIcon(audio.volume);
             }
 
-            // Restore shuffle
+            // Khôi phục xáo trộn
             if (typeof savedState.shuffle === "boolean") {
                 shuffle = savedState.shuffle;
                 if (elements.shuffleBtn) {
@@ -321,7 +323,7 @@ function restorePlayerState() {
                 updateShuffleA11y();
             }
 
-            // Restore repeat mode
+            // Khôi phục chế độ phát lại
             if (
                 savedState.repeatMode === REPEAT_MODES.OFF ||
                 savedState.repeatMode === REPEAT_MODES.ALL ||
@@ -338,7 +340,7 @@ function restorePlayerState() {
                 updateRepeatA11y();
             }
 
-            // Determine target index (prefer mapping by currentId)
+            // Xác định chỉ số mục tiêu (ưu tiên ánh xạ theo currentId)
             let targetIndex = savedState.index;
             if (savedState.currentId) {
                 const foundIndex = playlist.findIndex(
@@ -351,7 +353,7 @@ function restorePlayerState() {
 
             loadTrack(targetIndex);
 
-            // Restore playback time
+            // Khôi phục thời gian phát lại
             const applyTime = () => {
                 if (
                     typeof savedState.currentTime === "number" &&
@@ -372,16 +374,16 @@ function restorePlayerState() {
                 });
             }
 
-            // Restore play/pause state
-            // Force paused on first visit OR right after login
-            // Use wasPlayingBeforeUnload if available, otherwise fall back to isPlaying
+            // Khôi phục trạng thái phát/tạm dừng
+            // Buộc tạm dừng trong lần truy cập đầu tiên HOẶC ngay sau khi đăng nhập
+            // Sử dụng wasPlayingBeforeUnload nếu có, nếu không thì quay lại isPlaying
             const shouldPlay =
                 savedState.wasPlayingBeforeUnload !== undefined
                     ? savedState.wasPlayingBeforeUnload
                     : savedState.isPlaying;
 
             if (!FIRST_VISIT && !JUST_LOGGED_IN && shouldPlay) {
-                // Set the play intent flag to handle potential autoplay restrictions
+                // Đặt cờ ý định phát để xử lý các hạn chế về tự động phát
                 sessionStorage.setItem("musicbox_play_intent", "true");
                 play();
             } else {
@@ -393,18 +395,18 @@ function restorePlayerState() {
     );
 }
 
-// ===== AD FUNCTIONS =====
+// ===== CÁC HÀM QUẢNG CÁO =====
 /**
- * Applies ad UI to player elements
+ * Áp dụng UI quảng cáo cho các phần tử player
  */
 function applyAdUI() {
     safeExecute(() => {
-        // Update main player UI
+        // Cập nhật UI player chính
         if (elements.titleEl) elements.titleEl.textContent = adAssets.title;
         if (elements.artistEl) elements.artistEl.textContent = adAssets.artist;
         if (elements.coverEl) elements.coverEl.src = adAssets.cover;
 
-        // Update banner UI
+        // Cập nhật UI banner
         if (elements.bTitle) elements.bTitle.textContent = adAssets.title;
         if (elements.bArtistName)
             elements.bArtistName.textContent = adAssets.artist;
@@ -412,27 +414,27 @@ function applyAdUI() {
         if (elements.bArtistAvatar)
             elements.bArtistAvatar.src = adAssets.artistImg;
 
-        // Reset progress
+        // Đặt lại tiến trình
         if (elements.progress) {
             elements.progress.value = 0;
             elements.progress.style.setProperty("--progress-value", "0%");
         }
 
-        // Reset time displays
+        // Đặt lại hiển thị thời gian
         if (elements.currentTimeEl) elements.currentTimeEl.textContent = "0:00";
         if (elements.durationEl) elements.durationEl.textContent = "0:00";
     }, "applyAdUI");
 }
 
 /**
- * Starts an ad and executes callback after
- * @param {Function|null} callback - Callback to execute after ad
+ * Bắt đầu quảng cáo và thực thi callback sau đó
+ * @param {Function|null} callback - Callback để thực thi sau quảng cáo
  */
 function startAdThen(callback) {
-    // Don't start ad if already playing
+    // Không bắt đầu quảng cáo nếu đã đang phát
     if (isAdPlaying) return;
 
-    // Skip ad for premium users
+    // Bỏ qua quảng cáo cho người dùng premium
     if (isPremiumOn()) {
         if (typeof callback === "function") {
             callback();
@@ -442,7 +444,7 @@ function startAdThen(callback) {
         return;
     }
 
-    // Skip ad if already shown for this track in repeat-one mode
+    // Bỏ qua quảng cáo nếu đã hiển thị cho bài hát này trong chế độ phát lại một
     if (repeatMode === REPEAT_MODES.ONE && adShownThisTrackCycle) {
         if (typeof callback === "function") {
             callback();
@@ -470,7 +472,7 @@ function startAdThen(callback) {
 }
 
 /**
- * Ends ad and resumes playback
+ * Kết thúc quảng cáo và tiếp tục phát lại
  */
 function endAdThenResume() {
     isAdPlaying = false;
@@ -483,7 +485,7 @@ function endAdThenResume() {
         document.body.classList.remove("ad-locked");
     }, "endAdThenResume");
 
-    // Execute callback or continue to next track
+    // Thực thi callback hoặc tiếp tục bài hát tiếp theo
     if (typeof adAfterCallback === "function") {
         const callback = adAfterCallback;
         adAfterCallback = null;
@@ -493,18 +495,18 @@ function endAdThenResume() {
     }
 }
 
-// ===== TRACK LOADING AND PLAYBACK =====
+// ===== TẢI VÀ PHÁT BÀI HÁT =====
 /**
- * Updates track UI elements
- * @param {Object} track - Track object
+ * Cập nhật các phần tử UI của bài hát
+ * @param {Object} track - Đối tượng bài hát
  */
 function updateTrackUI(track) {
-    // Update main player UI
+    // Cập nhật UI player chính
     if (elements.titleEl) elements.titleEl.textContent = track.title;
     if (elements.artistEl) elements.artistEl.textContent = track.artist;
     if (elements.coverEl) elements.coverEl.src = track.cover;
 
-    // Update banner UI
+    // Cập nhật UI banner
     if (elements.bTitle) elements.bTitle.textContent = track.title;
     if (elements.bArtistName) elements.bArtistName.textContent = track.artist;
     if (elements.bCover) elements.bCover.src = track.cover;
@@ -514,7 +516,7 @@ function updateTrackUI(track) {
 }
 
 /**
- * Resets progress and time displays
+ * Đặt lại hiển thị tiến trình và thời gian
  */
 function resetProgressUI() {
     if (elements.progress) {
@@ -526,15 +528,15 @@ function resetProgressUI() {
 }
 
 /**
- * Loads a track at the given index
- * @param {number} trackIndex - Index of track to load
+ * Tải một bài hát tại chỉ số đã cho
+ * @param {number} trackIndex - Chỉ số của bài hát cần tải
  */
 function loadTrack(trackIndex) {
     const playlist = window.__mbPlaylist || [];
     const track = playlist[trackIndex];
     if (!track) return;
 
-    // Reset ad flags only if track identity changes
+    // Đặt lại cờ quảng cáo chỉ khi nhận dạng bài hát thay đổi
     const nextKey = getTrackKey(track);
     if (nextKey !== currentTrackKey) {
         currentTrackKey = nextKey;
@@ -546,21 +548,21 @@ function loadTrack(trackIndex) {
     audio.src = track.src;
     audio.load();
 
-    // Update UI
+    // Cập nhật UI
     updateTrackUI(track);
     resetProgressUI();
 
-    // Expose current track id for other modules
+    // Tiết lộ ID bài hát hiện tại cho các module khác
     safeExecute(() => {
         window.currentTrackId = track.id || null;
     }, "loadTrack:setTrackId");
 
-    // Update queue active state
+    // Cập nhật trạng thái hoạt động của hàng đợi
     if (window.__mbUpdateQueueActive) {
         window.__mbUpdateQueueActive(index);
     }
 
-    // Notify other modules
+    // Thông báo cho các module khác
     safeExecute(() => {
         window.dispatchEvent(
             new CustomEvent("musicbox:trackchange", { detail: { index } })
@@ -569,10 +571,10 @@ function loadTrack(trackIndex) {
 }
 
 /**
- * Plays the audio
+ * Phát âm thanh
  */
 function play() {
-    // Handle autoplay policy by using a promise
+    // Xử lý chính sách tự động phát bằng cách sử dụng promise
     const playPromise = audio.play();
 
     if (playPromise !== undefined) {
@@ -588,11 +590,11 @@ function play() {
                 console.warn("Autoplay was prevented:", error);
                 isPlaying = false;
                 setPlayUI(false);
-                // Save the intent to play so it can be restored after user interaction
+                // Lưu ý định phát để có thể khôi phục sau khi người dùng tương tác
                 sessionStorage.setItem("musicbox_play_intent", "true");
             });
     } else {
-        // Fallback for older browsers
+        // Fallback cho các trình duyệt cũ hơn
         isPlaying = true;
         setPlayUI(true);
         safeExecute(() => {
@@ -602,7 +604,7 @@ function play() {
 }
 
 /**
- * Pauses the audio
+ * Tạm dừng âm thanh
  */
 function pause() {
     audio.pause();
@@ -614,10 +616,10 @@ function pause() {
 }
 
 /**
- * Gets a random index different from current index
- * @param {number} currentIndex - Current track index
- * @param {number} playlistLength - Playlist length
- * @returns {number} Random index
+ * Lấy một chỉ số ngẫu nhiên khác với chỉ số hiện tại
+ * @param {number} currentIndex - Chỉ số bài hát hiện tại
+ * @param {number} playlistLength - Độ dài playlist
+ * @returns {number} Chỉ số ngẫu nhiên
  */
 function getRandomIndex(currentIndex, playlistLength) {
     if (playlistLength === 1) return currentIndex;
@@ -629,8 +631,8 @@ function getRandomIndex(currentIndex, playlistLength) {
 }
 
 /**
- * Calculates next track index
- * @returns {number} Next track index
+ * Tính toán chỉ số bài hát tiếp theo
+ * @returns {number} Chỉ số bài hát tiếp theo
  */
 function nextIndex() {
     const playlist = window.__mbPlaylist || [];
@@ -641,8 +643,8 @@ function nextIndex() {
 }
 
 /**
- * Calculates previous track index
- * @returns {number} Previous track index
+ * Tính toán chỉ số bài hát trước đó
+ * @returns {number} Chỉ số bài hát trước đó
  */
 function prevIndex() {
     const playlist = window.__mbPlaylist || [];
@@ -653,11 +655,11 @@ function prevIndex() {
 }
 
 /**
- * Advances to next track
- * @param {boolean} auto - Whether this was auto-advanced
+ * Chuyển đến bài hát tiếp theo
+ * @param {boolean} auto - Có phải tự động chuyển không
  */
 function nextTrack(auto = false) {
-    // Repeat one: restart current track
+    // Phát lại một: khởi động lại bài hát hiện tại
     if (auto && repeatMode === REPEAT_MODES.ONE) {
         audio.currentTime = 0;
         audio.play();
@@ -666,7 +668,7 @@ function nextTrack(auto = false) {
 
     const playlist = window.__mbPlaylist || [];
 
-    // End of playlist: stop if not repeating
+    // Kết thúc playlist: dừng nếu không phát lại
     if (
         auto &&
         repeatMode === REPEAT_MODES.OFF &&
@@ -691,7 +693,7 @@ function nextTrack(auto = false) {
 }
 
 /**
- * Goes to previous track
+ * Chuyển đến bài hát trước đó
  */
 function prevTrack() {
     loadTrack(prevIndex());
@@ -700,9 +702,9 @@ function prevTrack() {
     savePlayerState(true);
 }
 
-// ===== ACCESSIBILITY HELPERS =====
+// ===== TRỢ GIÚP KHẢ NĂNG TRUY CẬP =====
 /**
- * Updates repeat button accessibility attributes
+ * Cập nhật các thuộc tính khả năng truy cập của nút phát lại
  */
 function updateRepeatA11y() {
     if (!elements.repeatBtn) return;
@@ -719,7 +721,7 @@ function updateRepeatA11y() {
 }
 
 /**
- * Updates shuffle button accessibility attributes
+ * Cập nhật các thuộc tính khả năng truy cập của nút xáo trộn
  */
 function updateShuffleA11y() {
     if (!elements.shuffleBtn) return;
@@ -727,12 +729,9 @@ function updateShuffleA11y() {
     elements.shuffleBtn.title = shuffle ? "Shuffle: On" : "Shuffle: Off";
 }
 
-// ===== VOLUME CONTROL =====
+// ===== ĐIỀU KHIỂN ÂM LƯỢNG =====
 /**
- * Updates volume slider visual indicator
- */
-/**
- * Updates volume slider visual indicator
+ * Cập nhật chỉ báo trực quan của thanh trượt âm lượng
  */
 function updateVolumeSlider() {
     if (!elements.volume) return;
@@ -742,8 +741,8 @@ function updateVolumeSlider() {
 }
 
 /**
- * Updates volume icon based on current volume level
- * @param {number} volume - Volume level (0 to 1)
+ * Cập nhật biểu tượng âm lượng dựa trên mức âm lượng hiện tại
+ * @param {number} volume - Mức âm lượng (0 đến 1)
  */
 function updateVolumeIcon(volume) {
     if (!elements.volIcon) return;
@@ -760,7 +759,7 @@ function updateVolumeIcon(volume) {
 }
 
 /**
- * Sets up mobile volume toggle functionality
+ * Thiết lập chức năng chuyển đổi âm lượng di động
  */
 function setupMobileVolumeToggle() {
     function toggleMobileVolume(e) {
@@ -799,10 +798,10 @@ function setupMobileVolumeToggle() {
     });
 }
 
-// ===== AD INTERACTION GUARDS =====
+// ===== BẢO VỆ TƯƠNG TÁC QUẢNG CÁO =====
 /**
- * Checks if an element matches ad-locked selectors
- * @param {Element} element - Element to check
+ * Kiểm tra xem một phần tử có khớp với các selector bị khóa quảng cáo không
+ * @param {Element} element - Phần tử cần kiểm tra
  * @returns {boolean}
  */
 function isAdLockedElement(element) {
@@ -811,11 +810,11 @@ function isAdLockedElement(element) {
 }
 
 /**
- * Sets up ad interaction guards to prevent control during ads
+ * Thiết lập các bảo vệ tương tác quảng cáo để ngăn kiểm soát trong khi quảng cáo
  */
 function setupAdInteractionGuards() {
     safeExecute(() => {
-        // Add visual cue styles when locked
+        // Thêm kiểu gợi ý trực quan khi bị khóa
         if (!document.getElementById("ad-lock-style")) {
             const style = document.createElement("style");
             style.id = "ad-lock-style";
@@ -832,7 +831,7 @@ function setupAdInteractionGuards() {
             document.head.appendChild(style);
         }
 
-        // Block clicks on locked elements
+        // Chặn nhấp chuột trên các phần tử bị khóa
         document.addEventListener(
             "click",
             (e) => {
@@ -846,7 +845,7 @@ function setupAdInteractionGuards() {
             true
         );
 
-        // Block keyboard interactions on locked elements
+        // Chặn tương tác bàn phím trên các phần tử bị khóa
         document.addEventListener(
             "keydown",
             (e) => {
@@ -866,10 +865,10 @@ function setupAdInteractionGuards() {
 }
 
 /**
- * Handles track ended event with ad logic
+ * Xử lý sự kiện kết thúc bài hát với logic quảng cáo
  */
 function handleTrackEnded() {
-    // If repeating one song, show ad only once per track cycle
+    // Nếu phát lại một bài hát, chỉ hiển thị quảng cáo một lần mỗi chu kỳ bài hát
     if (repeatMode === REPEAT_MODES.ONE) {
         const playlist = window.__mbPlaylist || [];
         const currentTrack = playlist[index];
@@ -884,7 +883,7 @@ function handleTrackEnded() {
             lastAdTrackId = currentId;
             startAdThen(() => nextTrack(true));
         } else {
-            nextTrack(true); // Loop without showing ad again
+            nextTrack(true); // Lặp lại mà không hiển thị quảng cáo nữa
         }
     } else {
         startAdThen(() => nextTrack(true));
@@ -892,12 +891,12 @@ function handleTrackEnded() {
 }
 
 
-// ===== EVENT LISTENERS SETUP =====
+// ===== THIẾT LẬP EVENT LISTENERS =====
 /**
- * Sets up all event listeners for player controls
+ * Thiết lập tất cả event listeners cho điều khiển player
  */
 function setupEventListeners() {
-    // Check for play intent on first user interaction
+    // Kiểm tra ý định phát trong lần tương tác đầu tiên của người dùng
     function checkPlayIntent() {
         const playIntent = sessionStorage.getItem("musicbox_play_intent");
         if (playIntent === "true" && !isPlaying && !isAdPlaying) {
@@ -906,13 +905,13 @@ function setupEventListeners() {
         }
     }
 
-    // Add click listener to document to check for play intent
+    // Thêm click listener vào tài liệu để kiểm tra ý định phát
     document.addEventListener("click", checkPlayIntent, { once: true });
 
-    // Play/pause button
+    // Nút phát/tạm dừng
     if (elements.playBtn) {
         elements.playBtn.addEventListener("click", () => {
-            if (isAdPlaying) return; // cannot control during ad
+            if (isAdPlaying) return; // không thể điều khiển trong khi quảng cáo
             const playlist = window.__mbPlaylist || [];
             if (audio.src === "" && playlist.length > 0) loadTrack(index);
             isPlaying ? pause() : play();
@@ -920,7 +919,7 @@ function setupEventListeners() {
         });
     }
 
-    // Previous button
+    // Nút trước
     if (elements.prevBtn) {
         elements.prevBtn.addEventListener("click", () => {
             if (isAdPlaying) return;
@@ -930,7 +929,7 @@ function setupEventListeners() {
         });
     }
 
-    // Next button
+    // Nút tiếp theo
     if (elements.nextBtn) {
         elements.nextBtn.addEventListener("click", () => {
             if (isAdPlaying) return;
@@ -940,13 +939,13 @@ function setupEventListeners() {
         });
     }
 
-    // Shuffle button
+    // Nút xáo trộn
     if (elements.shuffleBtn) {
         elements.shuffleBtn.addEventListener("click", () => {
             shuffle = !shuffle;
             elements.shuffleBtn.classList.toggle("active", shuffle);
 
-            // Disable repeat-one when shuffle is enabled
+            // Vô hiệu hóa phát lại một khi xáo trộn được bật
             if (repeatMode === REPEAT_MODES.ONE && shuffle) {
                 repeatMode = REPEAT_MODES.ALL;
             }
@@ -965,10 +964,10 @@ function setupEventListeners() {
         });
     }
 
-    // Repeat button
+    // Nút phát lại
     if (elements.repeatBtn) {
         elements.repeatBtn.addEventListener("click", () => {
-            // Cycle through repeat modes: off -> all -> one -> off
+            // Vòng lặp qua các chế độ phát lại: tắt -> tất cả -> một -> tắt
             repeatMode =
                 repeatMode === REPEAT_MODES.OFF
                     ? REPEAT_MODES.ALL
@@ -986,7 +985,7 @@ function setupEventListeners() {
         });
     }
 
-    // Audio events
+    // Sự kiện audio
     audio.addEventListener("loadedmetadata", () => {
         if (elements.durationEl) {
             elements.durationEl.textContent = formatTime(audio.duration);
@@ -1023,17 +1022,17 @@ function setupEventListeners() {
         }
     });
 
-    // Prevent pausing ad
+    // Ngăn tạm dừng quảng cáo
     audio.addEventListener("pause", () => {
         if (isAdPlaying) {
             safeExecute(() => audio.play(), "preventAdPause");
         }
     });
 
-    // Progress bar
+    // Thanh tiến trình
     if (elements.progress) {
         elements.progress.addEventListener("input", (e) => {
-            if (isAdPlaying) return; // block seeking during ad
+            if (isAdPlaying) return; // chặn tua trong khi quảng cáo
             if (!isFinite(audio.duration)) return;
             const val = Number(e.target.value);
             elements.progress.setAttribute("aria-valuenow", String(val));
@@ -1042,48 +1041,48 @@ function setupEventListeners() {
         });
     }
 
-    // Volume control
+    // Điều khiển âm lượng
     if (elements.volume) {
     elements.volume.addEventListener("input", (e) => {
         const v = Number(e.target.value);
         audio.volume = v;
         elements.volume.setAttribute("aria-valuenow", String(v));
 
-        // Update volume slider visual indicator
+        // Cập nhật chỉ báo trực quan của thanh trượt âm lượng
         const percentage = (v / elements.volume.max) * 100;
         elements.volume.style.setProperty(
             "--volume-value",
             `${percentage}%`
         );
 
-        // Update volume icon using the dedicated function
+        // Cập nhật biểu tượng âm lượng bằng hàm chuyên dụng
         updateVolumeIcon(audio.volume);
 
         savePlayerState(true);
     });
 }
 
-    // Mobile volume toggle
+    // Chuyển đổi âm lượng di động
     if (elements.volIcon) {
         setupMobileVolumeToggle();
     }
 }
 
-// ===== PLAYER INITIALIZATION =====
+// ===== KHỞI TẠO PLAYER =====
 /**
- * Initializes the player module
- * @param {Object} options - Initialization options
- * @returns {Object} Player context with public methods
+ * Khởi tạo module player
+ * @param {Object} options - Tùy chọn khởi tạo
+ * @returns {Object} Ngữ cảnh player với các phương thức công khai
  */
 export function initPlayer(options = {}) {
-    // Create audio element
+    // Tạo phần tử audio
     audio = new Audio();
     safeExecute(() => {
         window.__mbAudio = audio;
         window.__mbLogoutInProgress = logoutInProgress;
     }, "initPlayer:exposeGlobals");
 
-    // Store DOM elements
+    // Lưu trữ các phần tử DOM
     elements = {
         titleEl: document.getElementById("title"),
         artistEl: document.getElementById("artist"),
@@ -1107,23 +1106,23 @@ export function initPlayer(options = {}) {
         ...options.elements,
     };
 
-    // Setup event listeners
+    // Thiết lập event listeners
     setupEventListeners();
     setupAdInteractionGuards();
 
-    // Initialize A11y
+    // Khởi tạo khả năng truy cập
     updateShuffleA11y();
     updateRepeatA11y();
 
-    // Set initial volume slider
+    // Đặt thanh trượt âm lượng ban đầu
     updateVolumeSlider();
 
-    // Save state before page unload
+    // Lưu trạng thái trước khi trang được tải lại
     window.addEventListener("beforeunload", () => {
         savePlayerState(true);
     });
 
-    // Expose global API
+    // Tiết lộ API toàn cầu
     safeExecute(() => {
         window.MusicBox = Object.assign({}, window.MusicBox || {}, {
             playAt(trackIndex) {

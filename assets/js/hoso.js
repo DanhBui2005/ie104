@@ -13,8 +13,9 @@
         document.head.appendChild(style);
     })();
 
-    // ==== Avatar upload & persist ====
+    // ==== Tải lên và lưu trữ ảnh đại diện ====
     (function () {
+        // Lấy key cho người dùng hiện tại để lưu ảnh đại diện
         function getUserKey() {
             try {
                 const u = JSON.parse(
@@ -30,7 +31,7 @@
         const removeBtn = document.getElementById("avatar-remove");
         if (!avatarEl || !fileInput) return;
 
-        // Ensure small CSS for locked state
+        // Thêm CSS cho trạng thái khóa
         (function ensureAvatarLockStyle() {
             try {
                 if (document.getElementById("avatar-lock-style")) return;
@@ -41,13 +42,14 @@
             } catch {}
         })();
 
-        // Restore saved avatar
+        // Khôi phục ảnh đại diện đã lưu
         try {
             const key = getUserKey();
             const dataUrl = localStorage.getItem(key);
             if (dataUrl) avatarEl.style.backgroundImage = `url('${dataUrl}')`;
         } catch {}
 
+        // Kiểm tra xem ảnh đại diện đã được khóa (đã có ảnh) chưa
         function isLocked() {
             try {
                 return !!localStorage.getItem(getUserKey());
@@ -55,6 +57,8 @@
                 return false;
             }
         }
+        
+        // Đồng bộ trạng thái khóa của ảnh đại diện
         function syncLock() {
             try {
                 const locked = isLocked();
@@ -72,6 +76,7 @@
         }
         syncLock();
 
+        // Mở hộp thoại chọn file
         function openPicker() {
             try {
                 if (isLocked()) return;
@@ -80,6 +85,8 @@
                 fileInput.click();
             } catch {}
         }
+        
+        // Xử lý sự kiện click vào ảnh đại diện
         avatarEl.addEventListener("click", (e) => {
             if (isLocked()) {
                 e.preventDefault();
@@ -88,6 +95,8 @@
             }
             openPicker();
         });
+        
+        // Xử lý sự kiện nhấn phím trên ảnh đại diện
         avatarEl.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -96,6 +105,7 @@
             }
         });
 
+        // Xử lý khi người dùng chọn file ảnh
         fileInput.addEventListener("change", () => {
             const file = fileInput.files && fileInput.files[0];
             if (!file) return;
@@ -116,7 +126,7 @@
             reader.readAsDataURL(file);
         });
 
-        // Remove avatar -> clear storage and restore default
+        // Xóa ảnh đại diện -> xóa storage và khôi phục mặc định
         function defaultAvatarUrl() {
             return "./assets/imgs/avatar.jpg";
         }
@@ -142,8 +152,9 @@
         }
     })();
 
-    // ==== Editable display name (persist per user) ====
+    // ==== Chỉnh sửa tên hiển thị (lưu theo từng người dùng) ====
     (function () {
+        // Lấy key cho người dùng hiện tại để lưu tên hiển thị
         function getNameKey() {
             try {
                 const u = JSON.parse(
@@ -160,7 +171,7 @@
         const editBtn = document.getElementById("name-edit-btn");
         if (!nameEl || !inputEl || !editBtn) return;
 
-        // Restore saved name
+        // Khôi phục tên đã lưu
         try {
             const saved = localStorage.getItem(getNameKey());
             if (saved && saved.trim()) {
@@ -194,18 +205,21 @@
             }
         }
 
+        // Bắt đầu chỉnh sửa tên
         function startEdit() {
             inputEl.value = nameEl.textContent.trim();
             inputEl.hidden = false;
             inputEl.focus();
             inputEl.select();
         }
+        
+        // Kết thúc chỉnh sửa tên
         function finishEdit(commit) {
             inputEl.hidden = true;
             if (!commit) return;
             let v = inputEl.value.trim().replace(/\s+/g, " ");
             inputEl.setCustomValidity("");
-            // Validate: 2–40 chars, letters/numbers/spaces only
+            // Validate: 2–40 ký tự, chỉ chữ/số/khoảng trắng
             const isLenOk = v.length >= 2 && v.length <= 40;
             const isCharsOk = /^([\p{L}\p{N}]+)([\p{L}\p{N}\s]*)$/u.test(v);
             if (!isLenOk || !isCharsOk) {
@@ -254,6 +268,7 @@
             } catch {}
         }
 
+        // Gán sự kiện cho các nút và input
         editBtn.addEventListener("click", startEdit);
         nameEl.addEventListener("click", startEdit);
         inputEl.addEventListener("keydown", (e) => {
@@ -263,9 +278,9 @@
         inputEl.addEventListener("blur", () => finishEdit(true));
     })();
 
-    // ==== Profile Playlists Rendering (với nút 3 chấm và menu) ====
+    // ==== Hiển thị Playlist trong Hồ sơ (với nút 3 chấm và menu) ====
     (function () {
-        // Inject CSS cho menu playlist
+        // Chèn CSS cho menu playlist
         function injectPlaylistMenuStyle() {
             if (document.getElementById("playlist-menu-style")) return;
             const style = document.createElement("style");
@@ -454,11 +469,12 @@
             document.head.appendChild(style);
         }
 
-        // Inject CSS khi trang load
+        // Chèn CSS khi trang tải
         console.log("[hoso.js] Injecting playlist menu style...");
         injectPlaylistMenuStyle();
         console.log("[hoso.js] Playlist menu style injected");
 
+        // Lấy context playlist
         function getPlaylistContext() {
             try {
                 // Nếu đã có playlistContext, trả về luôn
@@ -537,7 +553,7 @@
             return null;
         }
 
-        // Close any open menu
+        // Đóng menu đang mở
         let scrollRaf = null;
         let currentMenu = null;
         let currentButton = null;
@@ -550,7 +566,7 @@
             }
 
             if (currentMenu) {
-                // Remove menu-open class from the button
+                // Xóa class menu-open khỏi nút
                 if (currentButton) {
                     currentButton.classList.remove("menu-open");
                 }
@@ -559,7 +575,7 @@
                 currentMenu = null;
                 currentButton = null;
 
-                // Remove scroll event listener
+                // Xóa sự kiện scroll
                 if (scrollHandler) {
                     window.removeEventListener("scroll", scrollHandler, {
                         capture: true,
@@ -569,7 +585,7 @@
             }
         }
 
-        // Show edit name modal
+        // Hiển thị modal sửa tên playlist
         function showEditNameModal(pl, ctx) {
             closeMenu();
             const overlay = document.createElement("div");
@@ -612,7 +628,7 @@
             });
         }
 
-        // Show edit cover modal
+        // Hiển thị modal đổi ảnh bìa playlist
         function showEditCoverModal(pl, ctx) {
             closeMenu();
             const overlay = document.createElement("div");
@@ -667,7 +683,7 @@
             });
         }
 
-        // Show delete confirmation
+        // Hiển thị xác nhận xóa playlist
         function showDeleteModal(pl, ctx) {
             closeMenu();
             const ok = window.confirm(
@@ -679,12 +695,12 @@
             }
         }
 
-        // Show playlist menu
+        // Hiển thị menu playlist
         function showPlaylistMenu(e, pl, ctx) {
             e.stopPropagation();
             closeMenu();
 
-            // Store reference to the button that opened the menu and add menu-open class
+            // Lưu tham chiếu đến nút đã mở menu và thêm class menu-open
             currentButton = e.target.closest(".playlist-menu-btn");
             if (currentButton) {
                 currentButton.classList.add("menu-open");
@@ -710,7 +726,7 @@
             document.body.appendChild(menu);
             currentMenu = menu;
 
-            // Function to update menu position based on button position
+            // Hàm cập nhật vị trí menu dựa trên vị trí nút
             function updateMenuPosition() {
                 if (!currentButton || !currentMenu) return;
 
@@ -722,20 +738,20 @@
                     document.querySelector(".player")?.offsetHeight || 80;
                 const viewportHeight = window.innerHeight;
 
-                // Calculate available space
+                // Tính toán không gian có sẵn
                 const spaceAbove = btnRect.top - headerHeight;
                 const spaceBelow =
                     viewportHeight - btnRect.bottom - playerHeight;
 
-                // Position menu below button by default
+                // Đặt menu dưới nút theo mặc định
                 let top = btnRect.bottom;
 
-                // If not enough space below but more space above, show above
+                // Nếu không đủ không gian bên dưới nhưng có nhiều không gian bên trên, hiển thị bên trên
                 if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
                     top = btnRect.top - menuRect.height;
                 }
 
-                // Ensure menu stays within viewport
+                // Đảm bảo menu nằm trong viewport
                 top = Math.max(
                     headerHeight,
                     Math.min(
@@ -744,7 +760,7 @@
                     )
                 );
 
-                // Apply position
+                // Áp dụng vị trí
                 currentMenu.style.position = "fixed";
                 currentMenu.style.top = `${top}px`;
                 currentMenu.style.left = `${Math.max(
@@ -756,10 +772,10 @@
                 )}px`;
             }
 
-            // Initial positioning
+            // Định vị ban đầu
             updateMenuPosition();
 
-            // Add scroll event listener to update position when scrolling
+            // Thêm sự kiện scroll để cập nhật vị trí khi cuộn
             scrollHandler = function () {
                 // Sử dụng requestAnimationFrame để tối ưu hiệu suất
                 if (!scrollRaf) {
@@ -789,7 +805,7 @@
             // Đảm bảo menu được cập nhật vị trí sau khi hiển thị
             requestAnimationFrame(updateMenuPosition);
 
-            // Handle menu actions
+            // Xử lý các hành động menu
             menu.addEventListener("click", (ev) => {
                 const action =
                     ev.target.closest("[data-action]")?.dataset.action;
@@ -802,7 +818,7 @@
                 }
             });
 
-            // Close menu when clicking outside
+            // Đóng menu khi click bên ngoài
             setTimeout(() => {
                 const outsideClickHandler = function (evt) {
                     // Kiểm tra xem click có phải là trên menu hoặc nút 3 chấm không
@@ -821,6 +837,7 @@
             }, 0);
         }
 
+        // Hàm hiển thị các playlist trong hồ sơ
         function renderProfilePlaylists() {
             console.log("[hoso.js] Rendering profile playlists...");
             // Tìm container chứa playlist
@@ -889,7 +906,7 @@
                     }
                 }
 
-                // Update section title count
+                // Cập nhật tiêu đề phần với số lượng playlist
                 const titleEl = document.querySelector(".section-title");
                 if (titleEl) {
                     titleEl.textContent = `Playlist đã tạo (${lists.length})`;
@@ -922,14 +939,14 @@
                     } bài hát</div>
                 `;
 
-                    // Menu button
+                    // Nút menu
                     const menuBtn = card.querySelector(".playlist-menu-btn");
                     menuBtn.addEventListener("click", (e) => {
                         e.stopPropagation();
                         showPlaylistMenu(e, pl, ctx);
                     });
 
-                    // Click to open playlist
+                    // Click để mở playlist
                     card.addEventListener("click", (e) => {
                         if (e.target.closest(".playlist-menu-btn")) return;
                         try {
@@ -1007,7 +1024,7 @@
             });
         }
 
-        // Initial render
+        // Render ban đầu
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", () => {
                 renderProfilePlaylists();
@@ -1020,7 +1037,7 @@
             setTimeout(addThreeDotsToExistingPlaylists, 500);
         }
 
-        // Re-render when playlists change
+        // Render lại khi playlist thay đổi
         window.addEventListener("playlists:changed", renderProfilePlaylists);
     })();
 

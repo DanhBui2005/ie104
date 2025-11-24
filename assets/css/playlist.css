@@ -1,3 +1,4 @@
+/* Tiêu đề của playlist */
 .pl-head {
     display: grid;
     grid-template-columns: var(--pl-grid);
@@ -13,15 +14,20 @@
     min-width: 0;
     box-sizing: border-box;
 }
+/* Reset padding và margin cho các phần tử con của pl-head */
 .pl-head > * {
     padding: 0;
     margin: 0;
 }
 /* .pl-head .pl-title-col { padding-left: calc(var(--pl-cover) + var(--pl-gap)); } */
+
+/* Cột nghệ sĩ trong tiêu đề playlist */
 .pl-head .pl-artist-col {
     padding-left: 0;
     font-size: 16px;
 }
+
+/* Cột thời gian trong tiêu đề playlist */
 .pl-head .pl-time-col {
     text-align: right;
     padding-right: 8px;
@@ -29,22 +35,26 @@
     font-size: 16px;
     margin-left: -50px;
 }
+
+/* Cột số thứ tự (#) trong tiêu đề playlist */
 .pl-head .pl-hash {
     text-align: center;
 }
+/* Biến CSS cho playlist */
 :root {
-    --player-h: 96px;
-    --pl-grid: 40px 1.5fr 1fr 60px;
-    --pl-gap: 12px;
-    --pl-cover: 42px;
-    --pl-banner-size: clamp(220px, 28vh, 320px);
+    --player-h: 96px; /* Chiều cao của trình phát nhạc */
+    --pl-grid: 40px 1.5fr 1fr 60px; /* Grid layout cho playlist: số thứ tự, tên bài hát, nghệ sĩ, thời gian */
+    --pl-gap: 12px; /* Khoảng cách giữa các cột */
+    --pl-cover: 42px; /* Kích thước ảnh bìa */
+    --pl-banner-size: clamp(220px, 28vh, 320px); /* Kích thước banner playlist */
 }
 
-/* Apply Inter font family to all elements in playlist page */
+/* Áp dụng font Inter cho tất cả các phần tử trong trang playlist */
 body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
 }
+/* Nội dung chính của trang playlist */
 .main-content {
     flex: 1;
     padding: 20px 36px 32px;
@@ -55,36 +65,42 @@ body {
     height: 100%;
     min-height: 0;
     scrollbar-width: none;
-    padding-bottom: calc(var(--player-h, 96px) + 24px);
+    padding-bottom: calc(var(--player-h, 96px) + 24px); /* Chừa không gian cho trình phát nhạc */
     word-wrap: break-word;
     overflow-wrap: anywhere;
 }
+/* Header người dùng */
 .user-header {
     display: flex;
     align-items: center;
     gap: 24px;
     margin-bottom: 0;
 }
+
+/* Header riêng cho playlist */
 .user-header#pl-header {
     background: linear-gradient(93deg, #8cdbdb 0%, #ffffff 100%);
-    /* pull header out to cover main-content padding so gradient spans full width */
-    margin: -20px -36px 16px; /* add bottom space so cover won't overlap list */
+    /* Kéo header ra ngoài để che padding của main-content giúp gradient trải dài toàn bộ chiều rộng */
+    margin: -20px -36px 16px; /* Thêm khoảng cách dưới để ảnh bìa không chồng lên danh sách */
     padding: 16px 36px 12px;
     border-radius: 12px 12px 0 0;
     box-shadow: none;
     display: grid;
-    grid-template-columns: var(--pl-banner-size) 1fr; /* artwork column ties to variable */
+    grid-template-columns: var(--pl-banner-size) 1fr; /* Cột ảnh bìa liên kết với biến */
     gap: 20px;
     align-items: center;
-    overflow: hidden; /* keep cover inside banner */
-    /* Make banner tall enough to fully contain the square cover (padding top+bottom = 28px) */
+    overflow: hidden; /* Giữ ảnh bìa bên trong banner */
+    /* Đảm bảo banner đủ cao để chứa ảnh bìa vuông (padding trên+dưới = 28px) */
     min-height: calc(var(--pl-banner-size) + 28px);
 }
+/* Container cho ảnh bìa playlist */
 .avatar-wrap {
     position: relative;
     width: var(--pl-banner-size);
     height: auto;
 }
+
+/* Ảnh bìa playlist */
 #pl-cover {
     width: 220px;
     height: auto;
@@ -95,23 +111,30 @@ body {
     background-color: #e6edf3;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
+/* Thông tin người dùng/playlist */
 .user-info {
     display: flex;
     flex-direction: column;
     gap: 8px;
     justify-content: center;
 }
+
+/* Tên playlist */
 .user-name {
     font-size: 55px;
     font-weight: 800;
     color: #000;
     letter-spacing: -0.4px;
 }
+
+/* Hàng chứa tên playlist và các nút điều khiển */
 .user-name-row {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+/* Nút phát tất cả */
 #pl-playall {
     padding: 8px 14px;
     border-radius: 20px;
@@ -119,14 +142,19 @@ body {
     color: #135e88;
     background: #e6f4fb;
 }
+
+/* Hiệu ứng hover cho nút phát tất cả */
 #pl-playall:hover {
     background: #d9eef9;
 }
+
+/* Số lượng bài hát trong playlist */
 #pl-count {
     font-size: 18px;
     opacity: 0.85;
     color: #000;
 }
+/* Bảng danh sách bài hát */
 .song-list {
     width: 100%;
     border-collapse: collapse;
@@ -138,9 +166,13 @@ body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
 }
+
+/* Ẩn tiêu đề bảng trên giao diện table */
 .song-list thead {
     display: none;
 }
+
+/* Tiêu đề bảng */
 .song-list thead th {
     background: transparent;
     color: #7f8b99;
@@ -148,6 +180,7 @@ body {
     padding: 8px 14px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
+/* Dòng bài hát trong bảng */
 .song-list tbody tr {
     display: grid;
     grid-template-columns: var(--pl-grid);
@@ -156,18 +189,24 @@ body {
     padding: 8px 4px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
+
+/* Padding cho phần tử cuối cùng của mỗi dòng */
 .song-list tbody tr > *:last-child {
     padding-right: 8px;
 }
+
+/* Ô trong bảng */
 .song-list tbody td {
     padding: 0;
     border-bottom: 0;
 }
 
-/* New div-grid playlist body (matches Nghe Gan Day) */
+/* Body playlist dạng div-grid (tương thích với trang Nghe Gần Đây) */
 .pl-body {
     width: 100%;
 }
+
+/* Dòng trong playlist */
 .pl-body .pl-row {
     display: grid;
     grid-template-columns: var(--pl-grid);
@@ -179,17 +218,25 @@ body {
     min-width: 0;
     box-sizing: border-box;
 }
+
+/* Hiệu ứng hover cho dòng bài hát */
 .pl-body .pl-row:hover {
     background: rgba(43, 166, 223, 0.08);
 }
+
+/* Dòng đang phát */
 .pl-body .pl-row.is-current {
     background: rgba(43, 166, 223, 0.16);
 }
+
+/* Cột số thứ tự */
 .pl-body .pl-row .pl-idx {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+/* Cột thời gian */
 .pl-body .pl-row .pl-time {
     text-align: center;
     padding-right: 8px;
@@ -198,7 +245,7 @@ body {
     font-feature-settings: "tnum";
     color: #7f8b99;
 }
-/* Hover swap: show trash only on hover, hide number */
+/* Hiệu ứng hover: hiển thị nút xóa và ẩn số thứ tự */
 .pl-body .pl-row .pl-idx .pl-num {
     display: inline;
 }
@@ -215,6 +262,7 @@ body {
     width: 28px;
     height: 28px;
 }
+/* Cột thứ 2: Tên bài hát */
 .song-list tbody td:nth-child(2) {
     color: #1666b2;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -227,6 +275,8 @@ body {
     text-overflow: ellipsis;
     padding-bottom: 2px;
 }
+
+/* Cột thứ 3: Tên nghệ sĩ */
 .song-list tbody td:nth-child(3) {
     color: #7f8b99;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -237,19 +287,22 @@ body {
     text-align: left;
     padding-left: 0;
 }
+
+/* Cột 3 và 4: Reset padding */
 .song-list tbody td:nth-child(3),
 .song-list tbody td:nth-child(4) {
     padding-left: 0;
     padding-right: 0;
 }
+/* Cell chứa thông tin bài hát */
 .pl-cell-track {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-.pl-cell-track {
     min-width: 0;
 }
+
+/* Tên bài hát */
 .pl-title {
     color: #000;
     font-weight: 700;
@@ -261,6 +314,8 @@ body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
 }
+
+/* Tên nghệ sĩ */
 .pl-artist {
     color: #7f8b99;
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -269,6 +324,8 @@ body {
     font-size: 16px;
     line-height: 1.2;
 }
+
+/* Ảnh bìa bài hát */
 .pl-cover {
     display: block;
     width: var(--pl-cover);
@@ -279,37 +336,55 @@ body {
     background-position: center;
     flex: 0 0 var(--pl-cover);
 }
+/* Dòng trong bảng danh sách bài hát */
 .song-list tbody tr {
     border-radius: 10px;
 }
+
+/* Hiệu ứng hover cho dòng bài hát */
 .song-list tbody tr:hover {
     background: rgba(43, 166, 223, 0.08);
 }
+
+/* Dòng đang phát */
 .song-list tbody tr.is-current {
     background: rgba(43, 166, 223, 0.16);
 }
+
+/* Dòng cuối cùng không có border bottom */
 .song-list tbody tr:last-child td {
     border-bottom: 0;
 }
+
+/* Cột thứ 4: Thời gian */
 .song-list td:nth-child(4) {
     text-align: right;
     padding-right: 8px;
 }
+
+/* Cột thời gian trong header */
 .pl-head .pl-time-col {
     padding-right: 0;
 }
+/* Cột số thứ tự trong bảng */
 .song-list tbody td.pl-idx {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+/* Số thứ tự */
 .song-list tbody td.pl-idx .pl-num {
     display: inline;
 }
+
+/* Nút xóa */
 .song-list tbody td.pl-idx .del {
     display: none;
 }
+
+/* Hiệu ứng hover: ẩn số thứ tự và hiện nút xóa */
 .song-list tbody tr:hover td.pl-idx .pl-num {
     display: none;
 }
@@ -323,18 +398,24 @@ body {
     border: 1px solid rgba(2, 6, 23, 0.12);
     background: #fff;
 }
-/* Center the '#' in header to align with body */
+/* Căn giữa ký tự '#' trong header để align với body */
 .pl-head .pl-hash {
     text-align: center;
     font-size: 16px;
 }
+
+/* Nút outline */
 .btn.outline {
     border: 1.4px solid rgba(19, 94, 136, 0.55);
     background: transparent;
 }
+
+/* Hiệu ứng hover cho nút outline */
 .btn.outline:hover {
     background: rgba(20, 129, 185, 0.08);
 }
+
+/* Nút phát bài hát */
 .song-play.btn.play {
     width: 34px;
     height: 34px;
@@ -343,28 +424,38 @@ body {
     display: grid;
     place-items: center;
 }
+
+/* Icon trong nút phát */
 .song-play.btn.play i {
     color: #fff;
     font-size: 1.4rem;
     transform: translateX(1px);
 }
+/* Responsive cho màn hình nhỏ hơn 900px */
 @media (max-width: 900px) {
+    /* Nội dung chính */
     .main-content {
         padding: 24px;
         border-radius: 12px;
     }
+    
+    /* Header playlist */
     .user-header#pl-header {
         margin: -24px -24px 0;
         padding: 8px 24px;
         grid-template-columns: 1fr;
         gap: 8px;
         align-items: start;
-        min-height: auto; /* let content define height on mobile */
+        min-height: auto; /* Để nội dung xác định chiều cao trên mobile */
     }
+    
+    /* Container ảnh bìa */
     .avatar-wrap {
         width: auto;
         height: auto;
     }
+    
+    /* Ảnh bìa playlist */
     #pl-cover {
         width: 100%;
         height: 100%;
@@ -372,6 +463,8 @@ body {
         border-radius: 8px;
         object-fit: cover;
     }
+    
+    /* Tên playlist */
     .user-name {
         font-size: 22px;
     }
@@ -385,13 +478,18 @@ body {
         font-size: 14px;
         align-items: center;
     }
+    
+    /* Ẩn cột nghệ sĩ trong header */
     .pl-head .pl-artist-col {
         display: none;
     }
+    
+    /* Ẩn nghệ sĩ trong body */
     .pl-body .pl-row .pl-artist {
         display: none;
     }
 
+    /* Ảnh bìa bài hát */
     .pl-cover {
         display: block;
         width: 32px;
@@ -400,12 +498,16 @@ body {
         aspect-ratio: 1 / 1;
         flex: 0 0 32px;
     }
+    
+    /* Cell chứa thông tin bài hát */
     .pl-cell-track {
         min-width: 0;
         max-width: 100%;
         overflow: hidden;
         align-items: center;
     }
+    
+    /* Tên bài hát */
     .pl-title {
         font-size: 16px;
         line-height: 1.15;
@@ -414,6 +516,8 @@ body {
         text-overflow: ellipsis;
         max-width: 100%;
     }
+    
+    /* Cột số thứ tự */
     .pl-body .pl-row .pl-idx {
         padding-left: 2px;
         text-align: center;
@@ -422,6 +526,8 @@ body {
         align-items: center;
         justify-content: center;
     }
+    
+    /* Cột thời gian */
     .pl-body .pl-row .pl-time {
         text-align: right;
         padding-right: 8px;

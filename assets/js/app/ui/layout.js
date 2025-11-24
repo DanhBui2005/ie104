@@ -1,6 +1,6 @@
-// ===== LAYOUT HELPERS MODULE =====
+// ===== MÔ-ĐUN TRỢ GIÚP BỐ CỤC =====
 
-// ===== CONSTANTS =====
+// ===== HẰNG SỐ =====
 const STORAGE_KEYS = {
     AUTH_USER: "auth_user",
     PREMIUM_ENABLED: "premium_enabled",
@@ -17,12 +17,12 @@ const PAGE_EXIT_DELAY = 180;
 const PROFILE_PAGE = "./Hoso.html";
 const DEFAULT_LOGO_LINK = "./index.html";
 
-// ===== UTILITY FUNCTIONS =====
+// ===== CÁC HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi một hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả hàm hoặc null khi có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -34,9 +34,9 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Sets a CSS custom property on document root
- * @param {string} property - CSS property name
- * @param {string} value - CSS property value
+ * Đặt thuộc tính CSS tùy chỉnh trên gốc tài liệu
+ * @param {string} property - Tên thuộc tính CSS
+ * @param {string} value - Giá trị thuộc tính CSS
  */
 function setCSSVariable(property, value) {
     safeExecute(() => {
@@ -45,18 +45,18 @@ function setCSSVariable(property, value) {
 }
 
 /**
- * Checks if queue panel is currently visible
- * @param {HTMLElement} queuePanel - Queue panel element
+ * Kiểm tra xem bảng hàng đợi có đang hiển thị hay không
+ * @param {HTMLElement} queuePanel - Phần tử bảng hàng đợi
  * @returns {boolean}
  */
 function isQueueOpen(queuePanel) {
     return queuePanel ? !queuePanel.classList.contains("hidden") : false;
 }
 
-// ===== PLAYER SPACING =====
+// ===== KHOẢNG CÁCH PLAYER =====
 /**
- * Gets player element height
- * @returns {number} Player height in pixels
+ * Lấy chiều cao phần tử player
+ * @returns {number} Chiều cao player tính bằng pixel
  */
 function getPlayerHeight() {
     const player = document.querySelector(".player");
@@ -64,7 +64,7 @@ function getPlayerHeight() {
 }
 
 /**
- * Sets player height CSS variable
+ * Đặt biến CSS chiều cao player
  */
 function setPlayerSpacer() {
     const height = getPlayerHeight();
@@ -74,7 +74,7 @@ function setPlayerSpacer() {
 }
 
 /**
- * Updates player bottom spacing CSS variable
+ * Cập nhật biến CSS khoảng cách dưới player
  */
 function updatePlayerBottomSpace() {
     const height = getPlayerHeight();
@@ -83,10 +83,10 @@ function updatePlayerBottomSpace() {
     }
 }
 
-// ===== HEADER AVATAR =====
+// ===== AVATAR TIÊU ĐỀ =====
 /**
- * Gets avatar storage key for current user
- * @returns {string} Avatar key
+ * Lấy khóa lưu trữ avatar cho người dùng hiện tại
+ * @returns {string} Khóa avatar
  */
 function getAvatarKey() {
     return (
@@ -103,7 +103,7 @@ function getAvatarKey() {
 }
 
 /**
- * Applies header avatar image
+ * Áp dụng hình ảnh avatar tiêu đề
  */
 function applyHeaderAvatar() {
     safeExecute(() => {
@@ -121,12 +121,12 @@ function applyHeaderAvatar() {
     }, "applyHeaderAvatar");
 }
 
-// ===== QUEUE MANAGEMENT =====
+// ===== QUẢN LÝ HÀNG ĐỢI =====
 /**
- * Sets queue visibility state
- * @param {boolean} show - Whether to show queue
- * @param {boolean} fromPopState - Whether triggered from popstate event
- * @param {boolean} shouldFocus - Whether to focus the recent button when closing (default: true)
+ * Đặt trạng thái hiển thị hàng đợi
+ * @param {boolean} show - Có hiển thị hàng đợi hay không
+ * @param {boolean} fromPopState - Có được kích hoạt từ sự kiện popstate hay không
+ * @param {boolean} shouldFocus - Có tập trung vào nút gần đây khi đóng hay không (mặc định: true)
  */
 function setQueueVisible(show, fromPopState = false, shouldFocus = true) {
     const queuePanel = document.getElementById("queue");
@@ -145,7 +145,7 @@ function setQueueVisible(show, fromPopState = false, shouldFocus = true) {
         recentButton.setAttribute("aria-expanded", String(show));
     }
 
-    // Focus management
+    // Quản lý tiêu điểm
     if (show) {
         if (queueTitle && !queueTitle.hasAttribute("tabindex")) {
             queueTitle.setAttribute("tabindex", "-1");
@@ -158,7 +158,7 @@ function setQueueVisible(show, fromPopState = false, shouldFocus = true) {
         }
     }
 
-    // Toggle body state class for CSS targeting
+    // Chuyển đổi lớp trạng thái body để nhắm CSS
     safeExecute(() => {
         document.body.classList.toggle("queue-open", !!show);
     }, "setQueueVisible:toggleBodyClass");
@@ -172,7 +172,7 @@ function setQueueVisible(show, fromPopState = false, shouldFocus = true) {
 }
 
 /**
- * Pushes current UI state to history
+ * Đẩy trạng thái UI hiện tại vào lịch sử
  */
 function pushUIState() {
     const queuePanel = document.getElementById("queue");
@@ -187,8 +187,8 @@ function pushUIState() {
 }
 
 /**
- * Gets current UI state
- * @returns {Object} UI state object
+ * Lấy trạng thái UI hiện tại
+ * @returns {Object} Đối tượng trạng thái UI
  */
 function getUIState() {
     const queuePanel = document.getElementById("queue");
@@ -198,11 +198,11 @@ function getUIState() {
     };
 }
 
-// ===== PROFILE DROPDOWN =====
+// ===== THẢ XUỐNG HỒ SƠ =====
 /**
- * Sets up profile dropdown menu functionality
- * @param {Function} go - Navigation function
- * @param {Function} signOut - Sign out function
+ * Thiết lập chức năng menu thả xuống hồ sơ
+ * @param {Function} go - Hàm điều hướng
+ * @param {Function} signOut - Hàm đăng xuất
  */
 function setupProfileDropdown(go, signOut) {
     const profileButton = document.getElementById("profile-btn");
@@ -213,7 +213,7 @@ function setupProfileDropdown(go, signOut) {
     if (!profileButton || !profileMenu) return;
 
     /**
-     * Closes the profile menu
+     * Đóng menu hồ sơ
      */
     function closeProfileMenu() {
         profileMenu.classList.remove("open");
@@ -223,8 +223,8 @@ function setupProfileDropdown(go, signOut) {
     }
 
     /**
-     * Handles clicks outside profile menu
-     * @param {Event} event - Click event
+     * Xử lý các cú nhấp chuột bên ngoài menu hồ sơ
+     * @param {Event} event - Sự kiện nhấp chuột
      */
     function handleProfileDocumentClick(event) {
         if (
@@ -237,8 +237,8 @@ function setupProfileDropdown(go, signOut) {
     }
 
     /**
-     * Handles Escape key press
-     * @param {KeyboardEvent} event - Keyboard event
+     * Xử lý nhấn phím Escape
+     * @param {KeyboardEvent} event - Sự kiện bàn phím
      */
     function handleProfileEscape(event) {
         if (event.key === "Escape") {
@@ -246,7 +246,7 @@ function setupProfileDropdown(go, signOut) {
         }
     }
 
-    // Toggle menu on button click
+    // Chuyển đổi menu khi nhấp vào nút
     profileButton.addEventListener("click", () => {
         const isOpen = profileMenu.classList.toggle("open");
         profileMenu.setAttribute("aria-hidden", String(!isOpen));
@@ -263,7 +263,7 @@ function setupProfileDropdown(go, signOut) {
         }
     });
 
-    // Profile page navigation
+    // Điều hướng trang hồ sơ
     if (profileOpenButton) {
         profileOpenButton.addEventListener("click", () => {
             closeProfileMenu();
@@ -274,7 +274,7 @@ function setupProfileDropdown(go, signOut) {
         });
     }
 
-    // Logout
+    // Đăng xuất
     if (profileLogoutButton) {
         profileLogoutButton.addEventListener("click", () => {
             closeProfileMenu();
@@ -283,11 +283,11 @@ function setupProfileDropdown(go, signOut) {
     }
 }
 
-// ===== PREMIUM BUTTON =====
+// ===== NÚT PREMIUM =====
 /**
- * Applies premium state to button
- * @param {HTMLElement} premiumButton - Premium button element
- * @param {boolean} isEnabled - Whether premium is enabled
+ * Áp dụng trạng thái premium cho nút
+ * @param {HTMLElement} premiumButton - Phần tử nút premium
+ * @param {boolean} isEnabled - Premium có được bật hay không
  */
 function applyPremiumState(premiumButton, isEnabled) {
     if (!premiumButton) return;
@@ -297,13 +297,13 @@ function applyPremiumState(premiumButton, isEnabled) {
 }
 
 /**
- * Sets up premium button functionality
+ * Thiết lập chức năng nút premium
  */
 function setupPremiumButton() {
     const premiumButton = document.querySelector(".premium-btn");
     if (!premiumButton) return;
 
-    // Initialize from storage
+    // Khởi tạo từ lưu trữ
     safeExecute(() => {
         const saved = localStorage.getItem(STORAGE_KEYS.PREMIUM_ENABLED);
         if (saved !== null) {
@@ -311,7 +311,7 @@ function setupPremiumButton() {
         }
     }, "setupPremiumButton:init");
 
-    // Toggle on click
+    // Chuyển đổi khi nhấp chuột
     premiumButton.addEventListener("click", () => {
         const currentState =
             premiumButton.getAttribute("aria-pressed") === "true";
@@ -326,7 +326,7 @@ function setupPremiumButton() {
             );
         }, "setupPremiumButton:save");
 
-        // Stop ad if premium is activated during ad playback
+        // Dừng quảng cáo nếu premium được kích hoạt trong quá trình phát quảng cáo
         if (newState && window.__mbIsAdPlaying && window.__mbIsAdPlaying()) {
             safeExecute(() => {
                 window.dispatchEvent(new CustomEvent("premium:activated"));
@@ -335,19 +335,19 @@ function setupPremiumButton() {
     });
 }
 
-// ===== SLIDER EFFECTS =====
+// ===== HIỆU ỨNG SLIDER =====
 /**
- * Updates progress bar visual indicator
- * @param {HTMLElement} progressBar - Progress bar element
- * @param {string} value - Progress value
+ * Cập nhật chỉ báo trực quan thanh tiến trình
+ * @param {HTMLElement} progressBar - Phần tử thanh tiến trình
+ * @param {string} value - Giá trị tiến trình
  */
 function updateProgressBar(progressBar, value) {
     setCSSVariable(CSS_VARIABLES.PROGRESS_VALUE, `${value}%`);
 }
 
 /**
- * Updates volume slider visual indicator
- * @param {HTMLElement} volumeSlider - Volume slider element
+ * Cập nhật chỉ báo trực quan slider âm lượng
+ * @param {HTMLElement} volumeSlider - Phần tử slider âm lượng
  */
 function updateVolumeSlider(volumeSlider) {
     const value = volumeSlider.value;
@@ -356,10 +356,10 @@ function updateVolumeSlider(volumeSlider) {
 }
 
 /**
- * Sets up visual effects for progress and volume sliders
+ * Thiết lập hiệu ứng trực quan cho các slider tiến trình và âm lượng
  */
 function setupSliderEffects() {
-    // Progress bar
+    // Thanh tiến trình
     const progressBar = document.getElementById("progress");
     if (progressBar) {
         updateProgressBar(progressBar, progressBar.value);
@@ -368,7 +368,7 @@ function setupSliderEffects() {
         });
     }
 
-    // Volume slider
+    // Slider âm lượng
     const volumeSlider = document.getElementById("volume");
     if (volumeSlider) {
         updateVolumeSlider(volumeSlider);
@@ -378,10 +378,10 @@ function setupSliderEffects() {
     }
 }
 
-// ===== NAVIGATION =====
+// ===== ĐIỀU HƯỚNG =====
 /**
- * Navigates to URL with smooth fade-out effect
- * @param {string} url - URL to navigate to
+ * Điều hướng đến URL với hiệu ứng mượt mà
+ * @param {string} url - URL để điều hướng đến
  */
 function go(url) {
     safeExecute(() => {
@@ -401,27 +401,27 @@ function updateNavigationButtons() {
     const forwardButton = document.getElementById("nav-forward");
 
     if (backButton) {
-        // Check if we can go back (history.length > 1 means there's history to go back to)
-        // However, a more reliable way is to track navigation state
-        // For now, we'll enable/disable based on a simple check
+        // Kiểm tra xem chúng ta có thể quay lại hay không (history.length > 1 có nghĩa là có lịch sử để quay lại)
+        // Tuy nhiên, một cách đáng tin cậy hơn là theo dõi trạng thái điều hướng
+        // Hiện tại, chúng ta sẽ bật/tắt dựa trên một kiểm tra đơn giản
         backButton.disabled = false;
     }
 
     if (forwardButton) {
-        // Forward button state is harder to determine without tracking
-        // We'll enable it by default and let the browser handle it
+        // Trạng thái nút tiến tới khó xác định hơn mà không cần theo dõi
+        // Chúng ta sẽ bật nó theo mặc định và để trình duyệt xử lý
         forwardButton.disabled = false;
     }
 }
 
 /**
- * Sets up navigation buttons (back/forward) functionality
+ * Thiết lập chức năng các nút điều hướng (lùi/tiến)
  */
 function setupNavigationButtons() {
     const backButton = document.getElementById("nav-back");
     const forwardButton = document.getElementById("nav-forward");
 
-    // Setup back button
+    // Thiết lập nút lùi
     if (backButton) {
         backButton.setAttribute("title", "Quay lại");
         backButton.setAttribute("aria-label", "Quay lại");
@@ -433,7 +433,7 @@ function setupNavigationButtons() {
         });
     }
 
-    // Setup forward button
+    // Thiết lập nút tiến
     if (forwardButton) {
         forwardButton.setAttribute("title", "Tiến tới");
         forwardButton.setAttribute("aria-label", "Tiến tới");
@@ -445,16 +445,16 @@ function setupNavigationButtons() {
         });
     }
 
-    // Update button states on history changes
+    // Cập nhật trạng thái nút khi thay đổi lịch sử
     window.addEventListener("popstate", updateNavigationButtons);
 
-    // Initial state update
+    // Cập nhật trạng thái ban đầu
     updateNavigationButtons();
 }
 
-// ===== QUEUE CSS =====
+// ===== CSS HÀNG ĐỢI =====
 /**
- * Ensures queue visibility CSS is injected
+ * Đảm bảo CSS hiển thị hàng đợi được chèn vào
  */
 function ensureQueueCSS() {
     safeExecute(() => {
@@ -474,25 +474,25 @@ function ensureQueueCSS() {
     }, "ensureQueueCSS");
 }
 
-// ===== INITIALIZATION =====
+// ===== KHỞI TẠO =====
 /**
- * Sets up all layout helpers
- * @param {Object} options - Setup options
- * @param {Function} options.signOut - Sign out function
- * @param {Object} options.playerContext - Player context
- * @param {Object} options.playlistContext - Playlist context
- * @returns {Object} Layout context with public methods
+ * Thiết lập tất cả các trợ giúp bố cục
+ * @param {Object} options - Tùy chọn thiết lập
+ * @param {Function} options.signOut - Hàm đăng xuất
+ * @param {Object} options.playerContext - Ngữ cảnh player
+ * @param {Object} options.playlistContext - Ngữ cảnh danh sách phát
+ * @returns {Object} Ngữ cảnh bố cục với các phương thức công khai
  */
 export function setupLayoutHelpers({
     signOut,
     playerContext,
     playlistContext,
 }) {
-    // Initialize queue - hide by default (don't focus on initial load)
+    // Khởi tạo hàng đợi - ẩn theo mặc định (không tập trung khi tải ban đầu)
     setQueueVisible(false, false, false);
     ensureQueueCSS();
 
-    // Queue toggle from title click
+    // Chuyển đổi hàng đợi từ nhấp vào tiêu đề
     const titleElement = document.getElementById("title");
     if (titleElement) {
         titleElement.style.cursor = "pointer";
@@ -504,30 +504,30 @@ export function setupLayoutHelpers({
         });
     }
 
-    // Player spacing
+    // Khoảng cách player
     setPlayerSpacer();
     window.addEventListener("resize", setPlayerSpacer);
     updatePlayerBottomSpace();
     window.addEventListener("resize", updatePlayerBottomSpace);
     window.addEventListener("orientationchange", updatePlayerBottomSpace);
 
-    // Header avatar
+    // Avatar tiêu đề
     applyHeaderAvatar();
     window.addEventListener("avatar:changed", applyHeaderAvatar);
 
-    // Profile dropdown
+    // Thả xuống hồ sơ
     setupProfileDropdown(go, signOut);
 
-    // Premium button
+    // Nút premium
     setupPremiumButton();
 
-    // Navigation buttons (back/forward)
+    // Nút điều hướng (lùi/tiến)
     setupNavigationButtons();
 
-    // Visual effects
+    // Hiệu ứng trực quan
     setupSliderEffects();
 
-    // Logo link smooth navigation
+    // Điều hướng mượt mà cho liên kết logo
     const logoLink = document.querySelector("a.logo-link");
     if (logoLink) {
         logoLink.addEventListener("click", (event) => {
@@ -536,7 +536,7 @@ export function setupLayoutHelpers({
         });
     }
 
-    // History management
+    // Quản lý lịch sử
     safeExecute(() => {
         history.replaceState(getUIState(), "");
     }, "setupLayoutHelpers:replaceState");
@@ -568,7 +568,7 @@ export function setupLayoutHelpers({
         }
     });
 
-    // Expose global functions for other modules
+    // Tiết lộ các hàm toàn cầu cho các mô-đun khác
     window.__mbPushUIState = pushUIState;
     window.__mbSetQueueVisible = setQueueVisible;
     window.__mbGo = go;
