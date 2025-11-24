@@ -44,7 +44,7 @@ function signOut(redirect = true) {
   }
 }
 
-/** Đang đăng nhập hay chưa */
+/** Kiểm tra đang đăng nhập hay chưa */
 function isSignedIn() {
   try {
     return !!JSON.parse(localStorage.getItem("auth_user") || "null");

@@ -1,9 +1,11 @@
 /* ===== Playlist yêu thích ===== */
+/* Trang yêu thích - định nghĩa font chữ cho toàn bộ trang */
 .page-yeuthich {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
 }
 
+/* Container chính cho playlist yêu thích */
 .page-yeuthich .playlist {
     background: #fff;
     border-radius: 12px 12px 0 0;
@@ -14,11 +16,13 @@
 }
 
 /* Header (ảnh + tiêu đề + nút) */
+/* Phần header chứa ảnh bìa, thông tin và nút play */
 .page-yeuthich .playlist-header {
     display: flex;
     align-items: center;
     gap: 32px;
 }
+/* Ảnh bìa của playlist */
 .page-yeuthich .playlist-cover {
     width: 220px;
     height: 220px;
@@ -26,11 +30,13 @@
     overflow: hidden;
     flex-shrink: 0;
 }
+/* Định dạng ảnh bìa */
 .page-yeuthich .playlist-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+/* Tiêu đề playlist */
 .page-yeuthich .playlist-info h1 {
     font-size: 42px;
     font-weight: 900;
@@ -38,6 +44,7 @@
     margin: 0;
 }
 
+/* Mô tả phụ của playlist */
 .page-yeuthich .playlist-sub {
     font-size: 15px;
     opacity: 0.7;
@@ -45,6 +52,7 @@
     color: #000;
 }
 
+/* Nút phát playlist */
 .page-yeuthich .playlist-play {
     margin-top: 8px;
     display: inline-flex;
@@ -61,24 +69,29 @@
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
+/* Hiệu ứng khi hover vào nút play */
 .page-yeuthich .playlist-play:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 14px rgba(20, 129, 185, 0.25);
 }
+/* Icon trong nút play */
 .page-yeuthich .playlist-play i {
     font-size: 18px;
 }
 
 /* Cover responsive & square */
+/* Thiết lập lại header cho responsive */
 .page-yeuthich .playlist-header {
     display: flex;
     align-items: center;
     gap: 24px;
 }
+/* Định dạng ảnh bìa cho responsive */
 .page-yeuthich .playlist-cover {
     flex: 0 0 240px; /* desktop base width */
     max-width: 100%;
 }
+/* Đảm bảo ảnh luôn vuông và responsive */
 .page-yeuthich .playlist-cover img {
     width: 100%;
     aspect-ratio: 1 / 1; /* keeps image square */
@@ -91,6 +104,7 @@
 /* Old table styles removed - now using div-based layout */
 
 /* Nghệ sĩ kết hợp */
+/* Tiêu đề phần nghệ sĩ */
 .page-yeuthich .artist-section h2 {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
@@ -99,17 +113,20 @@
     color: #000;
     margin-bottom: 16px;
 }
+/* Danh sách nghệ sĩ */
 .page-yeuthich .artist-list {
     display: flex;
     gap: 32px;
     flex-wrap: wrap;
 }
+/* Mỗi nghệ sĩ trong danh sách */
 .page-yeuthich .artist {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
 }
+/* Ảnh đại diện nghệ sĩ */
 .page-yeuthich .artist img {
     width: 100px;
     height: 100px;
@@ -117,6 +134,7 @@
     object-fit: cover;
     box-shadow: 0 6px 16px rgba(20, 129, 185, 0.12);
 }
+/* Tên nghệ sĩ */
 .page-yeuthich .artist span {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
@@ -126,6 +144,7 @@
     color: #000;
 }
 
+/* Nội dung chính của trang */
 .page-yeuthich .main-content {
     overflow-y: auto;
     overflow-x: hidden;
@@ -137,24 +156,26 @@
     box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.1);
 }
 
+/* Ẩn thanh cuộn */
 .page-yeuthich .main-content::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
+/* Tiêu đề bài hát */
 .page-yeuthich .song-title {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* Style song title text to match NgheGanDay page */
+/* Style cho text tiêu đề bài hát tương tự trang NgheGanDay */
 .page-yeuthich .song-title span {
     color: #1666b2;
     font-weight: 700;
 }
 
-/* Apply NgheGanDay table styling to Yeuthich page */
+/* Áp dụng style bảng từ trang NgheGanDay cho trang Yêu thích */
 .page-yeuthich .played-table {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 14px;
@@ -162,6 +183,7 @@
     margin-left: -10px;
 }
 
+/* Định dạng hàng trong bảng (header và nội dung) */
 .page-yeuthich .pt-head,
 .page-yeuthich .pt-row {
     display: grid;
@@ -173,11 +195,13 @@
     box-sizing: border-box;
 }
 
+/* Cột số thứ tự */
 .page-yeuthich .pt-col.idx {
     padding-left: 8px;
     color: #7f8b99;
 }
 
+/* Cột thời lượng */
 .page-yeuthich .pt-body .pt-col.time {
     font-family: "Inter", sans-serif;
     font-size: 0.95em;
@@ -188,6 +212,7 @@
     color: #7f8b99;
 }
 
+/* Căn giữa cột thời lượng */
 .page-yeuthich .pt-body .pt-col.time {
     text-align: center;
     padding-right: 8px;
@@ -195,18 +220,21 @@
     min-width: 50px;
 }
 
+/* Cột nghệ sĩ */
 .page-yeuthich .pt-col.artist {
     text-align: left;
     padding-left: 0;
     color: #7f8b99;
 }
 
+/* Định dạng header bảng */
 .page-yeuthich .pt-head {
     color: #7f8b99;
     font-weight: 700;
     font-size: 16px;
 }
 
+/* Định dạng các cột trong header */
 .page-yeuthich .pt-head .pt-col {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Helvetica, Arial, sans-serif;
@@ -215,24 +243,29 @@
     color: #7f8b99;
 }
 
+/* Phần nội dung bảng */
 .page-yeuthich .pt-body {
     display: block;
 }
 
+/* Định dạng hàng trong bảng */
 .page-yeuthich .pt-row {
     border-radius: 10px;
 }
 
+/* Hiệu ứng khi hover vào hàng */
 .page-yeuthich .pt-row:hover {
     background: rgba(43, 166, 223, 0.08);
 }
 
+/* Cột thông tin bài hát */
 .page-yeuthich .pt-col.track {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
+/* Ảnh bìa bài hát trong bảng */
 .page-yeuthich .pt-cover {
     width: 42px;
     height: 42px;
@@ -242,6 +275,7 @@
     flex: 0 0 42px;
 }
 
+/* Tiêu đề bài hát trong bảng */
 .page-yeuthich .pt-title {
     font-size: 16px;
     color: #000;
@@ -249,12 +283,14 @@
     letter-spacing: 1.5;
 }
 
+/* Tên nghệ sĩ trong bảng */
 .page-yeuthich .pt-artist {
     color: #7f8b99;
     font-size: 14px;
 }
 
 /* ===== Responsive ===== */
+/* Responsive cho màn hình trung bình */
 @media (max-width: 1024px) {
     .page-yeuthich .playlist-header {
         gap: 16px;
@@ -271,7 +307,9 @@
     }
 }
 
+/* Responsive cho màn hình nhỏ hơn */
 @media (max-width: 900px) {
+    /* Điều chỉnh cấu trúc bảng */
     .page-yeuthich .pt-head,
     .page-yeuthich .pt-row {
         grid-template-columns: 30px 1fr 60px;
@@ -280,10 +318,12 @@
         font-size: 14px;
     }
 
+    /* Ẩn cột nghệ sĩ */
     .page-yeuthich .pt-col.artist {
         display: none;
     }
 
+    /* Điều chỉnh định dạng cột thời lượng */
     .page-yeuthich .pt-body .pt-col.time {
         font-family: "Inter", sans-serif;
         font-size: 14px;
@@ -293,6 +333,7 @@
         font-feature-settings: "tnum";
     }
 
+    /* Căn giữa cột thời lượng */
     .page-yeuthich .pt-body .pt-col.time {
         text-align: center;
         padding-right: 8px;
@@ -301,12 +342,14 @@
         min-width: 45px;
     }
 
+    /* Giảm kích thước ảnh bìa */
     .page-yeuthich .pt-cover {
         width: 32px;
         height: 32px;
         min-width: 32px;
     }
 
+    /* Điều chỉnh tiêu đề bài hát */
     .page-yeuthich .pt-title {
         font-size: 14px;
         white-space: nowrap;
@@ -315,6 +358,7 @@
         max-width: 100%;
     }
 
+    /* Điều chỉnh tên nghệ sĩ */
     .page-yeuthich .pt-artist {
         font-size: 11px;
         white-space: nowrap;
@@ -323,12 +367,14 @@
         max-width: 100%;
     }
 
+    /* Điều chỉnh cột thông tin bài hát */
     .page-yeuthich .pt-col.track {
         min-width: 0;
         max-width: 100%;
         overflow: hidden;
     }
 
+    /* Điều chỉnh cột số thứ tự */
     .page-yeuthich .pt-col.idx {
         padding-left: 2px;
         text-align: center;
@@ -336,7 +382,7 @@
     }
 }
 
-/* Responsive for smaller screens */
+/* Responsive cho màn hình nhỏ hơn nữa */
 @media (max-width: 700px) {
     .page-yeuthich .playlist-cover {
         flex-basis: 34vw;
@@ -344,7 +390,9 @@
     }
 }
 
+/* Responsive cho màn hình di động */
 @media (max-width: 520px) {
+    /* Thay đổi hướng header thành cột dọc */
     .page-yeuthich .playlist-header {
         flex-direction: column;
         align-items: stretch;
@@ -356,6 +404,7 @@
     .page-yeuthich .playlist-cover img {
         width: 100%;
     }
+    /* Giảm padding nút play */
     .page-yeuthich .playlist-play {
         padding: 10px 18px;
     }
@@ -363,11 +412,12 @@
 
 /* Old song-title img styling removed - now using pt-cover */
 
+/* Thêm padding dưới cho playlist */
 .page-yeuthich .playlist {
     padding-bottom: 150px;
 }
 
-/* When Queue is open, remove extra bottom padding from the playlist to avoid gaps */
+/* Khi Queue mở, bỏ padding dưới để tránh khoảng trống */
 .content:has(.queue:not(.hidden)) .page-yeuthich .playlist,
 .page-yeuthich .content:has(.queue:not(.hidden)) .playlist {
     padding-bottom: 0;

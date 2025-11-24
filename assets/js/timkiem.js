@@ -1,6 +1,7 @@
-// Page-specific behavior for timkiem.html: render artist and songs by query
+// Hành vi riêng cho trang timkiem.html: render nghệ sĩ và bài hát theo từ khóa tìm kiếm
 
 (function searchArtistAndRender() {
+    // Hàm chuẩn hóa chuỗi để tìm kiếm không dấu
     function normalize(s) {
         return (s || "")
             .normalize("NFD")
@@ -9,6 +10,7 @@
             .trim();
     }
 
+    // Hàm lấy tham số truy vấn từ URL
     function getQuery() {
         try {
             return new URLSearchParams(location.search).get("q") || "";
@@ -17,6 +19,7 @@
         }
     }
 
+    // Hàm bất đồng bộ lấy tất cả bài hát
     async function getAllSongs() {
         try {
             if (
@@ -37,29 +40,31 @@
         return [];
     }
 
+    // Hàm chọn nghệ sĩ phù hợp nhất với từ khóa tìm kiếm
     function pickArtist(artists, qNorm) {
         const list = artists.map((name) => ({ name, norm: normalize(name) }));
         if (!qNorm) return list[0]?.name || "";
 
-        // Try exact match first
+        // Thử khớp chính xác trước
         const exact = list.find((a) => a.norm === qNorm);
         if (exact) return exact.name;
 
-        // Try starts with match
+        // Thử khớp bắt đầu bằng
         const startsWith = list.find((a) => a.norm.startsWith(qNorm));
         if (startsWith) return startsWith.name;
 
-        // Try contains match
+        // Thử khớp chứa
         const contains = list.find((a) => a.norm.includes(qNorm));
         if (contains) return contains.name;
 
-        // Try query contains artist name
+        // Thử từ khóa chứa tên nghệ sĩ
         const reverseContains = list.find((a) => qNorm.includes(a.norm));
         if (reverseContains) return reverseContains.name;
 
         return list[0]?.name || "";
     }
 
+    // Hàm render header nghệ sĩ
     function renderArtistHeader(artistName, artistImgUrl) {
         const card = document.querySelector(".top-result-card");
         const imgBox = card?.querySelector(".artist-image");
@@ -69,6 +74,7 @@
         if (nameEl) nameEl.textContent = artistName || "—";
     }
 
+    // Hàm ánh xạ bài hát tới chỉ số trong playlist
     function mapToPlaylistIndex(track) {
         try {
             if (
@@ -89,22 +95,23 @@
         }
     }
 
+    // Hàm định dạng thời lượng bài hát
     function formatDuration(song) {
-        // First try to get duration from the song object
+        // Thử lấy thời lượng từ đối tượng bài hát
         if (song.duration) {
             if (typeof song.duration === "number") {
                 const mins = Math.floor(song.duration / 60);
                 const secs = Math.floor(song.duration % 60);
                 return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
             } else if (typeof song.duration === "string") {
-                // If it's already in MM:SS format, return as is
+                // Nếu đã ở định dạng MM:SS, trả về nguyên bản
                 if (/^\d+:\d{2}$/.test(song.duration)) {
                     return song.duration;
                 }
             }
         }
 
-        // If no duration is available, try to get it from MusicBox
+        // Nếu không có thời lượng, thử lấy từ MusicBox
         if (window.MusicBox && typeof window.MusicBox.playlist === "function") {
             try {
                 const playlist = window.MusicBox.playlist();
@@ -120,16 +127,16 @@
                     return foundSong.duration;
                 }
             } catch (e) {
-                console.error("Error getting duration from MusicBox:", e);
+                console.error("Lỗi khi lấy thời lượng từ MusicBox:", e);
             }
         }
 
         return "0:00";
     }
 
-    // Asynchronously ensure durations after initial render
+    // Hàm bất đồng bộ đảm bảo thời lượng được tải sau khi render ban đầu
     async function ensureDurations(songs) {
-        // Try to use MusicBox playlist if ready
+        // Thử sử dụng playlist MusicBox nếu sẵn sàng
         let pl = [];
         try {
             if (
@@ -154,7 +161,7 @@
             if (!row) return;
             const durEl = row.querySelector(".song-duration");
             if (!durEl) return;
-            // If already filled, skip
+            // Nếu đã có dữ liệu, bỏ qua
             if (durEl.textContent && durEl.textContent !== "0:00") return;
 
             const key = (
@@ -175,7 +182,7 @@
                 return;
             }
 
-            // Fallback: use song.src directly if present
+            // Dự phòng: sử dụng song.src trực tiếp nếu có
             if (song.src) {
                 const a = new Audio(song.src);
                 a.addEventListener("loadedmetadata", () => {
@@ -189,6 +196,7 @@
         });
     }
 
+    // Hàm render danh sách bài hát
     function renderSongs(songs) {
         console.log("Song data:", songs); // Debug log
         const container = document.querySelector(".top-songs-grid");
@@ -197,7 +205,7 @@
         container.innerHTML = songs
             .slice(0, 4)
             .map((song, i) => {
-                // Store song data directly in element instead of trying to map to playlist index
+                // Lưu trữ dữ liệu bài hát trực tiếp trong phần tử thay vì cố gắng ánh xạ tới chỉ số playlist
                 const duration = formatDuration(song);
                 console.log(
                     `Song ${i}:`,
@@ -227,27 +235,27 @@
             })
             .join("");
 
-        // After rendering, ensure durations are populated asynchronously
+        // Sau khi render, đảm bảo thời lượng được điền bất đồng bộ
         ensureDurations(songs);
 
-        // Add click event listeners to song items
+        // Thêm sự kiện click cho các mục bài hát
         document.querySelectorAll(".top-song-item").forEach((item) => {
             item.style.cursor = "pointer";
             item.addEventListener("click", (e) => {
                 try {
                     const songData = JSON.parse(item.getAttribute("data-song"));
                     if (!songData) {
-                        console.error("No song data found");
+                        console.error("Không tìm thấy dữ liệu bài hát");
                         return;
                     }
                     
-                    // Find song in the global playlist
+                    // Tìm bài hát trong playlist toàn cục
                     const playlist = window.MusicBox ? window.MusicBox.playlist() : [];
                     console.log("Playlist:", playlist); // Debug log
                     console.log("Song data:", songData); // Debug log
                     
                     const playlistIndex = playlist.findIndex(
-                        (p) => p.id === songData.id || 
+                        (p) => p.id === songData.id ||
                                (p.title === songData.title && p.artist === songData.artist)
                     );
                     
@@ -261,7 +269,7 @@
                         console.log("Playing song at index:", playlistIndex); // Debug log
                         window.MusicBox.playAt(playlistIndex);
                     } else {
-                        console.error("Could not play song. MusicBox available:", !!window.MusicBox, 
+                        console.error("Could not play song. MusicBox available:", !!window.MusicBox,
                                       "Playlist index:", playlistIndex);
                     }
                 } catch (error) {
@@ -271,11 +279,12 @@
         });
     }
 
+    // Hàm render danh sách album
     function renderAlbums(artistName) {
         const container = document.querySelector(".songs-grid");
         if (!container) return;
 
-        // Get albums for the artist
+        // Lấy album cho nghệ sĩ
         let albums = [];
         if (
             window.MusicBoxAlbums &&
@@ -284,13 +293,13 @@
             albums = window.MusicBoxAlbums.getAlbumsForArtist(artistName);
         }
 
-        // If no albums found, use fallback images
+        // Nếu không tìm thấy album, sử dụng hình ảnh dự phòng
         if (!albums.length) {
-            console.warn(`No albums found for artist: ${artistName}`);
+            console.warn(`Không tìm thấy album cho nghệ sĩ: ${artistName}`);
             return;
         }
 
-        // Render album items
+        // Render các mục album
         container.innerHTML = albums
             .map(
                 (album, index) => `
@@ -305,11 +314,11 @@
             )
             .join("");
 
-        // Add click event listeners to album items
+        // Thêm sự kiện click cho các mục album
         document.querySelectorAll(".song-item").forEach((item, index) => {
             item.style.cursor = "pointer";
             item.addEventListener("click", () => {
-                // Find songs from the same artist and play the first one
+                // Tìm các bài hát từ cùng nghệ sĩ và phát bài đầu tiên
                 if (
                     window.MusicBox &&
                     typeof window.MusicBox.playlist === "function"
@@ -339,6 +348,7 @@
         });
     }
 
+    // Hàm khởi động chính
     async function start() {
         const rawQ = getQuery();
         const qNorm = normalize(rawQ);
@@ -360,18 +370,18 @@
         renderSongs(artistSongs);
         renderAlbums(pickedArtist);
         
-        // Wait for MusicBox to be available before adding click events
+        // Chờ MusicBox sẵn sàng trước khi thêm sự kiện click
         if (!window.MusicBox) {
-            // Check periodically for MusicBox to be available
+            // Kiểm tra định kỳ xem MusicBox đã sẵn sàng chưa
             const checkInterval = setInterval(() => {
                 if (window.MusicBox) {
                     clearInterval(checkInterval);
-                    // Re-render songs to attach click events properly
+                    // Render lại bài hát để gắn sự kiện click đúng cách
                     renderSongs(artistSongs);
                 }
             }, 100);
             
-            // Stop checking after 10 seconds
+            // Ngừng kiểm tra sau 10 giây
             setTimeout(() => clearInterval(checkInterval), 10000);
         }
     }
@@ -398,7 +408,7 @@
         document.head.appendChild(style);
     })();
 
-    // Helper: kiểm tra phần tử có "đang hiển thị" không
+    // Hàm trợ giúp: kiểm tra phần tử có "đang hiển thị" không
     function isVisible(el) {
         if (!el || el.hidden) return false;
         const cs = getComputedStyle(el);
@@ -416,7 +426,7 @@
         searchEl.classList.toggle(HIDE_CLASS, anyQueueVisible);
     }
 
-    // Debounce nhẹ bằng rAF để tránh chạy quá dày
+    // Debounce nhẹ bằng rAF để tránh chạy quá dày đặc
     let rafId = 0;
     const scheduleSync = () => {
         if (rafId) return;
@@ -446,6 +456,7 @@
 
 // Xử lý nút theo dõi cho nghệ sĩ trong trang tìm kiếm
 (function setupFollowButtonForArtist() {
+    // Hàm chuẩn hóa chuỗi để so sánh không dấu
     function normalize(s) {
         return (s || "")
             .normalize("NFD")
@@ -454,6 +465,7 @@
             .trim();
     }
 
+    // Hàm lấy danh sách nghệ sĩ đã theo dõi
     function getFollowedArtists() {
         try {
             const data = localStorage.getItem("followedArtists");
@@ -463,14 +475,16 @@
         }
     }
 
+    // Hàm lưu danh sách nghệ sĩ đã theo dõi
     function saveFollowedArtists(set) {
         try {
             localStorage.setItem("followedArtists", JSON.stringify([...set]));
         } catch (e) {
-            console.error("Failed to save followed artists:", e);
+            console.error("Lỗi khi lưu danh sách nghệ sĩ đã theo dõi:", e);
         }
     }
 
+    // Hàm cập nhật UI của nút theo dõi
     function updateFollowUI(button, artistName) {
         const set = getFollowedArtists();
         const key = normalize(artistName);
@@ -481,6 +495,7 @@
         button.setAttribute("aria-pressed", String(isFollowing));
     }
 
+    // Hàm chuyển đổi trạng thái theo dõi
     function toggleFollow(button, artistName) {
         try {
             const key = normalize(artistName);
@@ -499,10 +514,11 @@
             // Đồng bộ trạng thái với nút kia trên trang
             syncBothButtons(artistName);
         } catch (e) {
-            console.error("Error toggling follow:", e);
+            console.error("Lỗi khi chuyển đổi trạng thái theo dõi:", e);
         }
     }
 
+    // Hàm đồng bộ cả hai nút theo dõi trên trang
     function syncBothButtons(artistName) {
         const set = getFollowedArtists();
         const key = normalize(artistName);
@@ -525,6 +541,7 @@
         }
     }
 
+    // Hàm khởi tạo
     function init() {
         const followButton = document.querySelector("#follow-button");
         const bFollow = document.querySelector("#b-follow");

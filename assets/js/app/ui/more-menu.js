@@ -1,30 +1,30 @@
-// ===== MORE MENU MODULE =====
+// ===== MODULE MENU THÊM (MORE MENU) =====
 
-// ===== CONSTANTS =====
-const DEFAULT_FILENAME = "baihat";
-const DEFAULT_EXTENSION = "mp3";
-const INVALID_FILENAME_CHARS = /[\\/:*?"<>|]/g;
+// ===== HẰNG SỐ =====
+const DEFAULT_FILENAME = "baihat"; // Tên file mặc định khi tải xuống
+const DEFAULT_EXTENSION = "mp3"; // Định dạng file mặc định
+const INVALID_FILENAME_CHARS = /[\\/:*?"<>|]/g; // Các ký tự không hợp lệ trong tên file
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi một cách an toàn một hàm với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
         return fn();
     } catch (error) {
-        console.error(`Error in ${context}:`, error);
+        console.error(`Lỗi trong ${context}:`, error);
         return null;
     }
 }
 
 /**
- * Sanitizes a string for use as filename
- * @param {string} str - String to sanitize
- * @returns {string} Sanitized string
+ * Làm sạch chuỗi để sử dụng làm tên file
+ * @param {string} str - Chuỗi cần làm sạch
+ * @returns {string} Chuỗi đã làm sạch
  */
 function sanitizeFilename(str) {
     return String(str || "")
@@ -34,9 +34,9 @@ function sanitizeFilename(str) {
 }
 
 /**
- * Extracts file extension from URL
- * @param {string} url - File URL
- * @returns {string} File extension
+ * Trích xuất phần mở rộng file từ URL
+ * @param {string} url - URL của file
+ * @returns {string} Phần mở rộng của file
  */
 function getFileExtension(url) {
     return safeExecute(() => {
@@ -54,9 +54,9 @@ function getFileExtension(url) {
 }
 
 /**
- * Checks if URL is from same origin
- * @param {string} url - URL to check
- * @returns {boolean}
+ * Kiểm tra xem URL có cùng nguồn gốc với trang hiện tại không
+ * @param {string} url - URL cần kiểm tra
+ * @returns {boolean} True nếu cùng nguồn gốc
  */
 function isSameOrigin(url) {
     return safeExecute(() => {
@@ -66,11 +66,11 @@ function isSameOrigin(url) {
 }
 
 /**
- * Creates a download link element
- * @param {string} href - Link URL
- * @param {string} filename - Download filename
- * @param {boolean} openInNewTab - Whether to open in new tab
- * @returns {HTMLElement} Anchor element
+ * Tạo một phần tử liên kết tải xuống
+ * @param {string} href - URL của liên kết
+ * @param {string} filename - Tên file khi tải xuống
+ * @param {boolean} openInNewTab - Có mở trong tab mới không
+ * @returns {HTMLElement} Phần tử anchor
  */
 function createDownloadLink(href, filename, openInNewTab = false) {
     const link = document.createElement("a");
@@ -86,8 +86,8 @@ function createDownloadLink(href, filename, openInNewTab = false) {
 }
 
 /**
- * Triggers download via anchor element
- * @param {HTMLElement} link - Anchor element
+ * Kích hoạt tải xuống thông qua phần tử anchor
+ * @param {HTMLElement} link - Phần tử anchor
  */
 function triggerDownload(link) {
     document.body.appendChild(link);
@@ -95,19 +95,19 @@ function triggerDownload(link) {
     link.remove();
 }
 
-// ===== MENU MANAGEMENT =====
+// ===== QUẢN LÝ MENU =====
 /**
- * Sets up more menu toggle functionality
- * @param {HTMLElement} menuButton - Menu button element
- * @param {HTMLElement} menu - Menu element
- * @returns {Function} Function to hide menu
+ * Thiết lập chức năng chuyển đổi menu thêm
+ * @param {HTMLElement} menuButton - Phần tử nút menu
+ * @param {HTMLElement} menu - Phần tử menu
+ * @returns {Function} Hàm để ẩn menu
  */
 function setupMenuToggle(menuButton, menu) {
     let handleDocumentClick = null;
     let handleEscape = null;
 
     /**
-     * Closes the more menu
+     * Đóng menu thêm
      */
     function hideMenu() {
         if (!menu) return;
@@ -123,8 +123,8 @@ function setupMenuToggle(menuButton, menu) {
     }
 
     /**
-     * Handles clicks outside menu
-     * @param {Event} event - Click event
+     * Xử lý các cú nhấp chuột bên ngoài menu
+     * @param {Event} event - Sự kiện click
      */
     handleDocumentClick = (event) => {
         if (
@@ -137,8 +137,8 @@ function setupMenuToggle(menuButton, menu) {
     };
 
     /**
-     * Handles Escape key press
-     * @param {KeyboardEvent} event - Keyboard event
+     * Xử lý khi nhấn phím Escape
+     * @param {KeyboardEvent} event - Sự kiện bàn phím
      */
     handleEscape = (event) => {
         if (event.key === "Escape") {
@@ -161,12 +161,12 @@ function setupMenuToggle(menuButton, menu) {
     return hideMenu;
 }
 
-// ===== DOWNLOAD FUNCTIONALITY =====
+// ===== CHỨC NĂNG TẢI XUỐNG =====
 /**
- * Generates a safe filename from track data
- * @param {Object} track - Track object
- * @param {string} url - Track URL
- * @returns {string} Safe filename
+ * Tạo tên file an toàn từ dữ liệu bài hát
+ * @param {Object} track - Đối tượng bài hát
+ * @param {string} url - URL của bài hát
+ * @returns {string} Tên file an toàn
  */
 function generateFilename(track, url) {
     const title = track.title || DEFAULT_FILENAME;
@@ -177,9 +177,9 @@ function generateFilename(track, url) {
 }
 
 /**
- * Downloads file from same-origin URL
- * @param {string} url - File URL
- * @param {string} filename - Download filename
+ * Tải xuống file từ URL cùng nguồn gốc
+ * @param {string} url - URL của file
+ * @param {string} filename - Tên file khi tải xuống
  */
 function downloadSameOrigin(url, filename) {
     const link = createDownloadLink(url, filename);
@@ -187,9 +187,9 @@ function downloadSameOrigin(url, filename) {
 }
 
 /**
- * Downloads file from cross-origin URL
- * @param {string} url - File URL
- * @param {string} filename - Download filename
+ * Tải xuống file từ URL khác nguồn gốc
+ * @param {string} url - URL của file
+ * @param {string} filename - Tên file khi tải xuống
  */
 async function downloadCrossOrigin(url, filename) {
     try {
@@ -207,18 +207,18 @@ async function downloadCrossOrigin(url, filename) {
         URL.revokeObjectURL(objectUrl);
     } catch (error) {
         console.error("Failed to download cross-origin file:", error);
-        // Fallback: open in new tab
+        // Giải pháp dự phòng: mở trong tab mới
         const link = createDownloadLink(url, filename, true);
         triggerDownload(link);
     }
 }
 
 /**
- * Handles track download
- * @param {Object} playerContext - Player context
- * @param {Object} playlistContext - Playlist context
- * @param {HTMLElement} menu - Menu element
- * @param {Function} hideMenu - Function to hide menu
+ * Xử lý tải xuống bài hát
+ * @param {Object} playerContext - Ngữ cảnh trình phát
+ * @param {Object} playlistContext - Ngữ cảnh danh sách phát
+ * @param {HTMLElement} menu - Phần tử menu
+ * @param {Function} hideMenu - Hàm để ẩn menu
  */
 async function handleDownload(playerContext, playlistContext, menu, hideMenu) {
     try {
@@ -248,12 +248,12 @@ async function handleDownload(playerContext, playlistContext, menu, hideMenu) {
 }
 
 /**
- * Sets up download button functionality
- * @param {HTMLElement} downloadButton - Download button element
- * @param {Object} playerContext - Player context
- * @param {Object} playlistContext - Playlist context
- * @param {HTMLElement} menu - Menu element
- * @param {Function} hideMenu - Function to hide menu
+ * Thiết lập chức năng cho nút tải xuống
+ * @param {HTMLElement} downloadButton - Phần tử nút tải xuống
+ * @param {Object} playerContext - Ngữ cảnh trình phát
+ * @param {Object} playlistContext - Ngữ cảnh danh sách phát
+ * @param {HTMLElement} menu - Phần tử menu
+ * @param {Function} hideMenu - Hàm để ẩn menu
  */
 function setupDownloadButton(
     downloadButton,
@@ -269,12 +269,12 @@ function setupDownloadButton(
     });
 }
 
-// ===== MAIN SETUP =====
+// ===== THIẾT LẬP CHÍNH =====
 /**
- * Sets up more menu functionality
- * @param {Object} options - Setup options
- * @param {Object} options.playerContext - Player context
- * @param {Object} options.playlistContext - Playlist context
+ * Thiết lập chức năng menu thêm
+ * @param {Object} options - Tùy chọn thiết lập
+ * @param {Object} options.playerContext - Ngữ cảnh trình phát
+ * @param {Object} options.playlistContext - Ngữ cảnh danh sách phát
  */
 export function setupMoreMenu({ playerContext, playlistContext }) {
     const moreButton = document.getElementById("more");

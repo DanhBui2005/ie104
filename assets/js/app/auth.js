@@ -1,15 +1,19 @@
 // ===== AUTHENTICATION MODULE =====
+// Module xác thực người dùng
 
 // ===== CONSTANTS =====
+// Các hằng số lưu trữ
 const STORAGE_KEYS = {
     AUTH_USER: "auth_user",
     PLAYER_STATE: "player_state_v1",
 };
 
+// Các đường dẫn
 const PATHS = {
     LANDING_PAGE: "./landingpage.html",
 };
 
+// Trạng thái mặc định của trình phát nhạc
 const DEFAULT_PLAYER_STATE = {
     index: 0,
     currentTime: 0,
@@ -22,11 +26,13 @@ const DEFAULT_PLAYER_STATE = {
 };
 
 // ===== UTILITY FUNCTIONS =====
+// Các hàm tiện ích
+
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -38,8 +44,8 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Gets authenticated user from localStorage
- * @returns {Object|null} User object or null
+ * Lấy người dùng đã xác thực từ localStorage
+ * @returns {Object|null} Đối tượng người dùng hoặc null
  */
 function getAuthUser() {
     return safeExecute(() => {
@@ -50,7 +56,7 @@ function getAuthUser() {
 }
 
 /**
- * Removes authenticated user from localStorage
+ * Xóa người dùng đã xác thực khỏi localStorage
  */
 function removeAuthUser() {
     safeExecute(() => {
@@ -59,15 +65,15 @@ function removeAuthUser() {
 }
 
 /**
- * Redirects to landing page
+ * Chuyển hướng đến trang landing
  */
 function redirectToLandingPage() {
     location.replace(PATHS.LANDING_PAGE);
 }
 
 /**
- * Gets saved player state from localStorage
- * @returns {Object|null} Player state or null
+ * Lấy trạng thái đã lưu của trình phát nhạc từ localStorage
+ * @returns {Object|null} Trạng thái trình phát nhạc hoặc null
  */
 function getPlayerState() {
     return safeExecute(() => {
@@ -78,8 +84,8 @@ function getPlayerState() {
 }
 
 /**
- * Saves player state to localStorage
- * @param {Object} state - Player state object
+ * Lưu trạng thái trình phát nhạc vào localStorage
+ * @param {Object} state - Đối tượng trạng thái trình phát nhạc
  */
 function savePlayerState(state) {
     safeExecute(() => {
@@ -91,8 +97,10 @@ function savePlayerState(state) {
 }
 
 // ===== PLAYER STATE MANAGEMENT =====
+// Quản lý trạng thái trình phát nhạc
+
 /**
- * Sets logout flag for player module
+ * Đặt cờ đăng xuất cho module trình phát nhạc
  */
 function setLogoutFlag() {
     safeExecute(() => {
@@ -103,7 +111,7 @@ function setLogoutFlag() {
 }
 
 /**
- * Pauses current audio element
+ * Tạm dừng phần tử audio hiện tại
  */
 function pauseCurrentAudio() {
     safeExecute(() => {
@@ -114,7 +122,7 @@ function pauseCurrentAudio() {
 }
 
 /**
- * Pauses player via MusicBox API
+ * Tạm dừng trình phát nhạc qua MusicBox API
  */
 function pausePlayer() {
     safeExecute(() => {
@@ -128,7 +136,7 @@ function pausePlayer() {
 }
 
 /**
- * Saves paused player state to localStorage
+ * Lưu trạng thái trình phát nhạc đã tạm dừng vào localStorage
  */
 function savePausedPlayerState() {
     const currentState = getPlayerState();
@@ -140,7 +148,7 @@ function savePausedPlayerState() {
 }
 
 /**
- * Pauses all audio and saves paused state
+ * Tạm dừng tất cả audio và lưu trạng thái đã tạm dừng
  */
 function pauseAllAudio() {
     setLogoutFlag();
@@ -150,9 +158,11 @@ function pauseAllAudio() {
 }
 
 // ===== AUTHENTICATION FUNCTIONS =====
+// Các hàm xác thực
+
 /**
- * Login gate: requires authentication before viewing site
- * Redirects to landing page if user is not authenticated
+ * Cổng đăng nhập: yêu cầu xác thực trước khi xem trang web
+ * Chuyển hướng đến trang landing nếu người dùng chưa xác thực
  */
 export function gate() {
     const user = getAuthUser();
@@ -162,18 +172,18 @@ export function gate() {
 }
 
 /**
- * Signs out user and optionally redirects to landing page
- * Persists paused player state so next app load won't auto-play
- * @param {boolean} redirect - Whether to redirect to landing page (default: true)
+ * Đăng xuất người dùng và tùy chọn chuyển hướng đến trang landing
+ * Lưu trạng thái trình phát nhạc đã tạm dừng để lần tải ứng dụng tiếp theo không tự động phát
+ * @param {boolean} redirect - Có chuyển hướng đến trang landing hay không (mặc định: true)
  */
 export function signOut(redirect = true) {
-    // Pause all audio and save paused state
+    // Tạm dừng tất cả audio và lưu trạng thái đã tạm dừng
     pauseAllAudio();
 
-    // Remove authenticated user
+    // Xóa người dùng đã xác thực
     removeAuthUser();
 
-    // Redirect if requested
+    // Chuyển hướng nếu được yêu cầu
     if (redirect) {
         redirectToLandingPage();
     }

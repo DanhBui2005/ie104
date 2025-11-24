@@ -1,6 +1,6 @@
-// Album data management for Music Box
+// Quản lý dữ liệu album cho Music Box
 (function () {
-    // Mapping artist to their album images
+    // Ánh xạ nghệ sĩ với hình ảnh album của họ
     const artistAlbumMap = {
         "Sơn Tùng M-TP": [
             "./assets/music_data/album/son_tung_mtp/lac_troi.jpg",
@@ -46,7 +46,7 @@
         ],
     };
 
-    // Album names for each artist
+    // Tên album cho từng nghệ sĩ
     const albumNames = {
         "Sơn Tùng M-TP": [
             "Lạc Trôi",
@@ -77,7 +77,7 @@
         "Chi Xê": ["Mộc Miên", "Seenderella", "Thinker Tell", "U"],
     };
 
-    // Normalize string for comparison
+    // Chuẩn hóa chuỗi để so sánh
     function normalize(s) {
         return (s || "")
             .normalize("NFD")
@@ -86,11 +86,11 @@
             .trim();
     }
 
-    // Get albums for an artist
+    // Lấy danh sách album của một nghệ sĩ
     function getAlbumsForArtist(artistName) {
         const artistNorm = normalize(artistName);
 
-        // Find matching artist (case-insensitive)
+        // Tìm nghệ sĩ khớp (không phân biệt chữ hoa/thường)
         const matchedArtist = Object.keys(artistAlbumMap).find(
             (artist) => normalize(artist) === artistNorm
         );
@@ -107,7 +107,7 @@
         }));
     }
 
-    // Get a random album for an artist
+    // Lấy một album ngẫu nhiên của một nghệ sĩ
     function getRandomAlbumForArtist(artistName) {
         const albums = getAlbumsForArtist(artistName);
         if (!albums.length) return null;
@@ -116,7 +116,7 @@
         return albums[randomIndex];
     }
 
-    // Make functions available globally
+    // Cung cấp các hàm toàn cầu
     window.MusicBoxAlbums = {
         getAlbumsForArtist,
         getRandomAlbumForArtist,

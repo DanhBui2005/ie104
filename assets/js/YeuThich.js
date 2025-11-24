@@ -1,12 +1,15 @@
 // Module trang Yêu Thích: render từ localStorage và cho phép xóa từng bài
 (() => {
+  // Lấy các phần tử DOM cần thiết
   const ytTbody = document.getElementById('yt-body');
   const playlistCover = document.querySelector('.playlist-cover img');
   const playlistSub = document.querySelector('.playlist .playlist-sub');
   const playlistTitle = document.querySelector('.playlist .playlist-title');
 
+  // Kiểm tra xem có tồn tại phần tử body không
   if (!ytTbody) return;
 
+  // Hàm tải danh sách bài hát yêu thích từ localStorage
   function loadLiked() {
     try {
       const data = localStorage.getItem('liked_songs');
@@ -16,6 +19,7 @@
     }
   }
 
+  // Hàm lấy key tên hiển thị cho người dùng hiện tại
   function getNameKey() {
     try {
       const u = JSON.parse(localStorage.getItem('auth_user') || 'null');
@@ -23,6 +27,8 @@
     } catch {}
     return 'displayname_guest';
   }
+  
+  // Hàm lấy tên hiển thị của người dùng
   function getDisplayName() {
     try {
       const s = localStorage.getItem(getNameKey());
@@ -31,6 +37,8 @@
       return '';
     }
   }
+  
+  // Hàm thiết lập tiêu đề cho playlist yêu thích
   function setFavTitle() {
     if (!playlistTitle) return;
     const name = getDisplayName();
@@ -38,6 +46,7 @@
     playlistTitle.textContent = `Yêu thích của ${name || fallback}`;
   }
 
+  // Hàm lưu danh sách bài hát yêu thích vào localStorage
   function saveLiked(list) {
     try {
       localStorage.setItem('liked_songs', JSON.stringify(list));
@@ -45,6 +54,7 @@
     } catch {}
   }
 
+  // Hàm bất đồng bộ để render danh sách bài hát yêu thích
   async function renderLiked() {
     const list = loadLiked();
     ytTbody.innerHTML = '';
@@ -77,7 +87,7 @@
       ytTbody.appendChild(row);
     });
 
-    // Update số lượng bài
+    // Update số lượng bài hát
     if (playlistSub) playlistSub.textContent = `Playlist • ${list.length} bài hát`;
     // Update cover nếu có bài đầu tiên
     const first = list[0];

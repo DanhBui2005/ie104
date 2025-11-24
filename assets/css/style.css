@@ -1,4 +1,4 @@
-/* When queue is open on small screens, hide main to avoid any gaps */
+/* Khi hàng đợi mở trên màn hình nhỏ, ẩn phần chính để tránh khoảng trống */
 @media (max-width: 900px) {
     .content:has(.queue:not(.hidden)) .main-content {
         display: none;
@@ -7,7 +7,7 @@
         display: none;
     }
 }
-/* Guarantee horizontal volume stays within right edge on wide screens */
+/* Đảm bảo thanh âm lượng ngang nằm trong cạnh phải trên màn hình rộng */
 @media (min-width: 1201px) {
     .right {
         justify-self: end;
@@ -18,7 +18,7 @@
         max-width: clamp(100px, 14vw, 180px);
     }
 }
-/* Fix freeze between 900–1200px: use popover volume instead of horizontal */
+/* Sửa lỗi đóng băng giữa 900-1200px: sử dụng thanh âm lượng nổi thay vì ngang */
 @media (max-width: 1200px) and (min-width: 901px) {
     .right {
         position: relative;
@@ -26,7 +26,7 @@
         align-items: center;
         gap: 8px;
     }
-    /* Desktop-like horizontal volume slider in this range */
+    /* Thanh trượt âm lượng ngang kiểu máy tính để bàn trong khoảng này */
     .right input {
         display: inline-block;
         position: static;
@@ -35,7 +35,7 @@
         -webkit-appearance: none;
         appearance: auto; /* keep default horizontal */
     }
-    /* Ensure any mobile popover class does not change orientation */
+    /* Đảm bảo bất kỳ lớp nổi di động nào không thay đổi hướng */
     .right.show-volume input {
         position: static;
         bottom: auto;
@@ -47,7 +47,7 @@
         padding: 0;
         transform: none;
     }
-    /* Tighten gaps/padding of the three sections in this range */
+    /* Thu hẹp khoảng cách/padding của ba phần trong khoảng này */
     .bar {
         gap: clamp(4px, 1vw, 10px);
         padding: 0 6px;
@@ -68,7 +68,7 @@
         gap: clamp(4px, 1vw, 8px);
     }
 
-    /* iPad Pro fix: make bar columns flexible to avoid min-width overflow */
+    /* Sửa lỗi iPad Pro: làm cho các cột thanh linh hoạt để tránh tràn min-width */
     .bar {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -84,7 +84,7 @@
         transform: none;
         justify-content: flex-end;
     }
-    /* Make timeline flexible so progress shrinks gracefully */
+    /* Làm cho dòng thời gian linh hoạt để tiến trình thu hẹp một cách duyên dáng */
     .timeline {
         grid-template-columns: auto minmax(180px, 42vw) auto;
     }
@@ -92,12 +92,12 @@
         width: 100%;
     }
 }
-/* (Removed 1100px breakpoint to keep continuous responsiveness) */
+/* (Đã xóa điểm ngắt 1100px để giữ tính phản hồi liên tục) */
 * {
     box-sizing: border-box;
 }
 
-/* Page transition states */
+/* Trạng thái chuyển đổi trang */
 body.is-loaded {
     opacity: 1;
 }
@@ -115,6 +115,7 @@ body {
     transition: opacity 0.18s ease;
 }
 
+/* Biến CSS toàn cục */
 :root {
     --panel: #e0f2fe;
     --icon: #135e88;
@@ -252,7 +253,7 @@ body {
     position: absolute;
     top: calc(
         100% + 8px
-    ); /* drop a bit below the button so it doesn't overlap */
+    ); /* thả xuống dưới nút một chút để không chồng lên nhau */
     right: 0;
     display: none;
     inline-size: 187px; /* width */
@@ -332,7 +333,7 @@ body {
     font-size: 1.6rem;
 }
 
-/* Show user avatar in header profile button */
+/* Hiển thị ảnh đại diện người dùng trong nút hồ sơ header */
 .profile-btn.has-avatar {
     background-size: cover;
     background-position: center;
@@ -341,13 +342,13 @@ body {
     opacity: 0;
 }
 
-/* Premium: turn crown icon yellow when active/toggled */
+/* Premium: chuyển biểu tượng vương miện thành màu vàng khi hoạt động/bật */
 .premium-btn[aria-pressed="true"] i,
 .premium-btn.active i {
     color: #facc15;
 }
 
-/* Premium button - Active state for light mode */
+/* Nút Premium - Trạng thái hoạt động cho chế độ sáng */
 .premium-btn[aria-pressed="true"],
 .premium-btn.active {
     background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
@@ -410,13 +411,13 @@ body {
     box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* Search Results Dropdown - Match search bar width */
+/* Menu thả xuống kết quả tìm kiếm - Khớp với chiều rộng thanh tìm kiếm */
 #mb-search-panel {
     max-width: 670px !important;
     min-width: 280px !important;
 }
 
-/* ===== Layout: Sidebar + Queue ===== */
+/* ===== Bố cục: Thanh bên + Hàng đợi ===== */
 .content {
     display: grid;
     grid-template-columns: var(--sidebar) 1fr;
@@ -429,7 +430,7 @@ body {
     height: 100%;
 }
 
-/* ===== Sidebar Menu ===== */
+/* ===== Menu thanh bên ===== */
 .sidebar {
     display: flex;
     border-radius: 12px 12px 0 0;
@@ -517,7 +518,7 @@ body {
     padding: 6px 0;
     display: block;
 }
-/* Center only the standalone section label (THƯ VIỆN) */
+/* Chỉ căn giữa nhãn phần độc lập (THƯ VIỆN) */
 .menu > .section > .section-label {
     text-align: center;
 }
@@ -553,7 +554,7 @@ body {
     transform: translateY(1px);
 }
 
-/* Created playlists */
+/* Playlist đã tạo */
 .pl-list {
     display: flex;
     flex-direction: column;
@@ -583,8 +584,8 @@ body {
 .pl-cover {
     width: 40px;
     height: 40px;
-    aspect-ratio: 1 / 1; /* keep square under any layout pressure */
-    border-radius: 8px; /* slight rounding while staying square */
+    aspect-ratio: 1 / 1; /* giữ vuông dưới bất kỳ áp lực bố cục nào */
+    border-radius: 8px; /* bo tròn nhẹ trong khi vẫn giữ vuông */
     background: lightgray 50% / cover no-repeat;
     background-size: cover;
     background-position: center;
@@ -611,14 +612,14 @@ body {
     height: 0;
 }
 
-/* ===== Responsive: collapsed sidebar (icons only) ===== */
+/* ===== Phản hồi: thanh bên thu gọn (chỉ biểu tượng) ===== */
 @media (max-width: 900px) {
-    /* Narrow the reserved sidebar width so layout reflows */
+    /* Thu hẹp chiều rộng thanh bên được dành trước để bố cục reflow */
     :root {
         --sidebar: 72px;
     }
 
-    /* Sidebar paddings tighter */
+    /* Padding thanh bên chặt hơn */
     .sidebar {
         padding: 10px;
         padding-bottom: 24px;
@@ -626,7 +627,7 @@ body {
         height: calc(100% - var(--player-h));
     }
 
-    /* Center icon buttons and hide text labels */
+    /* Căn giữa các nút biểu tượng và ẩn nhãn văn bản */
     .menu-btn {
         justify-content: center;
         gap: 0;
@@ -640,18 +641,18 @@ body {
         width: 24px;
     }
 
-    /* Show thin separators, hide labels only; center the add (+) button */
+    /* Hiển thị dấu phân cách mỏng, chỉ ẩn nhãn; căn giữa nút thêm (+) */
     .section {
         display: block;
         margin: 8px 0;
     }
-    /* Replace only the first section label (THƯ VIỆN) with an icon */
+    /* Thay thế chỉ nhãn phần đầu tiên (THƯ VIỆN) bằng biểu tượng */
     .menu > .section > .section-label {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 32px;
-        font-size: 0; /* hide original text */
+        font-size: 0; /* ẩn văn bản gốc */
     }
     .menu > .section > .section-label::before {
         content: "\f02d"; /* fa-book */
@@ -661,7 +662,7 @@ body {
         color: #000;
         line-height: 1;
     }
-    /* Hide label inside playlist header block */
+    /* Ẩn nhãn bên trong khối tiêu đề playlist */
     .section-header .section-label {
         display: none !important;
     }
@@ -681,7 +682,7 @@ body {
         place-items: center;
     }
 
-    /* Playlist: show covers only, center each item */
+    /* Playlist: chỉ hiển thị bìa, căn giữa mỗi mục */
     .pl-list {
         display: flex;
         flex-direction: column;
@@ -704,7 +705,7 @@ body {
         background-repeat: no-repeat;
     }
 
-    /* Header logo area follows the narrower sidebar */
+    /* Khu vực logo header theo thanh bên hẹp hơn */
     .header-left {
         width: var(--sidebar);
     }
@@ -715,7 +716,7 @@ body {
     }
 }
 
-/* ===== Banner (Now Playing) ===== */
+/* ===== Banner (Đang phát) ===== */
 .q-banner {
     background: linear-gradient(93deg, #8cdbdb 0%, #fff 100%);
     border: 0;
@@ -779,7 +780,7 @@ body {
     letter-spacing: -0.56px;
     line-height: 1;
 }
-/* New banner artist row */
+/* Hàng nghệ sĩ banner mới */
 .b-artist-row {
     display: flex;
     align-items: center;
@@ -812,7 +813,7 @@ body {
         gap: 1.2rem;
     }
 }
-/* Desktop: keep follow button close to artist name (no wide spacing) */
+/* Máy tính để bàn: giữ nút theo dõi gần tên nghệ sĩ (không có khoảng cách rộng) */
 @media (min-width: 901px) {
     .b-artist-row {
         justify-content: flex-start;
@@ -835,13 +836,13 @@ body {
     .b-title {
         font-size: clamp(28px, 8vw, 56px);
     }
-    /* Show pointer on volume icon when responsive */
+    /* Hiển thị con trỏ trên biểu tượng âm lượng khi phản hồi */
     .player .right #vol-icon {
         cursor: pointer;
     }
 }
 
-/* ===== Queue ===== */
+/* ===== Hàng đợi ===== */
 .queue {
     width: 100%;
     border-radius: 12px 12px 0 0;
@@ -881,7 +882,7 @@ body {
     margin: 0;
 }
 
-/* Ensure page lists are not hidden behind fixed player: add safe bottom space */
+/* Đảm bảo danh sách trang không bị ẩn đằng sau trình phát cố định: thêm không gian dưới cùng an toàn */
 .main-content,
 .played-main,
 .timkiem-main {
@@ -891,18 +892,18 @@ body {
                 calc(var(--player-h) + var(--player-safe))
             ) + 8px
     );
-    overflow-y: auto; /* allow scrolling within main area */
-    min-height: 0; /* allow child to shrink in grid */
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    overflow-y: auto; /* cho phép cuộn trong khu vực chính */
+    min-height: 0; /* cho phép con thu hẹp trong lưới */
+    -webkit-overflow-scrolling: touch; /* cuộn mượt trên iOS */
 }
 .content:has(.queue:not(.hidden)) .main-content {
-    /* When queue is open, don't reserve bottom space for main */
+    /* Khi hàng đợi mở, không dành không gian dưới cùng cho chính */
     padding-bottom: 0;
 }
 .content:has(.queue:not(.hidden)) .main-content::after {
     display: none;
 }
-/* Apply same logic for pages using .played-main (NgheGanDay) */
+/* Áp dụng cùng logic cho các trang sử dụng .played-main (NgheGanDay) */
 .content:has(.queue:not(.hidden)) .played-main {
     padding-bottom: 0;
 }
@@ -940,7 +941,7 @@ body {
     );
 }
 
-/* ===== Artist Bar ===== */
+/* ===== Thanh nghệ sĩ ===== */
 .artist-bar {
     display: flex;
     align-items: center;
@@ -1114,7 +1115,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 0 14px 14px; /* uniform bottom padding so last item spacing matches others */
+    padding: 0 14px 14px; /* padding dưới đồng nhất để khoảng cách mục cuối cùng khớp với các mục khác */
     flex: 1 1 auto;
     min-height: 0;
     overflow: visible;
@@ -1122,7 +1123,7 @@ body {
 .q-list::after {
     content: "";
     display: block;
-    height: 0; /* avoid double bottom space; padding handles player spacing */
+    height: 0; /* tránh khoảng cách dưới đôi; padding xử lý khoảng cách trình phát */
     width: 100%;
 }
 .q-list {
@@ -1205,7 +1206,7 @@ body {
     white-space: nowrap;
 }
 
-/* ===== Player (thanh phát mảnh) ===== */
+/* ===== Trình phát (thanh phát nhạc) ===== */
 .player {
     position: fixed;
     left: 0;
@@ -1216,23 +1217,23 @@ body {
     border-radius: 0;
     border: 0;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
-    padding: 12px 0; /* vertical only; inner .bar will handle horizontal gutters */
+    padding: 12px 0; /* chỉ theo chiều dọc; .bar bên trong sẽ xử lý khoảng cách ngang */
     margin: 0;
     z-index: 1000; /* Đảm bảo thanh phát nhạc luôn hiển thị trên menu playlist (90) */
-    overflow: visible; /* allow popovers (more menu, volume) to escape without clipping */
+    overflow: visible; /* cho phép các cửa sổ nổi (menu thêm, âm lượng) thoát ra mà không bị cắt */
 }
 .bar {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     gap: clamp(6px, 2vw, 14px);
-    width: calc(100vw - var(--gutter)); /* respond smoothly with viewport */
-    padding: 0 var(--pad); /* match inner padding like header/content */
-    margin: 0 auto; /* center inside full-width .player */
-    box-sizing: border-box; /* include padding in total width */
+    width: calc(100vw - var(--gutter)); /* phản hồi mượt mà với viewport */
+    padding: 0 var(--pad); /* khớp padding bên trong như header/content */
+    margin: 0 auto; /* căn giữa bên trong .player chiều rộng đầy đủ */
+    box-sizing: border-box; /* bao gồm padding trong tổng chiều rộng */
 }
 
-/* Left: cover + text */
+/* Trái: bìa + văn bản */
 .left {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -1254,7 +1255,7 @@ body {
     display: block;
 }
 
-/* Meta layout */
+/* Bố cục meta */
 .meta {
     display: grid;
     grid-template-columns: 1fr;
@@ -1372,11 +1373,11 @@ body {
     transform: translateX(3px);
 }
 
-/* Center: controls + timeline */
+/* Giữa: điều khiển + dòng thời gian */
 .center {
     display: grid;
     gap: clamp(4px, 1.2vw, 8px);
-    justify-self: center; /* keep middle section centered */
+    justify-self: center; /* giữ phần giữa được căn giữa */
     width: auto;
     max-width: 100%;
 }
@@ -1443,7 +1444,7 @@ body {
     display: grid;
     grid-template-columns: auto 296px auto;
     align-items: center;
-    gap: clamp(4px, 1.2vw, 8px); /* fluid gap */
+    gap: clamp(4px, 1.2vw, 8px); /* khoảng cách linh hoạt */
     justify-content: center;
     justify-items: center;
 }
@@ -1458,7 +1459,7 @@ body {
     line-height: 150%;
 }
 
-/* Range styles */
+/* Kiểu range */
 input[type="range"] {
     width: 100%;
     background: transparent;
@@ -1490,13 +1491,13 @@ input[type="range"]::-moz-range-thumb {
     border: 2px solid #fff;
 }
 
-/* Right: volume */
+/* Phải: âm lượng */
 .right {
     display: flex;
     align-items: center;
     gap: clamp(6px, 2vw, 10px);
     justify-self: end;
-    min-width: 0; /* allow shrinking to keep inside container */
+    min-width: 0; /* cho phép thu hẹp để giữ bên trong container */
 }
 .right input {
     width: 120px;
@@ -1517,16 +1518,16 @@ input[type="range"]::-moz-range-thumb {
         align-items: center;
         gap: 8px;
     }
-    /* Keep icon inline; hide slider by default to keep row height slim */
+    /* Giữ biểu tượng nội tuyến; ẩn thanh trượt theo mặc định để giữ chiều cao hàng mỏng */
     .right input {
         display: none;
     }
-    /* Show vertical slider above icon when toggled */
+    /* Hiển thị thanh trượt dọc phía trên biểu tượng khi bật */
     .right.show-volume input {
         display: block;
         position: absolute;
-        bottom: 36px; /* above icon */
-        right: 0; /* stick to icon at the end to avoid exceeding end point */
+        bottom: 36px; /* phía trên biểu tượng */
+        right: 0; /* dính vào biểu tượng ở cuối để tránh vượt quá điểm cuối */
         transform: none;
         width: 28px;
         height: 140px;
@@ -1546,14 +1547,14 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
-/* Show pointer on volume icon when responsive */
+/* Hiển thị con trỏ trên biểu tượng âm lượng khi phản hồi */
 @media (max-width: 900px) {
     .player .right #vol-icon {
         cursor: pointer;
     }
 }
 
-/* Repeat-one indicator */
+/* Chỉ báo lặp lại một */
 #repeat[data-mode="one"] {
     position: relative;
 }
@@ -1572,7 +1573,7 @@ input[type="range"]::-moz-range-thumb {
     place-items: center;
 }
 
-/* Responsive */
+/* Phản ứng */
 @media (max-width: 720px) {
     .bar {
         grid-template-columns: 1fr;
@@ -1597,7 +1598,7 @@ input[type="range"]::-moz-range-thumb {
     height: 3px;
     -webkit-appearance: none;
     appearance: none;
-    /* Paint the filled vs unfilled portions using CSS var updated by JS */
+    /* Vẽ các phần đã điền vs chưa điền bằng CSS var được cập nhật bởi JS */
     background: linear-gradient(
         to right,
         #13a6e9 var(--progress-value, 0%),
@@ -1608,7 +1609,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #progress::-webkit-slider-runnable-track {
-    background: transparent; /* gradient is painted on input */
+    background: transparent; /* gradient được vẽ trên input */
     height: 3px;
     border-radius: 2px;
 }
@@ -1625,14 +1626,14 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
-/* Firefox specific styles */
+/* Kiểu dành riêng cho Firefox */
 #progress::-moz-range-track {
-    background: transparent; /* use range-progress for the filled part */
+    background: transparent; /* sử dụng range-progress cho phần đã điền */
     height: 3px;
     border-radius: 2px;
 }
 
-/* Firefox left (filled) portion */
+/* Phần trái (đã điền) của Firefox */
 #progress::-moz-range-progress {
     background: #13a6e9;
     height: 3px;
@@ -1648,19 +1649,19 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
-/* ==================== Diều chỉnh thanh âm lượng ====================== */
+/* ==================== Điều chỉnh thanh âm lượng ====================== */
 #volume {
     width: 100px;
     height: 4px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(127, 212, 249, 0.2); /* Base background color */
+    background: rgba(127, 212, 249, 0.2); /* Màu nền cơ bản */
     border-radius: 2px;
     cursor: pointer;
     outline: none;
 }
 
-/* This creates the filled portion effect */
+/* Điều này tạo hiệu ứng phần đã điền */
 #volume::-webkit-slider-runnable-track {
     height: 4px;
     border-radius: 2px;
@@ -1686,7 +1687,7 @@ input[type="range"]::-moz-range-thumb {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Firefox styles */
+/* Kiểu Firefox */
 #volume::-moz-range-progress {
     background-color: #13a6e9;
     height: 4px;
@@ -1912,7 +1913,7 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
-/* ===== Fallback: luôn áp dụng layout gọn khi <=900px ===== */
+/* ===== Dự phòng: luôn áp dụng bố cục gọn khi <=900px ===== */
 @media (max-width: 900px) {
     /* Giữ 2 cột: sidebar thu gọn + main */
     .content {
@@ -1922,7 +1923,7 @@ input[type="range"]::-moz-range-thumb {
     .sidebar {
         display: flex !important;
     }
-    /* Make header's left column equal to sidebar width and center logo */
+    /* Làm cho cột trái của header bằng chiều rộng thanh bên và căn giữa logo */
     .header-left {
         width: var(--sidebar);
         justify-content: center;
@@ -2014,7 +2015,7 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
-/* Reduce outer gutters on very small screens to prevent visual overflow */
+/* Giảm khoảng cách bên ngoài trên màn hình rất nhỏ để ngăn tràn thị giác */
 @media (max-width: 420px) {
     :root {
         --gutter: 18px;
@@ -2022,7 +2023,7 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
-/* ===== Very small devices (e.g., iPhone SE ~375px) ===== */
+/* ===== Thiết bị rất nhỏ (ví dụ: iPhone SE ~375px) ===== */
 @media (max-width: 380px) {
     .bar {
         gap: 6px;
@@ -2083,7 +2084,7 @@ input[type="range"]::-moz-range-thumb {
         min-width: 38px;
     }
 
-    /* Slimmer sliders to save vertical space */
+    /* Thanh trượt mỏng hơn để tiết kiệm không gian dọc */
     #progress {
         height: 3px;
     }
@@ -2111,7 +2112,7 @@ input[type="range"]::-moz-range-thumb {
     }
 }
 
-/* Dark Mode Toggle Button */
+/* Nút chuyển đổi chế độ tối */
 .dark-mode-toggle {
     display: flex;
     width: 45px;
@@ -2161,7 +2162,7 @@ input[type="range"]::-moz-range-thumb {
     font-size: 1.6rem;
 }
 
-/* Header buttons - Remove default white background */
+/* Nút header - Xóa nền trắng mặc định */
 .nav-btn,
 .premium-btn,
 .profile-btn {

@@ -4,33 +4,33 @@
 (function () {
     "use strict";
 
-    // Key cho localStorage
+    // Khóa lưu trữ trong localStorage
     const USERS_KEY = "musicbox_users";
     const CURRENT_USER_KEY = "musicbox_current_user";
 
-    // Lấy danh sách users từ localStorage
+    // Hàm lấy danh sách người dùng từ localStorage
     function getUsers() {
         try {
             const users = localStorage.getItem(USERS_KEY);
             return users ? JSON.parse(users) : [];
         } catch (error) {
-            console.error("Error getting users:", error);
+            console.error("Lỗi khi lấy danh sách người dùng:", error);
             return [];
         }
     }
 
-    // Lưu danh sách users vào localStorage
+    // Hàm lưu danh sách người dùng vào localStorage
     function saveUsers(users) {
         try {
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
             return true;
         } catch (error) {
-            console.error("Error saving users:", error);
+            console.error("Lỗi khi lưu danh sách người dùng:", error);
             return false;
         }
     }
 
-    // Tạo user mới
+    // Hàm tạo người dùng mới
     function createUser(userData) {
         const users = getUsers();
 
@@ -39,7 +39,7 @@
             return { success: false, message: "Email này đã được đăng ký!" };
         }
 
-        // Tạo user object
+        // Tạo đối tượng người dùng mới
         const newUser = {
             id: Date.now().toString(), // ID đơn giản dựa trên timestamp
             firstName: userData.firstName,
@@ -74,7 +74,7 @@
         }
     }
 
-    // Đăng nhập người dùng
+    // Hàm đăng nhập người dùng
     function loginUser(email, password) {
         const users = getUsers();
         const user = users.find(
@@ -88,10 +88,10 @@
             try {
                 savedDisplayName = localStorage.getItem(displayNameKey);
             } catch (error) {
-                console.error("Error getting saved display name:", error);
+                console.error("Lỗi khi lấy tên hiển thị đã lưu:", error);
             }
 
-            // Lưu thông tin user hiện tại (không bao gồm password)
+            // Lưu thông tin người dùng hiện tại (không bao gồm password)
             const currentUser = {
                 id: user.id,
                 firstName: user.firstName,
@@ -123,7 +123,7 @@
                     localStorage.setItem(displayNameKey, currentUser.fullName);
                 }
             } catch (error) {
-                console.error("Error saving user display name:", error);
+                console.error("Lỗi khi lưu tên hiển thị người dùng:", error);
             }
 
             return { success: true, user: currentUser };
@@ -135,29 +135,29 @@
         }
     }
 
-    // Lấy user hiện tại
+    // Hàm lấy thông tin người dùng hiện tại
     function getCurrentUser() {
         try {
             const user = localStorage.getItem(CURRENT_USER_KEY);
             return user ? JSON.parse(user) : null;
         } catch (error) {
-            console.error("Error getting current user:", error);
+            console.error("Lỗi khi lấy thông tin người dùng hiện tại:", error);
             return null;
         }
     }
 
-    // Đăng xuất
+    // Hàm đăng xuất
     function logoutUser() {
         try {
             localStorage.removeItem(CURRENT_USER_KEY);
             return true;
         } catch (error) {
-            console.error("Error during logout:", error);
+            console.error("Lỗi trong quá trình đăng xuất:", error);
             return false;
         }
     }
 
-    // Kiểm tra đã đăng nhập chưa
+    // Hàm kiểm tra đã đăng nhập chưa
     function isLoggedIn() {
         return getCurrentUser() !== null;
     }

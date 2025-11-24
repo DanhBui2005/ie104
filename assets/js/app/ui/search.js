@@ -1,29 +1,29 @@
-// ===== HEADER SEARCH MODULE =====
+// ===== MODULE TÌM KIẾM HEADER =====
 
-// ===== CONSTANTS =====
-const SONGS_JSON_PATH = "./assets/music_data/songs.json";
-const SEARCH_PAGE_PATH = "./timkiem.html";
+// ===== HẰNG SỐ =====
+const SONGS_JSON_PATH = "./assets/music_data/songs.json"; // Đường dẫn đến file JSON chứa danh sách bài hát
+const SEARCH_PAGE_PATH = "./timkiem.html"; // Đường dẫn đến trang kết quả tìm kiếm
 
-// ===== UTILITY FUNCTIONS =====
+// ===== HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi một cách an toàn một hàm với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
         return fn();
     } catch (error) {
-        console.error(`Error in ${context}:`, error);
+        console.error(`Lỗi trong ${context}:`, error);
         return null;
     }
 }
 
 /**
- * Normalizes text for search (removes diacritics)
- * @param {string} text - Text to normalize
- * @returns {string} Normalized text
+ * Chuẩn hóa văn bản để tìm kiếm (loại bỏ dấu)
+ * @param {string} text - Văn bản cần chuẩn hóa
+ * @returns {string} Văn bản đã chuẩn hóa
  */
 function normalizeSearchText(text) {
     return (
@@ -41,25 +41,25 @@ function normalizeSearchText(text) {
 }
 
 /**
- * Configures search input attributes
- * @param {HTMLElement} input - Search input element
+ * Cấu hình thuộc tính cho ô input tìm kiếm
+ * @param {HTMLElement} input - Phần tử input tìm kiếm
  */
 function configureSearchInput(input) {
-    input.setAttribute("autocomplete", "off");
-    input.setAttribute("autocorrect", "off");
-    input.setAttribute("autocapitalize", "off");
-    input.setAttribute("spellcheck", "false");
+    input.setAttribute("autocomplete", "off"); // Tắt tự động hoàn thành
+    input.setAttribute("autocorrect", "off"); // Tắt tự động sửa lỗi
+    input.setAttribute("autocapitalize", "off"); // Tắt tự động viết hoa
+    input.setAttribute("spellcheck", "false"); // Tắt kiểm tra chính tả
 }
 
 /**
- * Loads songs data from JSON
- * @returns {Promise<Array>} Array of songs
+ * Tải dữ liệu bài hát từ file JSON
+ * @returns {Promise<Array>} Mảng các bài hát
  */
 async function loadSongsData() {
     return (
         safeExecute(async () => {
             const response = await fetch(SONGS_JSON_PATH, {
-                cache: "no-store",
+                cache: "no-store", // Không sử dụng cache để luôn lấy dữ liệu mới nhất
             });
             const data = await response.json();
             return Array.isArray(data) ? data : [];
@@ -68,17 +68,17 @@ async function loadSongsData() {
 }
 
 /**
- * Finds matching song or artist
- * @param {Array} songs - Array of songs
- * @param {string} normalizedQuery - Normalized search query
- * @returns {Object|null} Match result with type and target
+ * Tìm bài hát hoặc nghệ sĩ khớp với từ khóa
+ * @param {Array} songs - Mảng các bài hát
+ * @param {string} normalizedQuery - Từ khóa tìm kiếm đã chuẩn hóa
+ * @returns {Object|null} Kết quả khớp với loại và mục tiêu
  */
 function findMatch(songs, normalizedQuery) {
     if (!Array.isArray(songs) || songs.length === 0) {
         return null;
     }
 
-    // 1. Try exact artist match first (prioritized)
+    // 1. Thử khớp chính xác tên nghệ sĩ trước (ưu tiên)
     const exactArtistMatch = songs.find(
         (song) => normalizeSearchText(song.artist) === normalizedQuery
     );
@@ -87,7 +87,7 @@ function findMatch(songs, normalizedQuery) {
         return { type: "artist", target: exactArtistMatch.artist };
     }
 
-    // 2. Try artist starts with query
+    // 2. Thử tên nghệ sĩ bắt đầu bằng từ khóa
     const artistStartsWith = songs.find((song) =>
         normalizeSearchText(song.artist).startsWith(normalizedQuery)
     );
@@ -96,7 +96,7 @@ function findMatch(songs, normalizedQuery) {
         return { type: "artist", target: artistStartsWith.artist };
     }
 
-    // 3. Try exact song title match
+    // 3. Thử khớp chính xác tên bài hát
     const exactSongMatch = songs.find(
         (song) => normalizeSearchText(song.title) === normalizedQuery
     );
@@ -105,7 +105,7 @@ function findMatch(songs, normalizedQuery) {
         return { type: "song", target: exactSongMatch.artist };
     }
 
-    // 4. Try song title starts with query
+    // 4. Thử tên bài hát bắt đầu bằng từ khóa
     const titleStartsWith = songs.find((song) =>
         normalizeSearchText(song.title).startsWith(normalizedQuery)
     );
@@ -114,7 +114,7 @@ function findMatch(songs, normalizedQuery) {
         return { type: "song", target: titleStartsWith.artist };
     }
 
-    // 5. Try partial artist match (contains)
+    // 5. Thử khớp một phần tên nghệ sĩ (chứa)
     const partialArtistMatch = songs.find((song) =>
         normalizeSearchText(song.artist).includes(normalizedQuery)
     );
@@ -123,7 +123,7 @@ function findMatch(songs, normalizedQuery) {
         return { type: "artist", target: partialArtistMatch.artist };
     }
 
-    // 6. Try partial song title match (contains)
+    // 6. Thử khớp một phần tên bài hát (chứa)
     const partialSongMatch = songs.find((song) =>
         normalizeSearchText(song.title).includes(normalizedQuery)
     );
@@ -136,9 +136,9 @@ function findMatch(songs, normalizedQuery) {
 }
 
 /**
- * Determines search target (original query or artist if song/artist found)
- * @param {string} query - Original search query
- * @returns {Promise<string>} Search target
+ * Xác định mục tiêu tìm kiếm (từ khóa gốc hoặc nghệ sĩ nếu tìm thấy bài hát/nghệ sĩ)
+ * @param {string} query - Từ khóa tìm kiếm gốc
+ * @returns {Promise<string>} Mục tiêu tìm kiếm
  */
 async function determineSearchTarget(query) {
     const normalizedQuery = normalizeSearchText(query);
@@ -150,19 +150,19 @@ async function determineSearchTarget(query) {
     const songs = await loadSongsData();
     const match = findMatch(songs, normalizedQuery);
 
-    // If song or artist found, search by artist
+    // Nếu tìm thấy bài hát hoặc nghệ sĩ, tìm kiếm theo nghệ sĩ
     if (match?.target) {
         return match.target;
     }
 
-    // Otherwise, use original query
+    // Ngược lại, sử dụng từ khóa gốc
     return query;
 }
 
 /**
- * Navigates to search results page
- * @param {Function} go - Navigation function
- * @param {string} query - Search query
+ * Điều hướng đến trang kết quả tìm kiếm
+ * @param {Function} go - Hàm điều hướng
+ * @param {string} query - Từ khóa tìm kiếm
  */
 function navigateToSearch(go, query) {
     const searchUrl = `${SEARCH_PAGE_PATH}?q=${encodeURIComponent(query)}`;
@@ -170,10 +170,10 @@ function navigateToSearch(go, query) {
 }
 
 /**
- * Handles search input Enter key press
- * @param {KeyboardEvent} event - Keyboard event
- * @param {HTMLElement} input - Search input element
- * @param {Function} go - Navigation function
+ * Xử lý khi người dùng nhấn phím Enter trong ô tìm kiếm
+ * @param {KeyboardEvent} event - Sự kiện bàn phím
+ * @param {HTMLElement} input - Phần tử input tìm kiếm
+ * @param {Function} go - Hàm điều hướng
  */
 async function handleSearchSubmit(event, input, go) {
     if (event.key !== "Enter") return;
@@ -185,11 +185,11 @@ async function handleSearchSubmit(event, input, go) {
     navigateToSearch(go, searchTarget);
 }
 
-// ===== MAIN SETUP =====
+// ===== THIẾT LẬP CHÍNH =====
 /**
- * Sets up header search functionality
- * @param {Object} options - Setup options
- * @param {Function} options.go - Navigation function
+ * Thiết lập chức năng tìm kiếm ở header
+ * @param {Object} options - Tùy chọn thiết lập
+ * @param {Function} options.go - Hàm điều hướng
  */
 export function setupHeaderSearch({ go }) {
     const searchInput = document.querySelector('.search input[type="search"]');

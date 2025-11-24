@@ -1,22 +1,25 @@
-// ===== SIDEBAR PLAYLISTS MODULE =====
+// ===== MODULE QUẢN LÝ PLAYLIST TRÊN THANH SIDEBAR =====
 
-// ===== CONSTANTS =====
+// ===== CÁC HẰNG SỐ CẤU HÌNH =====
+// Chứa các selector CSS để truy xuất phần tử DOM
 const SELECTORS = {
-    ADD_BUTTON: ".menu .icon-btn.add",
-    PLAYLIST_LIST: ".pl-list",
-    TOAST_WRAP: ".toast-wrap",
+    ADD_BUTTON: ".menu .icon-btn.add",    // Nút thêm playlist mới
+    PLAYLIST_LIST: ".pl-list",            // Danh sách các playlist
+    TOAST_WRAP: ".toast-wrap",            // Container chứa thông báo toast
 };
 
+// Cấu hình cho thông báo toast
 const TOAST_CONFIG = {
-    STYLE_ID: "toast-style",
-    DURATION: 1800,
-    FADE_OUT: 200,
+    STYLE_ID: "toast-style",              // ID của style tag cho toast
+    DURATION: 1800,                       // Thời gian hiển thị toast (ms)
+    FADE_OUT: 200,                        // Thời gian mờ dần của toast (ms)
     TYPES: {
-        SUCCESS: "success",
-        ERROR: "error",
+        SUCCESS: "success",                // Loại toast thành công
+        ERROR: "error",                    // Loại toast lỗi
     },
 };
 
+// CSS styles cho thông báo toast
 const TOAST_STYLES = `
     .toast-wrap{position:fixed;left:50%;top:20px;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
     .toast{min-width:240px;max-width:90vw;padding:10px 14px;border-radius:10px;color:#fff;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transform:translateY(-6px);transition:opacity .2s ease, transform .2s ease}
@@ -25,66 +28,69 @@ const TOAST_STYLES = `
     .toast.error{background:#a23b3b}
 `;
 
+// Cấu hình cho playlist
 const PLAYLIST_CONFIG = {
-    MAX_USER_PLAYLISTS: 5,
-    MAX_NAME_LENGTH: 40,
-    TRUNCATE_LENGTH: 37,
-    DEFAULT_NAME: "Playlist mới",
-    DEFAULT_PLAYLIST_NAME: "Playlist",
-    FALLBACK_COVER: "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg",
-    ID_PREFIX: "pl_",
-    FILE_PICKER_DELAY: 600,
+    MAX_USER_PLAYLISTS: 5,                // Số lượng playlist tối đa người dùng được tạo
+    MAX_NAME_LENGTH: 40,                  // Độ dài tên playlist tối đa
+    TRUNCATE_LENGTH: 37,                  // Độ dài tên playlist trước khi bị cắt ngắn
+    DEFAULT_NAME: "Playlist mới",         // Tên mặc định khi tạo playlist mới
+    DEFAULT_PLAYLIST_NAME: "Playlist",    // Tên playlist mặc định
+    FALLBACK_COVER: "./assets/imgs/danh_sach_da_tao/anh_playlist_1.jpg", // Ảnh bìa mặc định
+    ID_PREFIX: "pl_",                     // Tiền tố cho ID của playlist
+    FILE_PICKER_DELAY: 600,               // Độ trễ cho file picker (ms)
 };
 
+// Các đường dẫn trang
 const PATHS = {
-    PLAYLIST_PAGE: "./playlist.html",
+    PLAYLIST_PAGE: "./playlist.html",     // Đường dẫn đến trang chi tiết playlist
 };
 
-// ===== UTILITY FUNCTIONS =====
+// ===== CÁC HÀM TIỆN ÍCH =====
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
         return fn();
     } catch (error) {
-        console.error(`Error in ${context}:`, error);
+        console.error(`Lỗi trong ${context}:`, error);
         return null;
     }
 }
 
 /**
- * Converts a string to a URL-friendly slug
- * @param {string} str - String to slugify
- * @returns {string} Slugified string
+ * Chuyển đổi chuỗi thành định dạng slug thân thiện với URL
+ * @param {string} str - Chuỗi cần chuyển đổi
+ * @returns {string} Chuỗi đã được chuyển đổi thành slug
  */
 function slugify(str) {
     return String(str || "")
         .toLowerCase()
         .trim()
-        .replace(/\s+/g, "_")
-        .replace(/[^a-z0-9_\-]/g, "");
+        .replace(/\s+/g, "_")           // Thay thế khoảng trắng bằng dấu gạch dưới
+        .replace(/[^a-z0-9_\-]/g, "");    // Loại bỏ các ký tự không hợp lệ
 }
 
 /**
- * Truncates text to specified length with ellipsis
- * @param {string} text - Text to truncate
- * @param {number} maxLength - Maximum length
- * @returns {string} Truncated text
+ * Cắt ngắn văn bản theo độ dài tối đa với dấu ba chấm
+ * @param {string} text - Văn bản cần cắt ngắn
+ * @param {number} maxLength - Độ dài tối đa
+ * @returns {string} Văn bản đã được cắt ngắn
  */
 function truncateText(text, maxLength = PLAYLIST_CONFIG.MAX_NAME_LENGTH) {
     const str = String(text || "");
     if (str.length <= maxLength) return str;
-    return str.slice(0, maxLength - 3) + "...";
+    return str.slice(0, maxLength - 3) + "...";  // Cắt ngắn và thêm "..."
 }
 
 /**
- * Ensures toast styles are injected into the document
+ * Đảm bảo styles cho toast được thêm vào tài liệu
  */
 function ensureToastStyle() {
+    // Kiểm tra xem style đã được thêm chưa
     if (document.getElementById(TOAST_CONFIG.STYLE_ID)) return;
 
     safeExecute(() => {
@@ -96,8 +102,8 @@ function ensureToastStyle() {
 }
 
 /**
- * Gets or creates the toast wrapper element
- * @returns {HTMLElement} Toast wrapper element
+ * Lấy hoặc tạo phần tử wrapper cho toast
+ * @returns {HTMLElement} Phần tử wrapper cho toast
  */
 function getToastWrap() {
     let wrap = document.querySelector(SELECTORS.TOAST_WRAP);
@@ -110,9 +116,9 @@ function getToastWrap() {
 }
 
 /**
- * Shows a toast notification
- * @param {string} message - Toast message
- * @param {string} type - Toast type (success or error)
+ * Hiển thị thông báo toast
+ * @param {string} message - Nội dung thông báo
+ * @param {string} type - Loại thông báo (success hoặc error)
  */
 function showToast(message, type = TOAST_CONFIG.TYPES.SUCCESS) {
     safeExecute(() => {
@@ -126,10 +132,12 @@ function showToast(message, type = TOAST_CONFIG.TYPES.SUCCESS) {
         element.textContent = String(message || "");
         wrap.appendChild(element);
 
+        // Hiển thị toast với hiệu ứng
         requestAnimationFrame(() => {
             element.classList.add("show");
         });
 
+        // Tự động ẩn toast sau một khoảng thời gian
         setTimeout(() => {
             safeExecute(() => {
                 element.classList.remove("show");
@@ -141,11 +149,11 @@ function showToast(message, type = TOAST_CONFIG.TYPES.SUCCESS) {
     }, "showToast");
 }
 
-// ===== PLAYLIST CREATION =====
+// ===== TẠO PLAYLIST MỚI =====
 /**
- * Checks if user has reached maximum playlist limit
- * @param {Array} playlists - Array of user playlists
- * @returns {boolean} True if limit reached
+ * Kiểm tra người dùng đã đạt đến giới hạn số lượng playlist tối đa chưa
+ * @param {Array} playlists - Mảng chứa các playlist của người dùng
+ * @returns {boolean} True nếu đã đạt giới hạn
  */
 function isPlaylistLimitReached(playlists) {
     return (
@@ -155,9 +163,9 @@ function isPlaylistLimitReached(playlists) {
 }
 
 /**
- * Validates playlist name
- * @param {string} name - Playlist name to validate
- * @returns {Object} Validation result with isValid and error message
+ * Kiểm tra tính hợp lệ của tên playlist
+ * @param {string} name - Tên playlist cần kiểm tra
+ * @returns {Object} Kết quả kiểm tra với isValid và thông báo lỗi
  */
 function validatePlaylistName(name) {
     if (!name || !name.trim()) {
@@ -175,8 +183,8 @@ function validatePlaylistName(name) {
 }
 
 /**
- * Prompts user for playlist name
- * @returns {string|null} Playlist name or null if cancelled
+ * Hỏi người dùng nhập tên playlist mới
+ * @returns {string|null} Tên playlist hoặc null nếu người dùng hủy
  */
 function promptPlaylistName() {
     return safeExecute(() => {
@@ -185,15 +193,16 @@ function promptPlaylistName() {
             PLAYLIST_CONFIG.DEFAULT_NAME
         );
         if (name == null) return null;
+        // Chuẩn hóa tên: loại bỏ khoảng trắng thừa
         return name.trim().replace(/\s+/g, " ");
     }, "promptPlaylistName") ?? null;
 }
 
 /**
- * Generates a unique playlist ID
- * @param {string} name - Playlist name
- * @param {Array} existingPlaylists - Existing playlists
- * @returns {string} Unique playlist ID
+ * Tạo ID duy nhất cho playlist
+ * @param {string} name - Tên playlist
+ * @param {Array} existingPlaylists - Các playlist đã tồn tại
+ * @returns {string} ID duy nhất cho playlist
  */
 function generateUniquePlaylistId(name, existingPlaylists) {
     const base = `${PLAYLIST_CONFIG.ID_PREFIX}${slugify(name || "new")}`;
@@ -202,6 +211,7 @@ function generateUniquePlaylistId(name, existingPlaylists) {
         (existingPlaylists || []).map((p) => p?.id).filter(Boolean)
     );
 
+    // Thêm số đuôi nếu ID đã tồn tại
     let counter = 1;
     while (existingIds.has(id)) {
         id = `${base}_${++counter}`;
@@ -211,22 +221,22 @@ function generateUniquePlaylistId(name, existingPlaylists) {
 }
 
 /**
- * Creates a file input element for image selection
- * @returns {HTMLInputElement} File input element
+ * Tạo phần tử input để chọn file ảnh
+ * @returns {HTMLInputElement} Phần tử input file
  */
 function createFileInput() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*";
-    input.style.display = "none";
+    input.accept = "image/*";          // Chỉ chấp nhận file ảnh
+    input.style.display = "none";      // Ẩn input
     document.body.appendChild(input);
     return input;
 }
 
 /**
- * Reads file as data URL
- * @param {File} file - File to read
- * @returns {Promise<string|null>} Data URL or null on error
+ * Đọc file dưới dạng data URL
+ * @param {File} file - File cần đọc
+ * @returns {Promise<string|null>} Data URL hoặc null nếu có lỗi
  */
 function readFileAsDataURL(file) {
     return new Promise((resolve) => {
@@ -242,12 +252,12 @@ function readFileAsDataURL(file) {
 }
 
 /**
- * Finalizes playlist creation with cover image
- * @param {string} name - Playlist name
- * @param {string|null} cover - Cover image data URL or null
- * @param {HTMLInputElement} input - File input element
- * @param {Array} playlists - Current playlists array
- * @param {Object} playlistContext - Playlist context
+ * Hoàn tất việc tạo playlist với ảnh bìa
+ * @param {string} name - Tên playlist
+ * @param {string|null} cover - Data URL của ảnh bìa hoặc null
+ * @param {HTMLInputElement} input - Phần tử input file
+ * @param {Array} playlists - Mảng playlist hiện tại
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function finalizePlaylistCreation(
     name,
@@ -256,6 +266,7 @@ function finalizePlaylistCreation(
     playlists,
     playlistContext
 ) {
+    // Kiểm tra giới hạn số lượng playlist
     if (isPlaylistLimitReached(playlists)) {
         showToast(
             `Bạn chỉ có thể tạo tối đa ${PLAYLIST_CONFIG.MAX_USER_PLAYLISTS} playlist`,
@@ -265,26 +276,29 @@ function finalizePlaylistCreation(
         return;
     }
 
+    // Tạo playlist mới
     const newPlaylist = playlistContext.createUserPlaylist({
         name,
-        cover: cover || PLAYLIST_CONFIG.FALLBACK_COVER,
+        cover: cover || PLAYLIST_CONFIG.FALLBACK_COVER,  // Dùng ảnh mặc định nếu không có
     });
 
     if (newPlaylist) {
         showToast("Tạo thành công", TOAST_CONFIG.TYPES.SUCCESS);
+        // Gửi sự kiện để cập nhật UI
         window.dispatchEvent(new CustomEvent("playlists:changed"));
     }
 
+    // Xóa input file
     safeExecute(() => input.remove(), "finalizePlaylistCreation:removeInput");
 }
 
 /**
- * Handles file input change event
- * @param {HTMLInputElement} input - File input element
- * @param {string} name - Playlist name
- * @param {Array} playlists - Current playlists
- * @param {Object} playlistContext - Playlist context
- * @param {Function} finalizeOnce - One-time finalize callback
+ * Xử lý sự kiện thay đổi file input
+ * @param {HTMLInputElement} input - Phần tử input file
+ * @param {string} name - Tên playlist
+ * @param {Array} playlists - Mảng playlist hiện tại
+ * @param {Object} playlistContext - Ngữ cảnh playlist
+ * @param {Function} finalizeOnce - Callback chỉ được gọi một lần
  */
 async function handleFileInputChange(
     input,
@@ -299,15 +313,16 @@ async function handleFileInputChange(
         return;
     }
 
+    // Đọc file ảnh
     const cover = await readFileAsDataURL(file);
     finalizeOnce(cover);
 }
 
 /**
- * Sets up file picker for playlist cover selection
- * @param {string} name - Playlist name
- * @param {Array} playlists - Current playlists
- * @param {Object} playlistContext - Playlist context
+ * Thiết lập trình chọn file để chọn ảnh bìa playlist
+ * @param {string} name - Tên playlist
+ * @param {Array} playlists - Mảng playlist hiện tại
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function setupFilePicker(name, playlists, playlistContext) {
     const input = createFileInput();
@@ -320,6 +335,7 @@ function setupFilePicker(name, playlists, playlistContext) {
         finalizePlaylistCreation(name, cover, input, playlists, playlistContext);
     };
 
+    // Lắng nghe sự kiện thay đổi file
     input.addEventListener(
         "change",
         () => {
@@ -331,19 +347,21 @@ function setupFilePicker(name, playlists, playlistContext) {
                 finalizeOnce
             );
         },
-        { once: true }
+        { once: true }  // Chỉ lắng nghe một lần
     );
 
+    // Mở hộp thoại chọn file
     input.click();
 }
 
 /**
- * Handles add playlist button click
- * @param {Object} playlistContext - Playlist context
+ * Xử lý sự kiện click vào nút thêm playlist
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function handleAddPlaylistClick(playlistContext) {
     const playlists = playlistContext.getUserPlaylists();
 
+    // Kiểm tra giới hạn số lượng playlist
     if (isPlaylistLimitReached(playlists)) {
         showToast(
             `Bạn chỉ có thể tạo tối đa ${PLAYLIST_CONFIG.MAX_USER_PLAYLISTS} playlist`,
@@ -359,6 +377,7 @@ function handleAddPlaylistClick(playlistContext) {
     // Nếu người dùng để trống hoặc chỉ toàn khoảng trắng, dùng tên mặc định
     const name = rawName.trim() ? rawName : PLAYLIST_CONFIG.DEFAULT_NAME;
 
+    // Kiểm tra tính hợp lệ của tên
     const validation = validatePlaylistName(name);
     if (!validation.isValid) {
         if (validation.error) {
@@ -367,22 +386,23 @@ function handleAddPlaylistClick(playlistContext) {
         return;
     }
 
-    // Generate unique ID (not used in createUserPlaylist but kept for consistency)
+    // Tạo ID duy nhất (không dùng trong createUserPlaylist nhưng giữ lại để nhất quán)
     generateUniquePlaylistId(name, playlists);
 
-    // Setup file picker for cover selection
+    // Thiết lập trình chọn file để chọn ảnh bìa
     setupFilePicker(name, playlists, playlistContext);
 }
 
-// ===== PLAYLIST RENDERING =====
+// ===== HIỂN THỊ PLAYLIST =====
 /**
- * Sets cover image styles on element
- * @param {HTMLElement} element - Cover element
- * @param {string} coverUrl - Cover image URL
+ * Thiết lập styles cho ảnh bìa trên phần tử
+ * @param {HTMLElement} element - Phần tử chứa ảnh bìa
+ * @param {string} coverUrl - URL của ảnh bìa
  */
 function setCoverImageStyles(element, coverUrl) {
     if (!element) return;
 
+    // Thiết lập các thuộc tính CSS cho ảnh bìa
     element.style.backgroundImage = `url('${coverUrl || PLAYLIST_CONFIG.FALLBACK_COVER}')`;
     element.style.backgroundSize = "cover";
     element.style.backgroundPosition = "center";
@@ -390,13 +410,14 @@ function setCoverImageStyles(element, coverUrl) {
 }
 
 /**
- * Navigates to playlist page
- * @param {string} playlistId - Playlist ID
+ * Điều hướng đến trang chi tiết playlist
+ * @param {string} playlistId - ID của playlist
  */
 function navigateToPlaylist(playlistId) {
     const url = `${PATHS.PLAYLIST_PAGE}?id=${encodeURIComponent(playlistId)}`;
     
     safeExecute(() => {
+        // Sử dụng hàm điều hướng tùy chỉnh nếu có, ngược lại dùng location.href
         const go = window.__mbGo || ((url) => {
             window.location.href = url;
         });
@@ -405,21 +426,23 @@ function navigateToPlaylist(playlistId) {
 }
 
 /**
- * Creates a playlist row element
- * @param {Object} playlist - Playlist object
- * @returns {HTMLElement} Playlist row element
+ * Tạo phần tử hàng hiển thị playlist
+ * @param {Object} playlist - Đối tượng playlist
+ * @returns {HTMLElement} Phần tử hàng playlist
  */
 function createPlaylistRow(playlist) {
     const row = document.createElement("div");
     row.className = "pl-item";
-    row.dataset.plId = playlist.id;
+    row.dataset.plId = playlist.id;  // Lưu ID của playlist vào dataset
 
+    // Cắt ngắn tên nếu quá dài
     const truncatedName = truncateText(
         playlist.name || PLAYLIST_CONFIG.DEFAULT_PLAYLIST_NAME,
         PLAYLIST_CONFIG.MAX_NAME_LENGTH
     );
     const trackCount = playlist.tracks?.length || 0;
 
+    // Tạo cấu trúc HTML cho hàng playlist
     row.innerHTML = `
         <div class="pl-cover"></div>
         <div class="pl-meta">
@@ -428,9 +451,11 @@ function createPlaylistRow(playlist) {
         </div>
     `;
 
+    // Thiết lập ảnh bìa
     const coverElement = row.querySelector(".pl-cover");
     setCoverImageStyles(coverElement, playlist.cover);
 
+    // Thêm sự kiện click để điều hướng đến trang playlist
     row.addEventListener("click", () => {
         navigateToPlaylist(playlist.id);
     });
@@ -439,8 +464,8 @@ function createPlaylistRow(playlist) {
 }
 
 /**
- * Renders sidebar playlists
- * @param {Object} playlistContext - Playlist context
+ * Hiển thị các playlist trong thanh sidebar
+ * @param {Object} playlistContext - Ngữ cảnh playlist
  */
 function renderSidebarPlaylists(playlistContext) {
     safeExecute(() => {
@@ -448,8 +473,9 @@ function renderSidebarPlaylists(playlistContext) {
         if (!container) return;
 
         const playlists = playlistContext.getUserPlaylists();
-        container.innerHTML = "";
+        container.innerHTML = "";  // Xóa nội dung hiện tại
 
+        // Tạo và thêm từng playlist vào container
         playlists.forEach((playlist) => {
             const row = createPlaylistRow(playlist);
             container.appendChild(row);
@@ -457,29 +483,30 @@ function renderSidebarPlaylists(playlistContext) {
     }, "renderSidebarPlaylists");
 }
 
-// ===== MAIN SETUP =====
+// ===== THIẾT LẬP CHÍNH =====
 /**
- * Sets up sidebar playlists functionality
- * @param {Object} options - Setup options
- * @param {Object} options.playlistContext - Playlist context
- * @param {Object} options.playerContext - Player context (unused but kept for API consistency)
+ * Thiết lập chức năng playlist trong thanh sidebar
+ * @param {Object} options - Các tùy chọn thiết lập
+ * @param {Object} options.playlistContext - Ngữ cảnh playlist
+ * @param {Object} options.playerContext - Ngữ cảnh player (không dùng nhưng giữ lại để nhất quán API)
  */
 export function setupSidebarPlaylists({ playlistContext, playerContext }) {
+    // Tìm nút thêm playlist
     const addButton = document.querySelector(SELECTORS.ADD_BUTTON);
     if (!addButton) return;
 
-    // Initialize toast styles
+    // Khởi tạo styles cho thông báo toast
     ensureToastStyle();
 
-    // Setup add playlist button
+    // Thiết lập sự kiện cho nút thêm playlist
     addButton.addEventListener("click", () => {
         handleAddPlaylistClick(playlistContext);
     });
 
-    // Initial render
+    // Hiển thị ban đầu các playlist
     renderSidebarPlaylists(playlistContext);
 
-    // Listen for playlist changes
+    // Lắng nghe sự kiện thay đổi playlist để cập nhật UI
     window.addEventListener("playlists:changed", () => {
         renderSidebarPlaylists(playlistContext);
     });

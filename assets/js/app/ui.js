@@ -1,4 +1,5 @@
 // ===== UI MODULE ORCHESTRATOR =====
+// Module điều phối các thành phần giao diện người dùng
 
 import { setupHeaderSearch } from "./ui/search.js";
 import { setupGlobalLiveSearch } from "./ui/live-search.js";
@@ -8,6 +9,7 @@ import { setupLayoutHelpers } from "./ui/layout.js";
 import { setupSidebarPlaylists } from "./ui/sidebar-playlists.js";
 
 // ===== CONSTANTS =====
+// Các hằng số định nghĩa selector cho các thành phần UI
 const SELECTORS = {
     MENU_BUTTONS: ".menu .menu-btn",
     LOGOUT_BUTTON: ".menu-btn.logout",
@@ -17,6 +19,7 @@ const SELECTORS = {
     RECENT_BUTTON: ".menu-btn.recent",
 };
 
+// Ánh xạ trang tương ứng với selector sidebar
 const PAGE_TO_SELECTOR_MAP = {
     "index.html": SELECTORS.EXPLORE_BUTTON,
     "hoso.html": SELECTORS.YOUR_BUTTON,
@@ -25,6 +28,7 @@ const PAGE_TO_SELECTOR_MAP = {
     "playlist.html": SELECTORS.YOUR_BUTTON,
 };
 
+// Đường dẫn điều hướng cho các trang
 const NAVIGATION_PATHS = {
     LIKED: "./Yeuthich.html",
     YOUR: "./Hoso.html",
@@ -32,16 +36,19 @@ const NAVIGATION_PATHS = {
     RECENT: "./NgheGanDay.html",
 };
 
+// Trang mặc định và các class CSS
 const DEFAULT_PAGE = "index.html";
 const ACTIVE_CLASS = "active";
 const LOADED_CLASS = "is-loaded";
 
 // ===== UTILITY FUNCTIONS =====
+// Các hàm tiện ích
+
 /**
- * Safely executes a function with error handling
- * @param {Function} fn - Function to execute
- * @param {string} context - Context description for error logging
- * @returns {*} Function result or null on error
+ * Thực thi hàm một cách an toàn với xử lý lỗi
+ * @param {Function} fn - Hàm cần thực thi
+ * @param {string} context - Mô tả ngữ cảnh để ghi log lỗi
+ * @returns {*} Kết quả của hàm hoặc null nếu có lỗi
  */
 function safeExecute(fn, context = "operation") {
     try {
@@ -53,8 +60,8 @@ function safeExecute(fn, context = "operation") {
 }
 
 /**
- * Gets current page filename from URL
- * @returns {string} Current page filename in lowercase
+ * Lấy tên file của trang hiện tại từ URL
+ * @returns {string} Tên file trang hiện tại ở dạng chữ thường
  */
 function getCurrentPageFilename() {
     return safeExecute(() => {
@@ -65,9 +72,9 @@ function getCurrentPageFilename() {
 }
 
 /**
- * Gets sidebar selector for current page
- * @param {string} filename - Current page filename
- * @returns {string|null} Selector for active sidebar item or null
+ * Lấy selector của sidebar cho trang hiện tại
+ * @param {string} filename - Tên file trang hiện tại
+ * @returns {string|null} Selector cho mục sidebar đang hoạt động hoặc null
  */
 function getSidebarSelectorForPage(filename) {
     if (filename === "") {
@@ -77,7 +84,7 @@ function getSidebarSelectorForPage(filename) {
 }
 
 /**
- * Removes active class from all menu buttons
+ * Xóa class active khỏi tất cả các nút menu
  */
 function clearActiveSidebarItems() {
     safeExecute(() => {
@@ -87,8 +94,8 @@ function clearActiveSidebarItems() {
 }
 
 /**
- * Sets active class on specified sidebar item
- * @param {string} selector - Selector for the sidebar item
+ * Đặt class active cho mục sidebar được chỉ định
+ * @param {string} selector - Selector cho mục sidebar
  */
 function setActiveSidebarItem(selector) {
     safeExecute(() => {
@@ -100,7 +107,7 @@ function setActiveSidebarItem(selector) {
 }
 
 /**
- * Sets active sidebar item based on current page
+ * Đặt mục sidebar đang hoạt động dựa trên trang hiện tại
  */
 function setActiveSidebar() {
     const filename = getCurrentPageFilename();
@@ -114,7 +121,7 @@ function setActiveSidebar() {
 }
 
 /**
- * Adds loaded class to body for smooth page enter animation
+ * Thêm class loaded vào body để tạo hiệu ứng chuyển trang mượt mà
  */
 function addPageLoadedClass() {
     safeExecute(() => {
@@ -125,9 +132,11 @@ function addPageLoadedClass() {
 }
 
 // ===== NAVIGATION SETUP =====
+// Cài đặt các chức năng điều hướng
+
 /**
- * Sets up logout button click handler
- * @param {Function} signOut - Sign out function
+ * Cài đặt trình xử lý sự kiện click cho nút đăng xuất
+ * @param {Function} signOut - Hàm đăng xuất
  */
 function setupLogoutButton(signOut) {
     safeExecute(() => {
@@ -141,10 +150,10 @@ function setupLogoutButton(signOut) {
 }
 
 /**
- * Sets up sidebar navigation button
- * @param {string} selector - Button selector
- * @param {string} path - Navigation path
- * @param {Function} go - Navigation function
+ * Cài đặt nút điều hướng sidebar
+ * @param {string} selector - Selector của nút
+ * @param {string} path - Đường dẫn điều hướng
+ * @param {Function} go - Hàm điều hướng
  */
 function setupSidebarNavigationButton(selector, path, go) {
     safeExecute(() => {
@@ -158,8 +167,8 @@ function setupSidebarNavigationButton(selector, path, go) {
 }
 
 /**
- * Sets up all sidebar navigation buttons
- * @param {Function} go - Navigation function
+ * Cài đặt tất cả các nút điều hướng sidebar
+ * @param {Function} go - Hàm điều hướng
  */
 function setupSidebarNavigation(go) {
     setupSidebarNavigationButton(
@@ -185,10 +194,10 @@ function setupSidebarNavigation(go) {
 }
 
 /**
- * Sets up all individual UI modules
- * @param {Object} layoutContext - Layout context with navigation function
- * @param {Object} playerContext - Player context
- * @param {Object} playlistContext - Playlist context
+ * Cài đặt tất cả các module UI riêng lẻ
+ * @param {Object} layoutContext - Context layout chứa hàm điều hướng
+ * @param {Object} playerContext - Context của trình phát nhạc
+ * @param {Object} playlistContext - Context của playlist
  */
 function setupUIModules(layoutContext, playerContext, playlistContext) {
     setupHeaderSearch({ go: layoutContext.go });
@@ -199,9 +208,9 @@ function setupUIModules(layoutContext, playerContext, playlistContext) {
 }
 
 /**
- * Creates and returns UI context object
- * @param {Object} layoutContext - Layout context
- * @returns {Object} UI context with layout methods
+ * Tạo và trả về đối tượng context UI
+ * @param {Object} layoutContext - Context của layout
+ * @returns {Object} Context UI với các phương thức layout
  */
 function createUIContext(layoutContext) {
     return {
@@ -214,37 +223,39 @@ function createUIContext(layoutContext) {
 }
 
 // ===== MAIN INITIALIZATION =====
+// Khởi tạo chính
+
 /**
- * Initializes UI module and sets up all UI components
- * @param {Object} deps - Dependencies object
- * @param {Function} deps.signOut - Sign out function
- * @param {Object} deps.playlistContext - Playlist context
- * @param {Object} deps.playerContext - Player context
- * @returns {Object} UI context with navigation and layout methods
+ * Khởi tạo module UI và cài đặt tất cả các thành phần UI
+ * @param {Object} deps - Đối tượng dependencies
+ * @param {Function} deps.signOut - Hàm đăng xuất
+ * @param {Object} deps.playlistContext - Context của playlist
+ * @param {Object} deps.playerContext - Context của trình phát nhạc
+ * @returns {Object} Context UI với các phương thức điều hướng và layout
  */
 export function initUI(deps) {
     const { signOut, playlistContext, playerContext } = deps;
 
-    // Smooth page enter animation
+    // Hiệu ứng chuyển trang mượt mà
     addPageLoadedClass();
 
-    // Set active sidebar item based on current page
+    // Đặt mục sidebar đang hoạt động dựa trên trang hiện tại
     setActiveSidebar();
 
-    // Initialize layout helpers (handles most of the UI setup)
+    // Khởi tạo các helper layout (xử lý phần lớn cài đặt UI)
     const layoutContext = setupLayoutHelpers({
         signOut,
         playerContext,
         playlistContext,
     });
 
-    // Setup navigation handlers
+    // Cài đặt các trình xử lý điều hướng
     setupLogoutButton(signOut);
     setupSidebarNavigation(layoutContext.go);
 
-    // Setup individual UI modules
+    // Cài đặt các module UI riêng lẻ
     setupUIModules(layoutContext, playerContext, playlistContext);
 
-    // Return UI context
+    // Trả về context UI
     return createUIContext(layoutContext);
 }
