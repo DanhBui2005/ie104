@@ -1,4 +1,4 @@
-// Page-specific behavior for timkiem.html: render artist and songs by query
+// Xử lý cụ thể cho trang timkiem.html: hiển thị nghệ sĩ và bài hát theo truy vấn
 
 (function searchArtistAndRender() {
     function normalize(s) {
@@ -41,19 +41,19 @@
         const list = artists.map((name) => ({ name, norm: normalize(name) }));
         if (!qNorm) return list[0]?.name || "";
 
-        // Try exact match first
+        // Ưu tiên tìm kiếm khớp chính xác đầu tiên
         const exact = list.find((a) => a.norm === qNorm);
         if (exact) return exact.name;
 
-        // Try starts with match
+        // Thử tìm kiếm bắt đầu bằng từ khóa
         const startsWith = list.find((a) => a.norm.startsWith(qNorm));
         if (startsWith) return startsWith.name;
 
-        // Try contains match
+        // Thử tìm kiếm chứa từ khóa
         const contains = list.find((a) => a.norm.includes(qNorm));
         if (contains) return contains.name;
 
-        // Try query contains artist name
+        // Thử tìm kiếm nếu truy vấn chứa tên nghệ sĩ
         const reverseContains = list.find((a) => qNorm.includes(a.norm));
         if (reverseContains) return reverseContains.name;
 
@@ -90,21 +90,21 @@
     }
 
     function formatDuration(song) {
-        // First try to get duration from the song object
+        // Đầu tiên thử lấy thời lượng từ đối tượng bài hát
         if (song.duration) {
             if (typeof song.duration === "number") {
                 const mins = Math.floor(song.duration / 60);
                 const secs = Math.floor(song.duration % 60);
                 return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
             } else if (typeof song.duration === "string") {
-                // If it's already in MM:SS format, return as is
+                // Nếu đã ở định dạng MM:SS, trả về nguyên bản
                 if (/^\d+:\d{2}$/.test(song.duration)) {
                     return song.duration;
                 }
             }
         }
 
-        // If no duration is available, try to get it from MusicBox
+        // Nếu không có sẵn thời lượng, thử lấy từ MusicBox
         if (window.MusicBox && typeof window.MusicBox.playlist === "function") {
             try {
                 const playlist = window.MusicBox.playlist();
@@ -154,7 +154,7 @@
             if (!row) return;
             const durEl = row.querySelector(".song-duration");
             if (!durEl) return;
-            // If already filled, skip
+            // Nếu đã có dữ liệu thời lượng, bỏ qua
             if (durEl.textContent && durEl.textContent !== "0:00") return;
 
             const key = (
@@ -175,7 +175,7 @@
                 return;
             }
 
-            // Fallback: use song.src directly if present
+            // Dự phòng: sử dụng trực tiếp song.src nếu có
             if (song.src) {
                 const a = new Audio(song.src);
                 a.addEventListener("loadedmetadata", () => {
@@ -190,23 +190,16 @@
     }
 
     function renderSongs(songs) {
-        console.log("Song data:", songs); // Debug log
+        console.log("Dữ liệu bài hát:", songs); // Log dữ liệu bài hát
         const container = document.querySelector(".top-songs-grid");
         if (!container) return;
 
         container.innerHTML = songs
             .slice(0, 4)
             .map((song, i) => {
-                // Store song data directly in element instead of trying to map to playlist index
+                // Lưu dữ liệu bài hát vào phần tử
                 const duration = formatDuration(song);
-                console.log(
-                    `Song ${i}:`,
-                    song.title,
-                    "Duration:",
-                    song.duration,
-                    "Formatted:",
-                    duration
-                ); // Debug log
+                console.log(`Bài hát ${i}:`, song.title, "Thời lượng:", song.duration, "Định dạng:", duration);
 
                 return `
                 <div class="top-song-item" data-song='${JSON.stringify(song)}'>
@@ -227,7 +220,7 @@
             })
             .join("");
 
-        // After rendering, ensure durations are populated asynchronously
+        // Cập nhật thời lượng sau khi render
         ensureDurations(songs);
 
         // Add click event listeners to song items
@@ -241,31 +234,31 @@
                         return;
                     }
                     
-                    // Find song in the global playlist
+                    // Tìm trong danh sách phát
                     const playlist = window.MusicBox ? window.MusicBox.playlist() : [];
-                    console.log("Playlist:", playlist); // Debug log
-                    console.log("Song data:", songData); // Debug log
+                    console.log("Danh sách phát:", playlist); // Log danh sách phát
+                    console.log("Dữ liệu bài hát:", songData); // Log dữ liệu bài hát
                     
                     const playlistIndex = playlist.findIndex(
                         (p) => p.id === songData.id || 
                                (p.title === songData.title && p.artist === songData.artist)
                     );
                     
-                    console.log("Found playlist index:", playlistIndex); // Debug log
+                    console.log("Vị trí trong playlist:", playlistIndex);
                     
                     if (
                         playlistIndex >= 0 &&
                         window.MusicBox &&
                         typeof window.MusicBox.playAt === "function"
                     ) {
-                        console.log("Playing song at index:", playlistIndex); // Debug log
+                        console.log("Đang phát bài hát tại vị trí:", playlistIndex);
                         window.MusicBox.playAt(playlistIndex);
                     } else {
-                        console.error("Could not play song. MusicBox available:", !!window.MusicBox, 
-                                      "Playlist index:", playlistIndex);
+                        console.error("Không thể phát bài hát. MusicBox khả dụng:", !!window.MusicBox, 
+                                      "Vị trí trong playlist:", playlistIndex);
                     }
                 } catch (error) {
-                    console.error("Error playing song:", error);
+                    console.error("Lỗi khi phát bài hát:", error);
                 }
             });
         });
@@ -275,7 +268,7 @@
         const container = document.querySelector(".songs-grid");
         if (!container) return;
 
-        // Get albums for the artist
+        // Lấy album của nghệ sĩ
         let albums = [];
         if (
             window.MusicBoxAlbums &&
@@ -284,13 +277,13 @@
             albums = window.MusicBoxAlbums.getAlbumsForArtist(artistName);
         }
 
-        // If no albums found, use fallback images
+        // Không có album nào
         if (!albums.length) {
             console.warn(`No albums found for artist: ${artistName}`);
             return;
         }
 
-        // Render album items
+        // Hiển thị album
         container.innerHTML = albums
             .map(
                 (album, index) => `
@@ -305,11 +298,11 @@
             )
             .join("");
 
-        // Add click event listeners to album items
+        // Xử lý click vào album
         document.querySelectorAll(".song-item").forEach((item, index) => {
             item.style.cursor = "pointer";
             item.addEventListener("click", () => {
-                // Find songs from the same artist and play the first one
+                // Phát bài đầu tiên của nghệ sĩ
                 if (
                     window.MusicBox &&
                     typeof window.MusicBox.playlist === "function"
@@ -360,18 +353,18 @@
         renderSongs(artistSongs);
         renderAlbums(pickedArtist);
         
-        // Wait for MusicBox to be available before adding click events
+        // Chờ MusicBox khả dụng trước khi thêm sự kiện click
         if (!window.MusicBox) {
-            // Check periodically for MusicBox to be available
+            // Kiểm tra định kỳ xem MusicBox đã khả dụng chưa
             const checkInterval = setInterval(() => {
                 if (window.MusicBox) {
                     clearInterval(checkInterval);
-                    // Re-render songs to attach click events properly
+                    // Tải lại danh sách bài hát để gắn sự kiện click chính xác
                     renderSongs(artistSongs);
                 }
             }, 100);
             
-            // Stop checking after 10 seconds
+            // Dừng kiểm tra sau 10 giây
             setTimeout(() => clearInterval(checkInterval), 10000);
         }
     }
@@ -383,13 +376,13 @@
     }
 })();
 
-// Ẩn .main-content khi có .queue hiển thị trên trang fix bug
+// Ẩn .main-content khi có .queue hiển thị trên trang (sửa lỗi)
 (function () {
     const SEARCH_SEL = ".timkiem-main";
     const QUEUE_SEL = ".queue";
     const HIDE_CLASS = "is-hidden";
 
-    // Thêm CSS ẩn nếu chưa có
+    // Thêm CSS ẩn nếu chưa tồn tại
     (function ensureHideClass() {
         if (document.getElementById("hide-timkiem-style")) return;
         const style = document.createElement("style");
@@ -407,7 +400,7 @@
         return rect.width > 0 && rect.height > 0;
     }
 
-    // Đồng bộ trạng thái ẩn/hiện
+    // Đồng bộ ẩn/hiện
     function sync() {
         const searchEl = document.querySelector(SEARCH_SEL);
         if (!searchEl) return;
@@ -416,7 +409,7 @@
         searchEl.classList.toggle(HIDE_CLASS, anyQueueVisible);
     }
 
-    // Debounce nhẹ bằng rAF để tránh chạy quá dày
+    // Tối ưu hiệu năng với requestAnimationFrame
     let rafId = 0;
     const scheduleSync = () => {
         if (rafId) return;
@@ -426,7 +419,7 @@
         });
     };
 
-    // Bắt đầu: chạy 1 lần + theo dõi thay đổi DOM/thuộc tính
+    // Khởi tạo và theo dõi thay đổi
     function start() {
         sync();
         new MutationObserver(scheduleSync).observe(document.body, {

@@ -1,4 +1,4 @@
-/* Hide scrollbar for Chrome, Safari and Opera */
+/* Ẩn thanh cuộn cho các trình duyệt Chrome, Safari và Opera */
 body.page-nghe-gan-day::-webkit-scrollbar {
     display: none;
 }
@@ -36,6 +36,7 @@ body.page-nghe-gan-day::-webkit-scrollbar {
 .page-nghe-gan-day .page-header {
     margin-bottom: 18px;
 }
+/* Tiêu đề trang */
 .page-nghe-gan-day .page-header .title-xl {
     font-size: 28px;
     font-weight: 800;
@@ -127,6 +128,7 @@ body.page-nghe-gan-day::-webkit-scrollbar {
 .page-nghe-gan-day .pt-row {
     border-radius: 10px;
 }
+/* Hiệu ứng khi di chuột vào hàng */
 .page-nghe-gan-day .pt-row:hover {
     background: rgba(43, 166, 223, 0.08);
     cursor: pointer;
