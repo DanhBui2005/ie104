@@ -22,18 +22,18 @@ const SELECTORS = {
 // Ánh xạ trang tương ứng với selector sidebar
 const PAGE_TO_SELECTOR_MAP = {
     "index.html": SELECTORS.EXPLORE_BUTTON,
-    "hoso.html": SELECTORS.YOUR_BUTTON,
-    "yeuthich.html": SELECTORS.LIKED_BUTTON,
-    "ngheganday.html": SELECTORS.RECENT_BUTTON,
+    "profile.html": SELECTORS.YOUR_BUTTON,
+    "liked-songs.html": SELECTORS.LIKED_BUTTON,
+    "recently-played.html": SELECTORS.RECENT_BUTTON,
     "playlist.html": SELECTORS.YOUR_BUTTON,
 };
 
 // Đường dẫn điều hướng cho các trang
 const NAVIGATION_PATHS = {
-    LIKED: "./Yeuthich.html",
-    YOUR: "./Hoso.html",
+    LIKED: "./liked-songs.html",
+    YOUR: "./profile.html",
     EXPLORE: "./index.html",
-    RECENT: "./NgheGanDay.html",
+    RECENT: "./recently-played.html",
 };
 
 // Trang mặc định và các class CSS

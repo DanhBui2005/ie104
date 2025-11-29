@@ -263,7 +263,7 @@ function setupArtistCardNavigation() {
                     if (!artistName) return;
 
                     // Điều hướng đến trang tìm kiếm với tên nghệ sĩ
-                    const searchUrl = `./timkiem.html?q=${encodeURIComponent(
+                    const searchUrl = `./search.html?q=${encodeURIComponent(
                         artistName
                     )}`;
                     if (window.__mbGo) {

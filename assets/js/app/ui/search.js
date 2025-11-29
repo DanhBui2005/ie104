@@ -2,7 +2,7 @@
 
 // ===== HẰNG SỐ =====
 const SONGS_JSON_PATH = "./assets/music_data/songs.json"; // Đường dẫn đến file JSON chứa danh sách bài hát
-const SEARCH_PAGE_PATH = "./timkiem.html"; // Đường dẫn đến trang kết quả tìm kiếm
+const SEARCH_PAGE_PATH = "./search.html"; // Đường dẫn đến trang kết quả tìm kiếm
 
 // ===== HÀM TIỆN ÍCH =====
 /**

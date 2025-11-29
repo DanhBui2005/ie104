@@ -5,6 +5,7 @@
   const playlistCover = document.querySelector('.playlist-cover img');
   const playlistSub = document.querySelector('.playlist .playlist-sub');
   const playlistTitle = document.querySelector('.playlist .playlist-title');
+  const playAllBtn = document.querySelector('.playlist-play');
 
   // Kiểm tra xem có tồn tại phần tử body không
   if (!ytTbody) return;
@@ -136,10 +137,51 @@
     } catch {}
   }
 
+  // Hàm phát tất cả các bài hát yêu thích
+  function playAllLikedSongs() {
+    const likedSongs = loadLiked();
+    if (likedSongs.length === 0) return;
+
+    // Tải danh sách bài hát yêu thích vào player
+    if (window.MusicBox && typeof window.MusicBox.setPlaylist === 'function') {
+      // Tìm bài hát tương ứng trong danh sách tất cả bài hát để lấy src chính xác
+      const allSongs = window.__mbAllSongs || [];
+      
+      // Chuyển đổi định dạng dữ liệu nếu cần
+      const formattedSongs = likedSongs.map(song => {
+        // Tìm bài hát tương ứng trong allSongs để lấy src chính xác
+        const matchingSong = allSongs.find(s =>
+          s.id === song.id ||
+          (s.title === song.title && s.artist === song.artist)
+        );
+        
+        return {
+          id: song.id || `${song.title}|${song.artist}`,
+          title: song.title,
+          artist: song.artist,
+          src: song.src || (matchingSong ? matchingSong.src : ''),
+          cover: song.cover,
+          artistImg: song.artistImg || song.cover || (matchingSong ? matchingSong.artistImg : '')
+        };
+      }).filter(song => song.src); // Chỉ giữ lại bài hát có src
+
+      if (formattedSongs.length > 0) {
+        // Đặt playlist và phát bài hát đầu tiên
+        window.MusicBox.setPlaylist(formattedSongs, { type: 'liked', id: 'liked_songs' });
+        window.MusicBox.playAt(0);
+      }
+    }
+  }
+
   // Render khi trang load và khi có thay đổi danh sách thích
   document.addEventListener('DOMContentLoaded', () => {
     renderLiked();
     setFavTitle();
+    
+    // Thêm sự kiện click cho nút "Phát tất cả"
+    if (playAllBtn) {
+      playAllBtn.addEventListener('click', playAllLikedSongs);
+    }
   });
   window.addEventListener('liked:changed', renderLiked);
 })();

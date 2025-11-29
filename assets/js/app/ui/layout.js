@@ -14,7 +14,7 @@ const CSS_VARIABLES = {
 };
 
 const PAGE_EXIT_DELAY = 180;
-const PROFILE_PAGE = "./Hoso.html";
+const PROFILE_PAGE = "./profile.html";
 const DEFAULT_LOGO_LINK = "./index.html";
 
 // ===== CÁC HÀM TIỆN ÍCH =====

@@ -470,9 +470,9 @@
         }
 
         // Chèn CSS khi trang tải
-        console.log("[hoso.js] Injecting playlist menu style...");
+        console.log("[profile.js] Injecting playlist menu style...");
         injectPlaylistMenuStyle();
-        console.log("[hoso.js] Playlist menu style injected");
+        console.log("[profile.js] Playlist menu style injected");
 
         // Lấy context playlist
         function getPlaylistContext() {
@@ -486,7 +486,7 @@
                 }
 
                 // Nếu chưa có, khởi tạo một context đơn giản
-                console.log("[hoso.js] Creating fallback playlistContext");
+                console.log("[profile.js] Creating fallback playlistContext");
                 if (!window.__mbContexts) {
                     window.__mbContexts = {};
                 }
@@ -503,7 +503,7 @@
                             }
                         } catch (err) {
                             console.error(
-                                "[hoso.js] Error loading playlists:",
+                                "[profile.js] Error loading playlists:",
                                 err
                             );
                         }
@@ -519,7 +519,7 @@
                             );
                         } catch (err) {
                             console.error(
-                                "[hoso.js] Error saving playlists:",
+                                "[profile.js] Error saving playlists:",
                                 err
                             );
                         }
@@ -548,7 +548,7 @@
 
                 return window.__mbContexts.playlistContext;
             } catch (err) {
-                console.error("[hoso.js] Error in getPlaylistContext:", err);
+                console.error("[profile.js] Error in getPlaylistContext:", err);
             }
             return null;
         }
@@ -839,17 +839,17 @@
 
         // Hàm hiển thị các playlist trong hồ sơ
         function renderProfilePlaylists() {
-            console.log("[hoso.js] Rendering profile playlists...");
+            console.log("[profile.js] Rendering profile playlists...");
             // Tìm container chứa playlist
             const container = document.querySelector(".my-playlists");
-            console.log("[hoso.js] Container found:", container);
+            console.log("[profile.js] Container found:", container);
             if (!container) {
-                console.error("[hoso.js] Container not found!");
+                console.error("[profile.js] Container not found!");
                 return;
             }
 
             const ctx = getPlaylistContext();
-            console.log("[hoso.js] PlaylistContext:", ctx);
+            console.log("[profile.js] PlaylistContext:", ctx);
             if (!ctx) {
                 container.innerHTML =
                     '<p style="color: var(--text-secondary); padding: 2rem; text-align: center;">Không thể tải playlists</p>';
@@ -858,12 +858,12 @@
 
             try {
                 let lists = ctx.getUserPlaylists();
-                console.log("[hoso.js] Playlists:", lists);
+                console.log("[profile.js] Playlists:", lists);
 
                 // Nếu không có playlist nào, tạo một số playlist mẫu để test
                 if (!Array.isArray(lists) || lists.length === 0) {
                     console.log(
-                        "[hoso.js] Creating sample playlists for testing"
+                        "[profile.js] Creating sample playlists for testing"
                     );
                     lists = [
                         {
@@ -900,7 +900,7 @@
                         );
                     } catch (err) {
                         console.error(
-                            "[hoso.js] Error saving sample playlists:",
+                            "[profile.js] Error saving sample playlists:",
                             err
                         );
                     }
@@ -978,13 +978,13 @@
 
         // Thêm nút 3 chấm vào mỗi playlist nếu chưa có
         function addThreeDotsToExistingPlaylists() {
-            console.log("[hoso.js] Adding three dots to existing playlists...");
+            console.log("[profile.js] Adding three dots to existing playlists...");
             const cards = document.querySelectorAll(".my-pl-card");
             cards.forEach((card) => {
                 // Kiểm tra xem đã có nút 3 chấm chưa
                 if (!card.querySelector(".playlist-menu-btn")) {
                     console.log(
-                        "[hoso.js] Adding three dots button to playlist card"
+                        "[profile.js] Adding three dots button to playlist card"
                     );
                     const btn = document.createElement("button");
                     btn.className = "playlist-menu-btn";
