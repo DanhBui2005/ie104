@@ -96,7 +96,7 @@
                     }`;
                     localStorage.setItem(displayNameKey, fullName);
 
-                    // Cũng lưu vào auth_user để hoso.js có thể truy cập
+                    // Cũng lưu vào auth_user để profile.js có thể truy cập
                     localStorage.setItem(
                         "auth_user",
                         JSON.stringify({

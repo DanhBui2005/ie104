@@ -14,10 +14,10 @@
 @import url("./dark-mode/_player.css");
 
 @import url("./dark-mode/_profile.css");
-@import url("./dark-mode/_yeuthich.css");
-@import url("./dark-mode/_nghe-gan-day.css");
+@import url("./dark-mode/_liked-songs.css");
+@import url("./dark-mode/_recently-played.css");
 @import url("./dark-mode/_playlist.css");
-@import url("./dark-mode/_timkiem.css");
+@import url("./dark-mode/_search.css");
 
 @import url("./dark-mode/_icons.css");
 @import url("./dark-mode/_animations.css");

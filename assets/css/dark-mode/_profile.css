@@ -142,9 +142,9 @@
 [data-theme="dark"] .page-profile .user-avatar,
 [data-theme="dark"] .page-profile .profile-avatar-container,
 [data-theme="dark"] .page-profile .avatar-container,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .user-avatar,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .profile-avatar-container,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .avatar-container {
+[data-theme="dark"] body:has(script[src*="profile.js"]) .user-avatar,
+[data-theme="dark"] body:has(script[src*="profile.js"]) .profile-avatar-container,
+[data-theme="dark"] body:has(script[src*="profile.js"]) .avatar-container {
     border: 3px solid var(--glow-color) !important;
     box-shadow: 0 0 20px rgba(74, 108, 247, 0.4) !important;
     border-radius: 50% !important;
@@ -157,12 +157,12 @@
 [data-theme="dark"] .page-profile .user-avatar img,
 [data-theme="dark"] .page-profile .profile-avatar-container img,
 [data-theme="dark"] .page-profile .avatar-container img,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .user-avatar img,
+[data-theme="dark"] body:has(script[src*="profile.js"]) .user-avatar img,
 [data-theme="dark"]
-    body:has(script[src*="hoso.js"])
+    body:has(script[src*="profile.js"])
     .profile-avatar-container
     img,
-[data-theme="dark"] body:has(script[src*="hoso.js"]) .avatar-container img {
+[data-theme="dark"] body:has(script[src*="profile.js"]) .avatar-container img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
