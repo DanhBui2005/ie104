@@ -24,12 +24,12 @@
 │   ├── music_data   # Thư mục chứa các file nhạc
 │   └── quang_cao    # Thư mục chứa các tài nguyên demo chức năng quảng cáo (Không sử dụng Premium)
 ├── auth.html
-├── Hoso.html
+├── profile.html
 ├── index.html
 ├── landingpage.html
-├── loginpage.html
-├── NgheGanDay.html
+├── login.html
+├── recently-played.html
 ├── playlist.html
 ├── signup.html
-├── timkiem.html
-└── Yeuthich.html
+├── search.html
+└── liked-songs.html
